@@ -1,4 +1,5 @@
 import com.android.build.api.variant.ApplicationVariant
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -7,11 +8,18 @@ plugins {
     kotlin("plugin.compose") version "2.2.21"
 }
 
+// Load keystore properties
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(keystorePropertiesFile.inputStream())
+}
+
 android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "helium314.keyboard"
+        applicationId = "helium314.keyboardl"
         minSdk = 21
         targetSdk = 35
         versionCode = 3603
@@ -23,12 +31,26 @@ android {
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = false
             isDebuggable = false
             isJniDebuggable = false
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         create("nouserlib") { // same as release, but does not allow the user to provide a library
             isMinifyEnabled = true
@@ -54,7 +76,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug"
         }
-        base.archivesBaseName = "HeliBoard_" + defaultConfig.versionName
+        base.archivesBaseName = "HeliboardL_" + defaultConfig.versionName
         // got a little too big for GitHub after some dependency upgrades, so we remove the largest dictionary
         androidComponents.onVariants { variant: ApplicationVariant ->
             if (variant.buildType == "debug") {
@@ -135,6 +157,10 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.6")
     implementation("sh.calvin.reorderable:reorderable:2.4.3") // for easier re-ordering, todo: check 3.0.0
     implementation("com.github.skydoves:colorpicker-compose:1.1.3") // for user-defined colors
+
+    // gemini ai proofreading
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06") // for encrypted API key storage
 
     // test
     testImplementation(kotlin("test"))

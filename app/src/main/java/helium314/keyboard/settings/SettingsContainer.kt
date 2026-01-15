@@ -83,4 +83,7 @@ object SettingsWithoutKey {
     const val BACKGROUND_IMAGE_LANDSCAPE = "background_image_landscape"
     const val CUSTOM_FONT = "custom_font"
     const val CUSTOM_EMOJI_FONT = "custom_emoji_font"
+    const val GEMINI_API_KEY = "gemini_api_key"
+    const val GEMINI_MODEL = "gemini_model"
+    const val GEMINI_TARGET_LANGUAGE = "gemini_target_language"
 }

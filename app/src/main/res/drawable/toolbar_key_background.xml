@@ -1,0 +1,14 @@
+<!--
+    SPDX-License-Identifier: GPL-3.0-only
+    Background for toolbar keys - wider squircle (rounded rectangle) shape
+    width and height are irrelevant for background
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp"
+    android:height="24dp"
+    android:viewportWidth="28"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M2,8C2,5.79 3.79,4 6,4h16c2.21,0 4,1.79 4,4v8c0,2.21 -1.79,4 -4,4h-16c-2.21,0 -4,-1.79 -4,-4z"/>
+</vector>

@@ -31,7 +31,7 @@ import kotlin.math.min
 
 class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inputLogic: InputLogic) : KeyboardActionListener {
 
-    private val connection = inputLogic.mConnection
+    private val connection = inputLogic.connection
     private val emojiAltPhysicalKeyDetector by lazy { EmojiAltPhysicalKeyDetector(latinIME.resources) }
 
     // We expect to have only one decoder in almost all cases, hence the default capacity of 1.
@@ -68,8 +68,7 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
         if (!ProductionFlags.IS_HARDWARE_KEYBOARD_SUPPORTED)
             return false
 
-        val keyIdentifier = keyEvent.deviceId.toLong() shl 32 + keyEvent.keyCode
-        return inputLogic.mCurrentlyPressedHardwareKeys.remove(keyIdentifier)
+        return false
     }
 
     override fun onKeyDown(keyCode: Int, keyEvent: KeyEvent): Boolean {
@@ -102,7 +101,12 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
     override fun onCodeInput(primaryCode: Int, x: Int, y: Int, isKeyRepeat: Boolean) {
         when (primaryCode) {
             KeyCode.TOGGLE_AUTOCORRECT -> return settings.toggleAutoCorrect()
-            KeyCode.TOGGLE_INCOGNITO_MODE -> return settings.toggleAlwaysIncognitoMode()
+            KeyCode.TOGGLE_INCOGNITO_MODE -> {
+                settings.toggleAlwaysIncognitoMode()
+                // Invalidate keyboard to update spacebar incognito icon immediately
+                keyboardSwitcher.mainKeyboardView?.invalidateAllKeys()
+                return
+            }
         }
         val mkv = keyboardSwitcher.mainKeyboardView
 

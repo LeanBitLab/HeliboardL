@@ -177,6 +177,8 @@ object KeyCode {
     const val META_LEFT =                 -10048
     const val META_RIGHT =                -10049
     const val INLINE_EMOJI_SEARCH_DONE =  -10051
+    const val PROOFREAD =                 -10052  // Gemini AI proofreading
+    const val TRANSLATE =                 -10053  // Gemini AI translation
 
 
     // Intents
@@ -200,7 +202,7 @@ object KeyCode {
         PAGE_DOWN, META, TAB, ESCAPE, INSERT, SLEEP, MEDIA_PLAY, MEDIA_PAUSE, MEDIA_PLAY_PAUSE, MEDIA_NEXT,
         MEDIA_PREVIOUS, VOL_UP, VOL_DOWN, MUTE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, BACK,
         TIMESTAMP, CTRL_LEFT, CTRL_RIGHT, ALT_LEFT, ALT_RIGHT, META_LEFT, META_RIGHT, SEND_INTENT_ONE, SEND_INTENT_TWO,
-        SEND_INTENT_THREE, INLINE_EMOJI_SEARCH_DONE, META_LOCK
+        SEND_INTENT_THREE, INLINE_EMOJI_SEARCH_DONE, META_LOCK, PROOFREAD, TRANSLATE
         -> this
 
         // conversion

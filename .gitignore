@@ -12,3 +12,9 @@ app/.cxx
 app/.attach_*
 fastlane/Appfile
 tools/*.txt
+
+# Keys & Secrets (per build-checklist.md)
+*.jks
+*.keystore
+keystore.properties
+signing.properties

@@ -41,16 +41,18 @@ object Defaults {
     }
 
     private const val DEFAULT_SIZE_SCALE = 1.0f // 100%
-    const val PREF_THEME_STYLE = KeyboardTheme.STYLE_MATERIAL
-    const val PREF_ICON_STYLE = KeyboardTheme.STYLE_MATERIAL
-    const val PREF_THEME_COLORS = KeyboardTheme.THEME_LIGHT
-    const val PREF_THEME_COLORS_NIGHT = KeyboardTheme.THEME_DARK
-    const val PREF_THEME_KEY_BORDERS = false
+    const val PREF_THEME_STYLE = KeyboardTheme.STYLE_ROUNDED
+    const val PREF_ICON_STYLE = KeyboardTheme.STYLE_ROUNDED
+    @JvmField
+    val PREF_THEME_COLORS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) KeyboardTheme.THEME_DYNAMIC else KeyboardTheme.THEME_LIGHT
+    @JvmField
+    val PREF_THEME_COLORS_NIGHT = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) KeyboardTheme.THEME_DYNAMIC else KeyboardTheme.THEME_DARK
+    const val PREF_THEME_KEY_BORDERS = true
     @JvmField
     val PREF_THEME_DAY_NIGHT = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
     const val PREF_CUSTOM_ICON_NAMES = ""
     const val PREF_TOOLBAR_CUSTOM_KEY_CODES = ""
-    const val PREF_AUTO_CAP = true
+    const val PREF_AUTO_CAP = false
     const val PREF_VIBRATE_ON = false
     const val PREF_VIBRATE_IN_DND_MODE = false
     const val PREF_SOUND_ON = false
@@ -59,7 +61,7 @@ object Defaults {
     const val PREF_SHOW_EMOJI_DESCRIPTIONS = true
     @JvmField
     var PREF_POPUP_ON = true
-    const val PREF_AUTO_CORRECTION = true
+    const val PREF_AUTO_CORRECTION = false
     const val PREF_MORE_AUTO_CORRECTION = false
     const val PREF_AUTO_CORRECT_THRESHOLD = 0.185f
     const val PREF_AUTOCORRECT_SHORTCUTS = true
@@ -83,17 +85,17 @@ object Defaults {
     @JvmField
     val PREF_SPLIT_SPACER_SCALE = Array(2) { DEFAULT_SIZE_SCALE }
     @JvmField
-    val PREF_KEYBOARD_HEIGHT_SCALE = Array(2) { DEFAULT_SIZE_SCALE }
+    val PREF_KEYBOARD_HEIGHT_SCALE = Array(2) { 1.00f }
     @JvmField
-    val PREF_BOTTOM_PADDING_SCALE = arrayOf(DEFAULT_SIZE_SCALE, 0f)
+    val PREF_BOTTOM_PADDING_SCALE = arrayOf(1.05f, 0f)
     @JvmField
-    val PREF_SIDE_PADDING_SCALE = Array(4) { 0f }
-    const val PREF_FONT_SCALE = DEFAULT_SIZE_SCALE
+    val PREF_SIDE_PADDING_SCALE = Array(4) { 0.15f }
+    const val PREF_FONT_SCALE = 0.80f
     const val PREF_EMOJI_FONT_SCALE = DEFAULT_SIZE_SCALE
     const val PREF_EMOJI_KEY_FIT = true
     const val PREF_EMOJI_SKIN_TONE = ""
     const val PREF_SPACE_HORIZONTAL_SWIPE = "move_cursor"
-    const val PREF_SPACE_VERTICAL_SWIPE = "none"
+    const val PREF_SPACE_VERTICAL_SWIPE = "hide_keyboard"
     const val PREF_DELETE_SWIPE = true
     const val PREF_AUTOSPACE_AFTER_PUNCTUATION = false
     const val PREF_AUTOSPACE_AFTER_SUGGESTION = true
@@ -139,12 +141,12 @@ object Defaults {
     const val PREF_SPACE_TO_CHANGE_LANG = true
     const val PREF_LANGUAGE_SWIPE_DISTANCE = 5
     const val PREF_ENABLE_CLIPBOARD_HISTORY = true
-    const val PREF_CLIPBOARD_HISTORY_RETENTION_TIME = 10 // minutes
+    const val PREF_CLIPBOARD_HISTORY_RETENTION_TIME = 15 // minutes
     const val PREF_CLIPBOARD_HISTORY_PINNED_FIRST = true
     const val PREF_ADD_TO_PERSONAL_DICTIONARY = false
     @JvmField
     val PREF_NAVBAR_COLOR = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-    const val PREF_NARROW_KEY_GAPS = false
+    const val PREF_NARROW_KEY_GAPS = true
     const val PREF_ENABLED_SUBTYPES = ""
     const val PREF_SELECTED_SUBTYPE = ""
     const val PREF_URL_DETECTION = false
@@ -155,13 +157,13 @@ object Defaults {
     val PREF_PINNED_TOOLBAR_KEYS = defaultPinnedToolbarPref
     val PREF_TOOLBAR_KEYS = defaultToolbarPref
     const val PREF_AUTO_SHOW_TOOLBAR = false
-    const val PREF_AUTO_HIDE_TOOLBAR = false
+    const val PREF_AUTO_HIDE_TOOLBAR = true
     val PREF_CLIPBOARD_TOOLBAR_KEYS = defaultClipboardToolbarPref
     const val PREF_ABC_AFTER_EMOJI = false
     const val PREF_ABC_AFTER_CLIP = false
     const val PREF_ABC_AFTER_SYMBOL_SPACE = true
     const val PREF_ABC_AFTER_NUMPAD_SPACE = false
-    const val PREF_REMOVE_REDUNDANT_POPUPS = false
+    const val PREF_REMOVE_REDUNDANT_POPUPS = true
     const val PREF_SPACE_BAR_TEXT = ""
     const val PREF_TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss"
     const val PREF_EMOJI_RECENT_KEYS = ""

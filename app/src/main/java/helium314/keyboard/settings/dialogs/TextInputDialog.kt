@@ -2,6 +2,9 @@
 package helium314.keyboard.settings.dialogs
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -20,6 +23,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import helium314.keyboard.settings.Theme
 import helium314.keyboard.settings.contentTextDirectionStyle
@@ -42,7 +46,8 @@ fun TextInputDialog(
     keyboardType: KeyboardType = KeyboardType.Unspecified,
     properties: DialogProperties = DialogProperties(),
     reducePadding: Boolean = false,
-    checkTextValid: (text: String) -> Boolean = { it.isNotBlank() }
+    checkTextValid: (text: String) -> Boolean = { it.isNotBlank() },
+    extraContent: @Composable (() -> Unit)? = null
 ) {
     var value by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(initialText, selection = TextRange(if (singleLine) initialText.length else 0)))
@@ -59,17 +64,23 @@ fun TextInputDialog(
         title = title,
         content = {
             val focusRequester = remember { FocusRequester() }
-            OutlinedTextField(
-                value = value,
-                onValueChange = { value = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .focusRequester(focusRequester),
-                label = textInputLabel,
-                keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-                singleLine = singleLine,
-                textStyle = contentTextDirectionStyle,
-            )
+            Column {
+                OutlinedTextField(
+                    value = value,
+                    onValueChange = { value = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
+                    label = textInputLabel,
+                    keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+                    singleLine = singleLine,
+                    textStyle = contentTextDirectionStyle,
+                )
+                if (extraContent != null) {
+                    androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 8.dp))
+                    extraContent()
+                }
+            }
             LaunchedEffect(Unit) { focusRequester.requestFocus() }
         },
         properties = properties,

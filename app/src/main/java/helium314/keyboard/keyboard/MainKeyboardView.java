@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ import helium314.keyboard.keyboard.internal.PopupKeySpec;
 import helium314.keyboard.keyboard.internal.NonDistinctMultitouchHelper;
 import helium314.keyboard.keyboard.internal.SlidingKeyInputDrawingPreview;
 import helium314.keyboard.keyboard.internal.TimerHandler;
+import helium314.keyboard.keyboard.internal.KeyboardIconsSet;
 import helium314.keyboard.keyboard.internal.keyboard_parser.floris.KeyCode;
 import helium314.keyboard.latin.R;
 import helium314.keyboard.latin.RichInputMethodSubtype;
@@ -58,6 +60,7 @@ import helium314.keyboard.latin.settings.Settings;
 import helium314.keyboard.latin.utils.KtxKt;
 import helium314.keyboard.latin.utils.LanguageOnSpacebarUtils;
 import helium314.keyboard.latin.utils.Log;
+import helium314.keyboard.latin.utils.ToolbarKey;
 import helium314.keyboard.latin.utils.TypefaceUtils;
 
 import java.util.ArrayList;
@@ -89,6 +92,8 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     private static final float LANGUAGE_ON_SPACEBAR_TEXT_SHADOW_RADIUS_DISABLED = -1.0f;
     // The minimum x-scale to fit the language name on spacebar.
     private static final float MINIMUM_XSCALE_OF_LANGUAGE_NAME = 0.8f;
+    // Incognito icon to draw on spacebar when incognito mode is enabled
+    private final Drawable mIncognitoIcon;
 
     // Stuff to draw altCodeWhileTyping keys.
     private final ObjectAnimator mAltCodeKeyWhileTypingFadeoutAnimator;
@@ -133,8 +138,8 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     public MainKeyboardView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
 
-        final DrawingPreviewPlacerView drawingPreviewPlacerView =
-                new DrawingPreviewPlacerView(new ContextThemeWrapper(context, R.style.platformActivityTheme), attrs);
+        final DrawingPreviewPlacerView drawingPreviewPlacerView = new DrawingPreviewPlacerView(
+                new ContextThemeWrapper(context, R.style.platformActivityTheme), attrs);
 
         final TypedArray mainKeyboardViewAttr = context.obtainStyledAttributes(
                 attrs, R.styleable.MainKeyboardView, defStyle, R.style.MainKeyboardView);
@@ -221,6 +226,12 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
 
         mLanguageOnSpacebarHorizontalMargin = (int) getResources().getDimension(
                 R.dimen.config_language_on_spacebar_horizontal_margin);
+
+        // Initialize incognito icon for spacebar watermark
+        mIncognitoIcon = KeyboardIconsSet.Companion.getInstance().getNewDrawable(ToolbarKey.INCOGNITO.name(), context);
+        if (mIncognitoIcon != null) {
+            colors.setColor(mIncognitoIcon, ColorType.SPACE_BAR_TEXT);
+        }
     }
 
     @Override
@@ -234,7 +245,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
             // TODO: Stop returning null.
             return null;
         }
-        final ObjectAnimator animator = (ObjectAnimator)AnimatorInflater.loadAnimator(
+        final ObjectAnimator animator = (ObjectAnimator) AnimatorInflater.loadAnimator(
                 getContext(), resId);
         if (animator != null) {
             animator.setTarget(target);
@@ -253,7 +264,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
             animatorToCancel.cancel();
             startFraction = 1.0f - animatorToCancel.getAnimatedFraction();
         }
-        final long startTime = (long)(animatorToStart.getDuration() * startFraction);
+        final long startTime = (long) (animatorToStart.getDuration() * startFraction);
         animatorToStart.start();
         animatorToStart.setCurrentPlayTime(startTime);
     }
@@ -261,8 +272,11 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     // Implements {@link DrawingProxy#startWhileTypingAnimation(int)}.
     /**
      * Called when a while-typing-animation should be started.
-     * @param fadeInOrOut {@link DrawingProxy#FADE_IN} starts while-typing-fade-in animation.
-     * {@link DrawingProxy#FADE_OUT} starts while-typing-fade-out animation.
+     * 
+     * @param fadeInOrOut {@link DrawingProxy#FADE_IN} starts while-typing-fade-in
+     *                    animation.
+     *                    {@link DrawingProxy#FADE_OUT} starts while-typing-fade-out
+     *                    animation.
      */
     @Override
     public void startWhileTypingAnimation(final int fadeInOrOut) {
@@ -284,19 +298,23 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         PointerTracker.setKeyboardActionListener(listener);
     }
 
-    // TODO: We should reconsider which coordinate system should be used to represent keyboard event.
+    // TODO: We should reconsider which coordinate system should be used to
+    // represent keyboard event.
     public int getKeyX(final int x) {
         return Constants.isValidCoordinate(x) ? mKeyDetector.getTouchX(x) : x;
     }
 
-    // TODO: We should reconsider which coordinate system should be used to represent keyboard event.
+    // TODO: We should reconsider which coordinate system should be used to
+    // represent keyboard event.
     public int getKeyY(final int y) {
         return Constants.isValidCoordinate(y) ? mKeyDetector.getTouchY(y) : y;
     }
 
     /**
-     * Attaches a keyboard to this view. The keyboard can be switched at any time and the
+     * Attaches a keyboard to this view. The keyboard can be switched at any time
+     * and the
      * view will re-layout itself to accommodate the keyboard.
+     * 
      * @see Keyboard
      * @see #getKeyboard()
      * @param keyboard the keyboard to display in this view
@@ -326,8 +344,10 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     }
 
     /**
-     * Enables or disables the key preview popup. This is a popup that shows a magnified
+     * Enables or disables the key preview popup. This is a popup that shows a
+     * magnified
      * version of the depressed key. By default the preview is enabled.
+     * 
      * @param previewEnabled whether or not to enable the key feedback preview
      */
     public void setKeyPreviewPopupEnabled(final boolean previewEnabled) {
@@ -432,7 +452,8 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         }
     }
 
-    // Implements {@link DrawingProxy#dismissGestureFloatingPreviewTextWithoutDelay()}.
+    // Implements {@link
+    // DrawingProxy#dismissGestureFloatingPreviewTextWithoutDelay()}.
     @Override
     public void dismissGestureFloatingPreviewTextWithoutDelay() {
         mGestureFloatingTextDrawingPreview.dismissGestureFloatingPreviewText();
@@ -478,7 +499,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     @Override
     @Nullable
     public PopupKeysPanel showPopupKeysKeyboard(@NonNull final Key key,
-                                                @NonNull final PointerTracker tracker) {
+            @NonNull final PointerTracker tracker) {
         final PopupKeySpec[] popupKeys = key.getPopupKeys();
         if (popupKeys == null) {
             return null;
@@ -486,10 +507,13 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         Keyboard popupKeysKeyboard = mPopupKeysKeyboardCache.get(key);
         if (popupKeysKeyboard == null) {
             // {@link KeyPreviewDrawParams#mPreviewVisibleWidth} should have been set at
-            // {@link KeyPreviewChoreographer#placeKeyPreview(Key,TextView,KeyboardIconsSet,KeyDrawParams,int,int[]},
-            // though there may be some chances that the value is zero. <code>width == 0</code>
+            // {@link
+            // KeyPreviewChoreographer#placeKeyPreview(Key,TextView,KeyboardIconsSet,KeyDrawParams,int,int[]},
+            // though there may be some chances that the value is zero. <code>width ==
+            // 0</code>
             // will cause zero-division error at
-            // {@link PopupKeysKeyboardParams#setParameters(int,int,int,int,int,int,boolean,int)}.
+            // {@link
+            // PopupKeysKeyboardParams#setParameters(int,int,int,int,int,int,boolean,int)}.
             final boolean isSinglePopupKeyWithPreview = mKeyPreviewDrawParams.isPopupEnabled()
                     && key.hasPreview() && popupKeys.length == 1
                     && mKeyPreviewDrawParams.getVisibleWidth() > 0;
@@ -503,22 +527,25 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
 
         final View container = key.hasActionKeyPopups() ? mPopupKeysKeyboardForActionContainer
                 : mPopupKeysKeyboardContainer;
-        final PopupKeysKeyboardView popupKeysKeyboardView =
-                container.findViewById(R.id.popup_keys_keyboard_view);
+        final PopupKeysKeyboardView popupKeysKeyboardView = container.findViewById(R.id.popup_keys_keyboard_view);
         popupKeysKeyboardView.setKeyboard(popupKeysKeyboard);
         container.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         final int[] lastCoords = CoordinateUtils.newInstance();
         tracker.getLastCoordinates(lastCoords);
         final boolean keyPreviewEnabled = mKeyPreviewDrawParams.isPopupEnabled() && key.hasPreview();
-        // The popup keys keyboard is usually horizontally aligned with the center of the parent key.
-        // If showPopupKeysKeyboardAtTouchedPoint is true and the key preview is disabled, the more
+        // The popup keys keyboard is usually horizontally aligned with the center of
+        // the parent key.
+        // If showPopupKeysKeyboardAtTouchedPoint is true and the key preview is
+        // disabled, the more
         // keys keyboard is placed at the touch point of the parent key.
         final int pointX = (mConfigShowPopupKeysKeyboardAtTouchedPoint && !keyPreviewEnabled)
                 ? CoordinateUtils.x(lastCoords)
                 : key.getX() + key.getWidth() / 2;
-        // The popup keys keyboard is usually vertically aligned with the top edge of the parent key
-        // (plus vertical gap). If the key preview is enabled, the popup keys keyboard is vertically
+        // The popup keys keyboard is usually vertically aligned with the top edge of
+        // the parent key
+        // (plus vertical gap). If the key preview is enabled, the popup keys keyboard
+        // is vertically
         // aligned with the bottom edge of the visible part of the key preview.
         // {@code mPreviewVisibleOffset} has been set appropriately in
         // {@link KeyboardView#showKeyPreview(PointerTracker)}.
@@ -598,7 +625,8 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         final int index = event.getActionIndex();
         final int id = event.getPointerId(index);
         final PointerTracker tracker = PointerTracker.getPointerTracker(id);
-        // When a popup keys panel is showing, we should ignore other fingers' single touch events
+        // When a popup keys panel is showing, we should ignore other fingers' single
+        // touch events
         // other than the finger that is showing the popup keys panel.
         if (isShowingPopupKeysPanel() && !tracker.isShowingPopupKeysPanel()
                 && PointerTracker.getActivePointerTrackerCount() == 1) {
@@ -708,6 +736,10 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         super.onDrawKeyTopVisuals(key, canvas, paint, params);
         final int code = key.getCode();
         if (code == Constants.CODE_SPACE) {
+            // Draw incognito icon watermark if incognito mode is enabled
+            if (Settings.getValues().mIncognitoModeEnabled && mIncognitoIcon != null) {
+                drawIncognitoOnSpacebar(key, canvas);
+            }
             // If input language are explicitly selected.
             if (mLanguageOnSpacebarFormatType != LanguageOnSpacebarUtils.FORMAT_TYPE_NONE) {
                 drawLanguageOnSpacebar(key, canvas, paint);
@@ -745,7 +777,8 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
 
         final List<Locale> secondaryLocales = Settings.getValues().mSecondaryLocales;
         // avoid showing same language twice
-        final List<Locale> secondaryLocalesToUse = withoutDuplicateLanguages(secondaryLocales, subtype.getLocale().getLanguage());
+        final List<Locale> secondaryLocalesToUse = withoutDuplicateLanguages(secondaryLocales,
+                subtype.getLocale().getLanguage());
         if (!secondaryLocalesToUse.isEmpty()) {
             StringBuilder sb = new StringBuilder(subtype.getMiddleDisplayName());
             final Locale displayLocale = ConfigurationCompatKt.locale(getResources().getConfiguration());
@@ -785,7 +818,11 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     }
 
     private List<Locale> withoutDuplicateLanguages(List<Locale> locales, String mainLanguage) {
-        ArrayList<String> languages = new ArrayList<String>() {{ add(mainLanguage); }};
+        ArrayList<String> languages = new ArrayList<String>() {
+            {
+                add(mainLanguage);
+            }
+        };
         ArrayList<Locale> newLocales = new ArrayList<>();
         for (Locale locale : locales) {
             boolean keep = true;
@@ -818,8 +855,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         } else if (DebugFlags.DEBUG_ENABLED) {
             final String l = KeyboardSwitcher.getInstance().getLocaleAndConfidenceInfo();
             spaceText = l != null ? l : layoutLanguageOnSpacebar(paint, keyboard.mId.mSubtype, width);
-        }
-        else
+        } else
             spaceText = layoutLanguageOnSpacebar(paint, keyboard.mId.mSubtype, width);
         // Draw language text with shadow
         final float descent = paint.descent();
@@ -840,6 +876,19 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
         canvas.drawText(spaceText, width / 2f, baseline - descent, paint);
         paint.clearShadowLayer();
         paint.setTextScaleX(1.0f);
+    }
+
+    private void drawIncognitoOnSpacebar(final Key key, final Canvas canvas) {
+        final int width = key.getWidth();
+        final int height = key.getHeight();
+        // Draw incognito icon centered on spacebar with low opacity
+        final int iconSize = (int) (height * 0.8f);
+        final int iconX = (width - iconSize) / 2;
+        final int iconY = (height - iconSize) / 2;
+        mIncognitoIcon.setAlpha(38); // ~15% opacity for very subtle watermark effect
+        mIncognitoIcon.setBounds(iconX, iconY, iconX + iconSize, iconY + iconSize);
+        mIncognitoIcon.draw(canvas);
+        mIncognitoIcon.setAlpha(255); // Reset alpha
     }
 
     @Override

@@ -4,12 +4,17 @@ package helium314.keyboard.settings.screens
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.content.Intent
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +58,7 @@ import helium314.keyboard.settings.previewDark
 import androidx.core.content.edit
 import helium314.keyboard.latin.utils.Log
 import helium314.keyboard.latin.utils.getActivity
+import helium314.keyboard.latin.utils.GeminiProofreadService
 
 @Composable
 fun AdvancedSettingsScreen(
@@ -88,7 +94,10 @@ fun AdvancedSettingsScreen(
         R.string.settings_category_experimental,
         Settings.PREF_EMOJI_MAX_SDK,
         Settings.PREF_URL_DETECTION,
-        if (BuildConfig.BUILD_TYPE != "nouserlib") SettingsWithoutKey.LOAD_GESTURE_LIB else null
+        if (BuildConfig.BUILD_TYPE != "nouserlib") SettingsWithoutKey.LOAD_GESTURE_LIB else null,
+        SettingsWithoutKey.GEMINI_API_KEY,
+        SettingsWithoutKey.GEMINI_MODEL,
+        SettingsWithoutKey.GEMINI_TARGET_LANGUAGE,
     )
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -254,6 +263,75 @@ fun createAdvancedSettings(context: Context) = listOf(
     },
     Setting(context, SettingsWithoutKey.LOAD_GESTURE_LIB, R.string.load_gesture_library, R.string.load_gesture_library_summary) {
         LoadGestureLibPreference(it)
+    },
+    Setting(context, SettingsWithoutKey.GEMINI_API_KEY, R.string.gemini_api_key_title, R.string.gemini_api_key_summary) { setting ->
+        var showDialog by rememberSaveable { mutableStateOf(false) }
+        val ctx = LocalContext.current
+        val geminiService = remember { GeminiProofreadService(ctx) }
+        Preference(
+            name = setting.title,
+            description = setting.description,
+            onClick = { showDialog = true }
+        )
+        if (showDialog) {
+            TextInputDialog(
+                onDismissRequest = { showDialog = false },
+                textInputLabel = { Text(stringResource(R.string.gemini_api_key_hint)) },
+                initialText = geminiService.getApiKey() ?: "",
+                onConfirmed = { geminiService.setApiKey(it) },
+                title = { Text(stringResource(R.string.gemini_api_key_title)) },
+                neutralButtonText = if (geminiService.hasApiKey()) stringResource(R.string.delete) else null,
+                onNeutral = { geminiService.setApiKey(null) },
+                extraContent = {
+                    androidx.compose.foundation.layout.Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        androidx.compose.material3.Button(
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://aistudio.google.com/app/apikey"))
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                ctx.startActivity(intent)
+                            }
+                        ) {
+                            Text(stringResource(R.string.get_api_key))
+                        }
+                    }
+                }
+            )
+        }
+    },
+    Setting(context, SettingsWithoutKey.GEMINI_MODEL, R.string.gemini_model_title, R.string.gemini_model_summary) { setting ->
+        val ctx = LocalContext.current
+        val geminiService = remember { GeminiProofreadService(ctx) }
+        val items = GeminiProofreadService.AVAILABLE_MODELS.map { it to it }
+        var selectedModel by remember { mutableStateOf(geminiService.getModelName()) }
+        ListPreference(
+            setting = setting,
+            items = items,
+            default = selectedModel,
+            onChanged = { newModel ->
+                geminiService.setModelName(newModel)
+                selectedModel = newModel
+            }
+        )
+    },
+    Setting(context, SettingsWithoutKey.GEMINI_TARGET_LANGUAGE, R.string.translate_target_language_title, R.string.translate_target_language_summary) { setting ->
+        val ctx = LocalContext.current
+        val geminiService = remember { GeminiProofreadService(ctx) }
+        val languageNames = ctx.resources.getStringArray(helium314.keyboard.latin.R.array.translate_language_names)
+        val languageCodes = ctx.resources.getStringArray(helium314.keyboard.latin.R.array.translate_language_codes)
+        val items = languageNames.zip(languageCodes)
+        var selectedLanguage by remember { mutableStateOf(geminiService.getTargetLanguage()) }
+        ListPreference(
+            setting = setting,
+            items = items,
+            default = selectedLanguage,
+            onChanged = { newLanguage ->
+                geminiService.setTargetLanguage(newLanguage)
+                selectedLanguage = newLanguage
+            }
+        )
     },
 )
 

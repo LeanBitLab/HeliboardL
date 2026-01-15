@@ -5,6 +5,7 @@
  */
 package helium314.keyboard.latin.suggestions
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -115,11 +116,20 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     private val pinnedKeys: ViewGroup = findViewById(R.id.pinned_keys)
     private val suggestionsStrip: ViewGroup = findViewById(R.id.suggestions_strip)
     private val toolbarExpandKey = findViewById<ImageButton>(R.id.suggestions_strip_toolbar_key)
-    private val incognitoIcon = KeyboardIconsSet.instance.getNewDrawable(ToolbarKey.INCOGNITO.name, context)
     private val toolbarArrowIcon = KeyboardIconsSet.instance.getNewDrawable(KeyboardIconsSet.NAME_TOOLBAR_KEY, context)
     private val defaultToolbarBackground: Drawable = toolbarExpandKey.background
     private val enabledToolKeyBackground = GradientDrawable()
     private var direction = 1 // 1 if LTR, -1 if RTL
+
+    // Loading animation for proofreading/translation
+    private var loadingAnimator: ValueAnimator? = null
+    private val loadingBorderDrawable = GradientDrawable().apply {
+        shape = GradientDrawable.RECTANGLE
+        cornerRadius = 8f
+        setStroke(4, Color.TRANSPARENT)
+        setColor(Color.TRANSPARENT)
+    }
+    private var isLoadingAnimationActive = false
 
     private val toolbarKeyLayoutParams = LinearLayout.LayoutParams(
         resources.getDimensionPixelSize(R.dimen.config_suggestions_strip_edge_key_width),
@@ -152,7 +162,9 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
 
         // toolbar keys setup
         if (mToolbarMode == ToolbarMode.TOOLBAR_KEYS || mToolbarMode == ToolbarMode.EXPANDABLE) {
-            for (key in getEnabledToolbarKeys(context.prefs())) {
+            val pinnedKeysList = getPinnedToolbarKeys(context.prefs())
+            // Filter out pinned keys from toolbar to avoid duplication and keep UI clean
+            for (key in getEnabledToolbarKeys(context.prefs()).filterNot { it in pinnedKeysList }) {
                 val button = createToolbarKey(context, key)
                 button.layoutParams = toolbarKeyLayoutParams
                 setupKey(button, colors)
@@ -165,9 +177,6 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
                 button.layoutParams = toolbarKeyLayoutParams
                 setupKey(button, colors)
                 pinnedKeys.addView(button)
-                val pinnedKeyInToolbar = toolbar.findViewWithTag<View>(pinnedKey)
-                if (pinnedKeyInToolbar != null && Settings.getValues().mQuickPinToolbarKeys)
-                    pinnedKeyInToolbar.background = enabledToolKeyBackground
             }
         }
 
@@ -272,6 +281,47 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
 
     fun dismissMoreSuggestionsPanel() {
         moreSuggestionsView.dismissPopupKeysPanel()
+    }
+
+    /**
+     * Shows pulse border loading animation on the whole toolbar.
+     * Used during proofreading/translation API calls.
+     */
+    fun showLoadingAnimation() {
+        if (isLoadingAnimationActive) return
+        isLoadingAnimationActive = true
+        
+        // Set loading border on the whole toolbar view
+        this.foreground = loadingBorderDrawable
+        
+        // Get accent color from theme (GESTURE_TRAIL is the accent color)
+        val accentColor = Settings.getValues().mColors.get(ColorType.GESTURE_TRAIL) 
+        
+        // Create pulse animation
+        loadingAnimator = ValueAnimator.ofFloat(0.25f, 1f).apply {
+            duration = 800
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = ValueAnimator.INFINITE
+            addUpdateListener { animator ->
+                val alpha = (animator.animatedValue as Float * 255).toInt()
+                val animatedColor = (alpha shl 24) or (accentColor and 0x00FFFFFF)
+                loadingBorderDrawable.setStroke(4, animatedColor)
+            }
+            start()
+        }
+    }
+
+    /**
+     * Hides the pulse border loading animation.
+     */
+    fun hideLoadingAnimation() {
+        if (!isLoadingAnimationActive) return
+        isLoadingAnimationActive = false
+        
+        loadingAnimator?.cancel()
+        loadingAnimator = null
+        loadingBorderDrawable.setStroke(4, Color.TRANSPARENT)
+        this.foreground = null
     }
 
     // overrides: necessarily public, but not used from outside
@@ -507,13 +557,8 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         val settingsValues = Settings.getValues()
 
         val toolbarIsExpandable = settingsValues.mToolbarMode == ToolbarMode.EXPANDABLE
-        if (settingsValues.mIncognitoModeEnabled) {
-            toolbarExpandKey.setImageDrawable(incognitoIcon)
-            toolbarExpandKey.isVisible = true
-        } else {
-            toolbarExpandKey.setImageDrawable(toolbarArrowIcon)
-            toolbarExpandKey.isVisible = toolbarIsExpandable
-        }
+        toolbarExpandKey.setImageDrawable(toolbarArrowIcon)
+        toolbarExpandKey.isVisible = toolbarIsExpandable
 
         // hide pinned keys if device is locked, and avoid expanding toolbar
         val hideToolbarKeys = isDeviceLocked(context)
@@ -542,7 +587,9 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
         view.setOnClickListener(this)
         view.setOnLongClickListener(this)
         colors.setColor(view, ColorType.TOOL_BAR_KEY)
-        colors.setBackground(view, ColorType.STRIP_BACKGROUND)
+        // Set circular background for toolbar keys
+        view.setBackgroundResource(R.drawable.toolbar_key_background)
+        colors.setColor(view.background, ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND)
     }
 
     companion object {

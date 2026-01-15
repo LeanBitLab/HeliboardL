@@ -6,11 +6,11 @@
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Name of Android spell checker service. The app name should not be translated. -->
-    <string name="spell_checker_service_name">HeliBoard Spell Checker</string>
+    <string name="spell_checker_service_name">HeliboardL Spell Checker</string>
     <!-- Title for IME settings screen. The app name should not be translated. -->
-    <string name="ime_settings">HeliBoard Settings</string>
+    <string name="ime_settings">HeliboardL Settings</string>
     <!-- Title for the spell checking service settings screen. The app name should not be translated. -->
-    <string name="android_spell_checker_settings">HeliBoard Spell Checker Settings</string>
+    <string name="android_spell_checker_settings">HeliboardL Spell Checker Settings</string>
     <!-- Option to provide vibrate/haptic feedback on keypress -->
     <string name="vibrate_on_keypress">Vibrate on keypress</string>
     <!-- Option to provide vibrate/haptic feedback on keypress even in do not disturb mode -->
@@ -236,6 +236,14 @@
     <string name="load_gesture_library_button_load">Load library</string>
     <!-- Button text for deleting gesture library -->
     <string name="load_gesture_library_button_delete">Delete library</string>
+    <!-- Button text for downloading gesture library -->
+    <string name="load_gesture_library_button_download">Download library</string>
+    <!-- Message shown while downloading -->
+    <string name="load_gesture_library_downloading">Downloading gesture library…</string>
+    <!-- Message shown when download succeeds -->
+    <string name="load_gesture_library_download_success">Download complete! Restarting…</string>
+    <!-- Message shown when download fails -->
+    <string name="load_gesture_library_download_failed">Download failed: %s</string>
     <!-- Preferences item for inserting space after punctuation -->
     <string name="autospace_after_punctuation">Autospace after punctuation</string>
     <!-- Description for "autospace_after_punctuation" setting -->
@@ -349,6 +357,140 @@
     <string name="redo" tools:keep="@string/redo">Redo</string>
     <string name="close_history" tools:keep="@string/close_history">Close clipboard history</string>
     <string name="emoji" tools:keep="@string/emoji">Emoji</string>
+    <!-- Proofreading feature strings -->
+    <string name="proofread" tools:keep="@string/proofread">Proofread</string>
+    <string name="proofread_loading">Proofreading…</string>
+    <string name="proofread_success">Text proofread</string>
+    <string name="proofread_error">Proofreading failed: %s</string>
+    <string name="proofread_no_text">No text to proofread</string>
+    <string name="proofread_no_api_key">Gemini API key not set. Go to Settings → Advanced to configure.</string>
+    <string name="gemini_api_key_title">Gemini API Key</string>
+    <string name="gemini_api_key_summary">Enter your Google Gemini API key for proofreading</string>
+    <string name="gemini_api_key_hint">Enter API key</string>
+    <string name="get_api_key">Get API Key</string>
+    <string name="gemini_model_title">Gemini Model</string>
+    <string name="gemini_model_summary">Select the AI model for proofreading</string>
+    <string name="gemini_test_api_key">Test API Key</string>
+    <string name="gemini_api_key_valid">API key is valid!</string>
+    <string name="gemini_api_key_invalid">API key test failed: %s</string>
+    <string name="gemini_testing_api_key">Testing API key…</string>
+    <!-- Translation feature strings -->
+    <string name="translate" tools:keep="@string/translate">Translate</string>
+    <string name="translate_loading">Translating…</string>
+    <string name="translate_success">Text translated</string>
+    <string name="translate_error">Translation failed: %s</string>
+    <string name="translate_no_text">No text to translate</string>
+    <string name="translate_target_language_title">Translation target language</string>
+    <string name="translate_target_language_summary">Select the language to translate to</string>
+    
+    <!-- Translation target language options -->
+    <string-array name="translate_language_names">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Chinese (Simplified)</item>
+        <item>Chinese (Traditional)</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Arabic</item>
+        <item>Russian</item>
+        <item>Hindi</item>
+        <item>Bengali</item>
+        <item>Indonesian</item>
+        <item>Dutch</item>
+        <item>Turkish</item>
+        <item>Polish</item>
+        <item>Ukrainian</item>
+        <item>Swedish</item>
+        <item>Danish</item>
+        <item>Norwegian</item>
+        <item>Finnish</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+        <item>Tamil</item>
+        <item>Telugu</item>
+        <item>Marathi</item>
+        <item>Gujarati</item>
+        <item>Kannada</item>
+        <item>Malayalam</item>
+        <item>Urdu</item>
+        <item>Persian (Farsi)</item>
+        <item>Swahili</item>
+        <item>Romanian</item>
+        <item>Czech</item>
+        <item>Hungarian</item>
+        <item>Filipino (Tagalog)</item>
+        <item>Malay</item>
+        <item>Serbian</item>
+        <item>Croatian</item>
+        <item>Bulgarian</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Lithuanian</item>
+        <item>Latvian</item>
+        <item>Estonian</item>
+        <item>Catalan</item>
+        <item>Basque</item>
+    </string-array>
+    
+    <string-array name="translate_language_codes">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Chinese (Simplified)</item>
+        <item>Chinese (Traditional)</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Arabic</item>
+        <item>Russian</item>
+        <item>Hindi</item>
+        <item>Bengali</item>
+        <item>Indonesian</item>
+        <item>Dutch</item>
+        <item>Turkish</item>
+        <item>Polish</item>
+        <item>Ukrainian</item>
+        <item>Swedish</item>
+        <item>Danish</item>
+        <item>Norwegian</item>
+        <item>Finnish</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+        <item>Tamil</item>
+        <item>Telugu</item>
+        <item>Marathi</item>
+        <item>Gujarati</item>
+        <item>Kannada</item>
+        <item>Malayalam</item>
+        <item>Urdu</item>
+        <item>Persian (Farsi)</item>
+        <item>Swahili</item>
+        <item>Romanian</item>
+        <item>Czech</item>
+        <item>Hungarian</item>
+        <item>Filipino (Tagalog)</item>
+        <item>Malay</item>
+        <item>Serbian</item>
+        <item>Croatian</item>
+        <item>Bulgarian</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Lithuanian</item>
+        <item>Latvian</item>
+        <item>Estonian</item>
+        <item>Catalan</item>
+        <item>Basque</item>
+    </string-array>
     <!-- Title of the setting to set clipboard toolbar keys -->
     <string name="clipboard_toolbar_keys">Select clipboard toolbar keys</string>
     <!-- Title of the setting to set pinned toolbar keys -->

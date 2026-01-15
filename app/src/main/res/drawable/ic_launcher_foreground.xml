@@ -66,4 +66,11 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000"
       android:strokeLineCap="round"/>
+  <!-- LeanBitLab branding: Purple circle with L in bottom-center -->
+  <path
+      android:pathData="M2160,3300m-250,0a250,250 0,1 1,500 0a250,250 0,1 1,-500 0"
+      android:fillColor="#7C4DFF"/>
+  <path
+      android:pathData="M2060,3200v240h180v-50h-120v-190z"
+      android:fillColor="#ffffff"/>
 </vector>

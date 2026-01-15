@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Pulse border animation for loading state
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#40BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#60BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#80BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#A0BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#FFBB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#A0BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#80BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item android:duration="150">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#60BB86FC"/>
+            <corners android:radius="4dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+</animation-list>
