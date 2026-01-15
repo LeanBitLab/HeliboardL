@@ -22,14 +22,16 @@ This fork adds **AI-powered features** using the Gemini API while maintaining th
 
 ## Screenshots
 
-<div style="display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px;">
-  <img src="docs/images/Screenshot1.png" height="500" alt="Screenshot 1" />
-  <img src="docs/images/Screenshot2.png" height="500" alt="Screenshot 2" />
-  <img src="docs/images/Screenshot3.png" height="500" alt="Screenshot 3" />
-  <img src="docs/images/Screenshot4.png" height="500" alt="Screenshot 4" />
-  <img src="docs/images/Screenshot5.png" height="500" alt="Screenshot 5" />
-  <img src="docs/images/Screenshot6.png" height="500" alt="Screenshot 6" />
-</div>
+<table>
+  <tr>
+    <td><img src="docs/images/Screenshot1.png" height="500" alt="Screenshot 1"/></td>
+    <td><img src="docs/images/Screenshot2.png" height="500" alt="Screenshot 2"/></td>
+    <td><img src="docs/images/Screenshot3.png" height="500" alt="Screenshot 3"/></td>
+    <td><img src="docs/images/Screenshot4.png" height="500" alt="Screenshot 4"/></td>
+    <td><img src="docs/images/Screenshot5.png" height="500" alt="Screenshot 5"/></td>
+    <td><img src="docs/images/Screenshot6.png" height="500" alt="Screenshot 6"/></td>
+  </tr>
+</table>
 
 ## Download
 
