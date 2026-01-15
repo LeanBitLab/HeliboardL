@@ -6,6 +6,8 @@
   <img alt="HeliboardL Banner" src="docs/images/heliboardl_banner_light.svg">
 </picture>
 
+![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total)
+
 **HeliboardL** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
 This fork adds **AI-powered features** using the Gemini API while maintaining the offline-first philosophy of the original.
@@ -20,20 +22,18 @@ This fork adds **AI-powered features** using the Gemini API while maintaining th
 
 ## Screenshots
 
-<p float="left">
-  <img src="docs/images/Screenshot1.png" width="30%" />
-  <img src="docs/images/Screenshot2.png" width="30%" />
-  <img src="docs/images/Screenshot3.png" width="30%" />
-</p>
-<p float="left">
-  <img src="docs/images/Screenshot4.png" width="30%" />
-  <img src="docs/images/Screenshot5.png" width="30%" />
-  <img src="docs/images/Screenshot6.png" width="30%" />
-</p>
+<div style="display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px;">
+  <img src="docs/images/Screenshot1.png" height="500" alt="Screenshot 1" />
+  <img src="docs/images/Screenshot2.png" height="500" alt="Screenshot 2" />
+  <img src="docs/images/Screenshot3.png" height="500" alt="Screenshot 3" />
+  <img src="docs/images/Screenshot4.png" height="500" alt="Screenshot 4" />
+  <img src="docs/images/Screenshot5.png" height="500" alt="Screenshot 5" />
+  <img src="docs/images/Screenshot6.png" height="500" alt="Screenshot 6" />
+</div>
 
 ## Download
 
-*Coming soon to GitHub Releases*
+You can download the latest release from the [GitHub Releases](https://github.com/LeanBitLab/HeliboardL/releases) page.
 
 ## Original HeliBoard Features
 
