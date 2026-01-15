@@ -6,7 +6,7 @@
   <img alt="HeliboardL Banner" src="docs/images/heliboardl_banner_light.svg">
 </picture>
 
-![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total?v=1)
+![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total)
 
 **HeliboardL** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
