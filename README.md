@@ -1,5 +1,11 @@
 # HeliboardL
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/heliboardl_banner_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/images/heliboardl_banner_light.svg">
+  <img alt="HeliboardL Banner" src="docs/images/heliboardl_banner_light.svg">
+</picture>
+
 **HeliboardL** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
 This fork adds **AI-powered features** using the Gemini API while maintaining the offline-first philosophy of the original.
@@ -11,6 +17,19 @@ This fork adds **AI-powered features** using the Gemini API while maintaining th
 - **🎨 Enhanced Toolbar UI** - Squircle backgrounds for toolbar keys
 - **🕵️ Incognito Mode Indicator** - Subtle watermark on spacebar when incognito is active
 - **📥 Gesture Library Downloader** - Easier setup for glide typing
+
+## Screenshots
+
+<p float="left">
+  <img src="docs/images/Screenshot1.png" width="30%" />
+  <img src="docs/images/Screenshot2.png" width="30%" />
+  <img src="docs/images/Screenshot3.png" width="30%" />
+</p>
+<p float="left">
+  <img src="docs/images/Screenshot4.png" width="30%" />
+  <img src="docs/images/Screenshot5.png" width="30%" />
+  <img src="docs/images/Screenshot6.png" width="30%" />
+</p>
 
 ## Download
 

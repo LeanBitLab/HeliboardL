@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120">
+  <style>
+    .text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-weight: bold; font-size: 80px; }
+    .white { fill: #FFFFFF; }
+    .purple { fill: #7C4DFF; }
+  </style>
+  <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" class="text">
+    <tspan class="white">Heli</tspan><tspan class="purple">Board</tspan><tspan class="white">L</tspan>
+  </text>
+</svg>
