@@ -60,7 +60,7 @@ For original feature documentation, visit the [HeliBoard Wiki](https://github.co
 1. Get your free API key from [Google AI Studio](https://aistudio.google.com/apikey)
 2. Go to HeliboardL Settings → Advanced → Gemini API Key
 3. Enter your API key
-
+4. Change gemini model to 2.5 flash or 3n
 ### Gesture/Glide Typing
 Use the built-in gesture library downloader in Settings → Advanced → Load Gesture Typing Library.
 
