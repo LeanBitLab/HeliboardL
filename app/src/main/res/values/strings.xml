@@ -374,6 +374,11 @@
     <string name="gemini_api_key_valid">API key is valid!</string>
     <string name="gemini_api_key_invalid">API key test failed: %s</string>
     <string name="gemini_testing_api_key">Testing API key…</string>
+    <string name="disable_network_title">Disable all network access</string>
+    <string name="disable_network_summary">Internal lock: Blocks all network requests from this app. To revoke permission entirely, use system App Info settings.</string>
+    <string name="open_app_info">Open System App Info</string>
+    <string name="open_app_info_summary">Manage permissions and battery usage in Android settings</string>
+    <string name="gemini_network_disabled">Network access is disabled in HeliboardL settings</string>
     <!-- Translation feature strings -->
     <string name="translate" tools:keep="@string/translate">Translate</string>
     <string name="translate_loading">Translating…</string>

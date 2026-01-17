@@ -136,7 +136,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.CUT -> R.drawable.sym_keyboard_cut
                     ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste
                     ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_holo
-                    ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_holo
+                    ToolbarKey.INCOGNITO -> R.drawable.ic_incognito_final
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_holo
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close
@@ -199,7 +199,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.CUT -> R.drawable.sym_keyboard_cut
                     ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste
                     ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_lxx
-                    ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_lxx
+                    ToolbarKey.INCOGNITO -> R.drawable.ic_incognito_final
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_lxx
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close
@@ -262,7 +262,7 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.CUT -> R.drawable.sym_keyboard_cut_rounded
                     ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste_rounded
                     ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_rounded
-                    ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_lxx
+                    ToolbarKey.INCOGNITO -> R.drawable.ic_incognito_final
                     ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect_rounded
                     ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_rounded
                     ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close_rounded

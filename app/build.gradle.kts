@@ -22,13 +22,23 @@ android {
         applicationId = "helium314.keyboardl"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3603
-        versionName = "3.6"
+        versionCode = 3604
+        versionName = "3.6.1"
         ndk {
             abiFilters.clear()
             abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         }
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+    }
+
+    flavorDimensions += "privacy"
+    productFlavors {
+        create("standard") {
+            dimension = "privacy"
+        }
+        create("offline") {
+            dimension = "privacy"
+        }
     }
 
     signingConfigs {
@@ -61,7 +71,7 @@ android {
         debug {
             // "normal" debug has minify for smaller APK to fit the GitHub 25 MB limit when zipped
             // and for better performance in case users want to install a debug APK
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             isJniDebuggable = false
             applicationIdSuffix = ".debug"
         }
@@ -159,8 +169,8 @@ dependencies {
     implementation("com.github.skydoves:colorpicker-compose:1.1.3") // for user-defined colors
 
     // gemini ai proofreading
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
-    implementation("androidx.security:security-crypto:1.1.0-alpha06") // for encrypted API key storage
+    "standardImplementation"("com.google.ai.client.generativeai:generativeai:0.9.0")
+    "standardImplementation"("androidx.security:security-crypto:1.1.0-alpha06") // for encrypted API key storage
 
     // test
     testImplementation(kotlin("test"))

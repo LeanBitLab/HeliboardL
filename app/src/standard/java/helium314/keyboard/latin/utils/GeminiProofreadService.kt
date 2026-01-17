@@ -81,6 +81,7 @@ class GeminiProofreadService(private val context: Context) {
         }
     }
 
+
     /**
      * Tests the API key by making a simple request.
      * @return Result with success message or error
@@ -236,32 +237,21 @@ class GeminiProofreadService(private val context: Context) {
         private const val KEY_API_KEY = "gemini_api_key"
         private const val KEY_MODEL_NAME = "gemini_model_name"
         private const val KEY_TARGET_LANGUAGE = "gemini_target_language"
-        private const val DEFAULT_MODEL = "gemini-2.5-flash-lite"
+        private const val KEY_NETWORK_DISABLED = "gemini_network_disabled"
         private const val DEFAULT_TARGET_LANGUAGE = "English"
         
         val AVAILABLE_MODELS = listOf(
-            "gemini-2.5-flash-lite",
+            "gemma-3n-e2b-it",
             "gemini-2.5-flash",
-            "gemma-3n-e2b-it"
+            "gemini-2.5-flash-lite"
         )
-        
-        private const val PROOFREAD_PROMPT = """You are an expert proofreading and grammar correction assistant. Your task is to fix ALL errors in the text provided:
-
-PRIORITY CORRECTIONS:
-1. Grammar errors - fix incorrect verb tenses, subject-verb agreement, articles (a/an/the), pronoun usage, sentence structure
-2. Spelling errors - fix misspelled words and typos
-3. Punctuation errors - fix missing/incorrect commas, periods, apostrophes, quotation marks
-
-STRICT RULES:
-- Fix ALL grammar mistakes, even subtle ones
-- Do NOT change the meaning, tone, or style
-- Keep the same language as the input
-- Return ONLY the corrected text with no explanations
-- If already perfect, return unchanged
-- Preserve formatting and line breaks
-
-Text to proofread:
-"""
+        private const val DEFAULT_MODEL = "gemma-3n-e2b-it"
+        private const val PROOFREAD_PROMPT = "Fix the grammar and spelling of the following text. " +
+            "Maintain the original language and tone. " +
+            "Return ONLY the corrected text, without quotes, explanations, or any additional text. " +
+            "If the text is already correct, return it exactly as is. " +
+            "Ensure the sentence structure is logical and coherent. " +
+            "Text to proofread: "
 
         private fun getTranslatePrompt(targetLanguage: String) = """You are an expert translator. Translate the following text to $targetLanguage.
 

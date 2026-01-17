@@ -68,8 +68,9 @@ fun AdvancedSettingsScreen(
     val b = (LocalContext.current.getActivity() as? SettingsActivity)?.prefChanged?.collectAsState()
     if ((b?.value ?: 0) < 0)
         Log.v("irrelevant", "stupid way to trigger recomposition on preference change")
-    val items = listOf(
+    val items = listOfNotNull(
         Settings.PREF_ALWAYS_INCOGNITO_MODE,
+        Settings.PREF_DISABLE_NETWORK,
         Settings.PREF_KEY_LONGPRESS_TIMEOUT,
         Settings.PREF_SPACE_HORIZONTAL_SWIPE,
         Settings.PREF_SPACE_VERTICAL_SWIPE,
@@ -95,9 +96,11 @@ fun AdvancedSettingsScreen(
         Settings.PREF_EMOJI_MAX_SDK,
         Settings.PREF_URL_DETECTION,
         if (BuildConfig.BUILD_TYPE != "nouserlib") SettingsWithoutKey.LOAD_GESTURE_LIB else null,
-        SettingsWithoutKey.GEMINI_API_KEY,
-        SettingsWithoutKey.GEMINI_MODEL,
-        SettingsWithoutKey.GEMINI_TARGET_LANGUAGE,
+        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_API_KEY else null,
+        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_MODEL else null,
+        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_API_KEY else null,
+        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_MODEL else null,
+        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_TARGET_LANGUAGE else null,
     )
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -107,7 +110,7 @@ fun AdvancedSettingsScreen(
 }
 
 @SuppressLint("ApplySharedPref")
-fun createAdvancedSettings(context: Context) = listOf(
+fun createAdvancedSettings(context: Context) = listOfNotNull(
     Setting(context, Settings.PREF_ALWAYS_INCOGNITO_MODE,
         R.string.incognito, R.string.prefs_force_incognito_mode_summary)
     {
@@ -333,6 +336,7 @@ fun createAdvancedSettings(context: Context) = listOf(
             }
         )
     },
+
 )
 
 @Preview

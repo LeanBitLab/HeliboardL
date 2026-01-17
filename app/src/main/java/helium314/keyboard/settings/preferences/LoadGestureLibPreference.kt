@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import helium314.keyboard.latin.R
+import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.common.FileUtils
 import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.utils.ChecksumCalculator
@@ -118,10 +119,12 @@ fun LoadGestureLibPreference(setting: Setting) {
             onConfirmed = {
                 if (!isDownloading) {
                     // Download is the primary action
-                    startDownload()
+                    if (helium314.keyboard.latin.BuildConfig.FLAVOR != "offline") {
+                         startDownload()
+                    }
                 }
             },
-            confirmButtonText = if (isDownloading) 
+            confirmButtonText = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") "" else if (isDownloading) 
                 stringResource(R.string.load_gesture_library_downloading) 
             else 
                 stringResource(R.string.load_gesture_library_button_download),
@@ -137,6 +140,7 @@ fun LoadGestureLibPreference(setting: Setting) {
             },
             // Use neutral button for either Delete (if library exists) or Load from file (if not)
             neutralButtonText = when {
+                BuildConfig.FLAVOR == "offline" && !libFile.exists() -> stringResource(R.string.load_gesture_library_button_load) // Only allow load if offline and not exists
                 isDownloading -> null
                 libFile.exists() -> stringResource(R.string.load_gesture_library_button_delete)
                 else -> stringResource(R.string.load_gesture_library_button_load)

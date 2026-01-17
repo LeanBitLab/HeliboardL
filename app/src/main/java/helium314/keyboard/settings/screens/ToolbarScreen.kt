@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import helium314.keyboard.keyboard.KeyboardSwitcher
 import helium314.keyboard.keyboard.internal.KeyboardIconsSet
+import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.settings.Defaults
 import helium314.keyboard.latin.settings.Settings
@@ -99,10 +100,14 @@ fun createToolbarSettings(context: Context) = listOf(
         }
     },
     Setting(context, Settings.PREF_TOOLBAR_KEYS, R.string.toolbar_keys) {
-        ReorderSwitchPreference(it, Defaults.PREF_TOOLBAR_KEYS)
+        ReorderSwitchPreference(it, Defaults.PREF_TOOLBAR_KEYS) { key ->
+            BuildConfig.FLAVOR != "offline" || (key != "PROOFREAD" && key != "TRANSLATE")
+        }
     },
     Setting(context, Settings.PREF_PINNED_TOOLBAR_KEYS, R.string.pinned_toolbar_keys) {
-        ReorderSwitchPreference(it, Defaults.PREF_PINNED_TOOLBAR_KEYS)
+        ReorderSwitchPreference(it, Defaults.PREF_PINNED_TOOLBAR_KEYS) { key ->
+            BuildConfig.FLAVOR != "offline" || (key != "PROOFREAD" && key != "TRANSLATE")
+        }
     },
     Setting(context, Settings.PREF_CLIPBOARD_TOOLBAR_KEYS, R.string.clipboard_toolbar_keys) {
         ReorderSwitchPreference(it, Defaults.PREF_CLIPBOARD_TOOLBAR_KEYS)

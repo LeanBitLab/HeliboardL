@@ -122,14 +122,22 @@ enum class ToolbarMode {
 val toolbarKeyStrings = entries.associateWithTo(EnumMap(ToolbarKey::class.java)) { it.toString().lowercase(Locale.US) }
 
 val defaultToolbarPref by lazy {
-    val default = listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
+    val default = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
+        listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE)
+    } else {
+        listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
+    }
     val others = entries.filterNot { it in default || it == CLOSE_HISTORY }
     default.joinToString(Separators.ENTRY) { it.name + Separators.KV + true } + Separators.ENTRY +
             others.joinToString(Separators.ENTRY) { it.name + Separators.KV + false }
 }
 
 val defaultPinnedToolbarPref by lazy {
-    val pinnedDefault = listOf(CLIPBOARD, PROOFREAD)
+    val pinnedDefault = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
+        listOf(CLIPBOARD)
+    } else {
+        listOf(CLIPBOARD, PROOFREAD)
+    }
     entries.filterNot { it == CLOSE_HISTORY }.joinToString(Separators.ENTRY) {
         it.name + Separators.KV + (it in pinnedDefault)
     }

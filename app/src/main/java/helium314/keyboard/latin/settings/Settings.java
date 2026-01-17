@@ -163,6 +163,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_URL_DETECTION = "url_detection";
     public static final String PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG = "dont_show_missing_dict_dialog";
     public static final String PREF_QUICK_PIN_TOOLBAR_KEYS = "quick_pin_toolbar_keys";
+    public static final String PREF_DISABLE_NETWORK = "disable_network";
     public static final String PREF_PINNED_TOOLBAR_KEYS = "pinned_toolbar_keys";
     public static final String PREF_TOOLBAR_KEYS = "toolbar_keys";
     public static final String PREF_AUTO_SHOW_TOOLBAR = "auto_show_toolbar";
@@ -194,23 +195,28 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     private SettingsValues mSettingsValues;
     private final ReentrantLock mSettingsValuesLock = new ReentrantLock();
 
-    // static cache for background images to avoid potentially slow reload on every settings reload
+    // static cache for background images to avoid potentially slow reload on every
+    // settings reload
     private final static Drawable[] sCachedBackgroundImages = new Drawable[4];
     private static Typeface sCachedTypeface;
-    private static boolean sCustomTypefaceLoaded; // to avoid repeatedly checking custom typeface file when there is no custom typeface
+    private static boolean sCustomTypefaceLoaded; // to avoid repeatedly checking custom typeface file when there is no
+                                                  // custom typeface
     private static Typeface sCachedEmojiTypeface;
     private static boolean sCustomEmojiTypefaceLoaded;
 
     private static final Settings sInstance = new Settings();
 
-    // preferences that are not used in SettingsValues and thus should not trigger reload when changed
-    private static final HashSet<String> dontReloadOnChanged = new HashSet<>() {{
-        add(PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID);
-        add(PREF_LAST_SHOWN_EMOJI_CATEGORY_ID);
-        add(PREF_EMOJI_RECENT_KEYS);
-        add(PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG);
-        add(PREF_SELECTED_SUBTYPE);
-    }};
+    // preferences that are not used in SettingsValues and thus should not trigger
+    // reload when changed
+    private static final HashSet<String> dontReloadOnChanged = new HashSet<>() {
+        {
+            add(PREF_LAST_SHOWN_EMOJI_CATEGORY_PAGE_ID);
+            add(PREF_LAST_SHOWN_EMOJI_CATEGORY_ID);
+            add(PREF_EMOJI_RECENT_KEYS);
+            add(PREF_DONT_SHOW_MISSING_DICTIONARY_DIALOG);
+            add(PREF_SELECTED_SUBTYPE);
+        }
+    };
 
     public static Settings getInstance() {
         return sInstance;
@@ -265,16 +271,20 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         }
     }
 
-    /** convenience function for the rare situations where we need to load settings but may not have a keyboard */
+    /**
+     * convenience function for the rare situations where we need to load settings
+     * but may not have a keyboard
+     */
     public void loadSettings(final Context context) {
-        if (mSettingsValues != null) return;
+        if (mSettingsValues != null)
+            return;
         final Locale locale = ConfigurationCompatKt.locale(context.getResources().getConfiguration());
         final InputAttributes inputAttributes = new InputAttributes(new EditorInfo(), false, context.getPackageName());
         loadSettings(context, locale, inputAttributes);
     }
 
     public void loadSettings(final Context context, final Locale locale,
-                             @NonNull final InputAttributes inputAttributes) {
+            @NonNull final InputAttributes inputAttributes) {
         mSettingsValuesLock.lock();
         mContext = context;
         try {
@@ -315,14 +325,16 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public static boolean readGestureDynamicPreviewEnabled(final SharedPreferences prefs) {
-        final boolean followSystem = prefs.getBoolean(PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM, Defaults.PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM);
+        final boolean followSystem = prefs.getBoolean(PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM,
+                Defaults.PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM);
         final boolean defValue = Defaults.PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM;
         final boolean curValue = prefs.getBoolean(Settings.PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC, defValue);
         return followSystem ? defValue : curValue;
     }
 
     public static boolean readGestureDynamicPreviewDefault(final Context context) {
-        // if transitions are disabled for the system (reduced motion), moving preview should be disabled
+        // if transitions are disabled for the system (reduced motion), moving preview
+        // should be disabled
         return SettingsKt.getTransitionAnimationScale(context) != 0.0f;
     }
 
@@ -331,7 +343,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public void toggleAlwaysIncognitoMode() {
-        final boolean oldValue = mPrefs.getBoolean(Settings.PREF_ALWAYS_INCOGNITO_MODE, Defaults.PREF_ALWAYS_INCOGNITO_MODE);
+        final boolean oldValue = mPrefs.getBoolean(Settings.PREF_ALWAYS_INCOGNITO_MODE,
+                Defaults.PREF_ALWAYS_INCOGNITO_MODE);
         mPrefs.edit().putBoolean(Settings.PREF_ALWAYS_INCOGNITO_MODE, !oldValue).apply();
     }
 
@@ -363,18 +376,18 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public static boolean readShowSetupWizardIcon(final SharedPreferences prefs,
-                                                  final Context context) {
+            final Context context) {
         if (!prefs.contains(PREF_SHOW_SETUP_WIZARD_ICON)) {
             final ApplicationInfo appInfo = context.getApplicationInfo();
-            final boolean isApplicationInSystemImage =
-                    (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+            final boolean isApplicationInSystemImage = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
             // Default value
             return !isApplicationInSystemImage;
         }
         return prefs.getBoolean(PREF_SHOW_SETUP_WIZARD_ICON, Defaults.PREF_SHOW_SETUP_WIZARD_ICON);
     }
 
-    public static boolean readOneHandedModeEnabled(final SharedPreferences prefs, final boolean landscape, final boolean split) {
+    public static boolean readOneHandedModeEnabled(final SharedPreferences prefs, final boolean landscape,
+            final boolean split) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
         final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_MODE_PREFIX, index, 2);
         return prefs.getBoolean(key, Defaults.PREF_ONE_HANDED_MODE);
@@ -387,7 +400,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         mPrefs.edit().putBoolean(key, enabled).apply();
     }
 
-    public static float readOneHandedModeScale(final SharedPreferences prefs, final boolean landscape, final boolean split) {
+    public static float readOneHandedModeScale(final SharedPreferences prefs, final boolean landscape,
+            final boolean split) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
         final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_SCALE_PREFIX, index, 2);
         return prefs.getFloat(key, Defaults.PREF_ONE_HANDED_SCALE);
@@ -400,7 +414,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         mPrefs.edit().putFloat(key, scale).apply();
     }
 
-    public static int readOneHandedModeGravity(final SharedPreferences prefs, final boolean landscape, final boolean split) {
+    public static int readOneHandedModeGravity(final SharedPreferences prefs, final boolean landscape,
+            final boolean split) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
         final String key = SettingsKt.createPrefKeyForBooleanSettings(PREF_ONE_HANDED_GRAVITY_PREFIX, index, 2);
         return prefs.getInt(key, Defaults.PREF_ONE_HANDED_GRAVITY);
@@ -420,57 +435,71 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     public static boolean readSplitKeyboardEnabled(final SharedPreferences prefs, final boolean isLandscape) {
         final String pref = isLandscape ? PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE : PREF_ENABLE_SPLIT_KEYBOARD;
-        return prefs.getBoolean(pref, isLandscape ? Defaults.PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE : Defaults.PREF_ENABLE_SPLIT_KEYBOARD);
+        return prefs.getBoolean(pref,
+                isLandscape ? Defaults.PREF_ENABLE_SPLIT_KEYBOARD_LANDSCAPE : Defaults.PREF_ENABLE_SPLIT_KEYBOARD);
     }
 
     public static float readSplitSpacerScale(final SharedPreferences prefs, final boolean landscape) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape);
         final Float[] defaults = Defaults.PREF_SPLIT_SPACER_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SPLIT_SPACER_SCALE_PREFIX, index, 1), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SPLIT_SPACER_SCALE_PREFIX, index, 1),
+                defaultValue);
     }
 
     public static float readBottomPaddingScale(final SharedPreferences prefs, final boolean landscape) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape);
         final Float[] defaults = Defaults.PREF_BOTTOM_PADDING_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_BOTTOM_PADDING_SCALE_PREFIX, index, 1), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_BOTTOM_PADDING_SCALE_PREFIX, index, 1),
+                defaultValue);
     }
 
-    public static float readSidePaddingScale(final SharedPreferences prefs, final boolean landscape, final boolean split) {
+    public static float readSidePaddingScale(final SharedPreferences prefs, final boolean landscape,
+            final boolean split) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape, split);
         final Float[] defaults = Defaults.PREF_SIDE_PADDING_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SIDE_PADDING_SCALE_PREFIX, index, 2), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_SIDE_PADDING_SCALE_PREFIX, index, 2),
+                defaultValue);
     }
 
     public static float readHeightScale(final SharedPreferences prefs, final boolean landscape) {
         final int index = SettingsKt.findIndexOfDefaultSetting(landscape);
         final Float[] defaults = Defaults.PREF_KEYBOARD_HEIGHT_SCALE;
         final float defaultValue = defaults[index];
-        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_KEYBOARD_HEIGHT_SCALE_PREFIX, index, 1), defaultValue);
+        return prefs.getFloat(SettingsKt.createPrefKeyForBooleanSettings(PREF_KEYBOARD_HEIGHT_SCALE_PREFIX, index, 1),
+                defaultValue);
     }
 
     public static boolean readHasHardwareKeyboard(final Configuration conf) {
-        // The standard way of finding out whether we have a hardware keyboard. This code is taken
-        // from InputMethodService#onEvaluateInputShown, which canonically determines this.
-        // In a nutshell, we have a keyboard if the configuration says the type of hardware keyboard
+        // The standard way of finding out whether we have a hardware keyboard. This
+        // code is taken
+        // from InputMethodService#onEvaluateInputShown, which canonically determines
+        // this.
+        // In a nutshell, we have a keyboard if the configuration says the type of
+        // hardware keyboard
         // is NOKEYS and if it's not hidden (e.g. folded inside the device).
         return conf.keyboard != Configuration.KEYBOARD_NOKEYS
                 && conf.hardKeyboardHidden != Configuration.HARDKEYBOARDHIDDEN_YES;
     }
 
-    @Nullable public static Drawable readUserBackgroundImage(final Context context, final boolean night) {
-        final boolean landscape = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    @Nullable
+    public static Drawable readUserBackgroundImage(final Context context, final boolean night) {
+        final boolean landscape = context.getResources()
+                .getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         final int index = (night ? 1 : 0) + (landscape ? 2 : 0);
-        if (sCachedBackgroundImages[index] != null) return sCachedBackgroundImages[index];
+        if (sCachedBackgroundImages[index] != null)
+            return sCachedBackgroundImages[index];
 
         File image = getCustomBackgroundFile(context, night, landscape);
         if (!image.isFile() && landscape)
             image = getCustomBackgroundFile(context, night, false); // fall back to portrait image for historic reasons
-        if (!image.isFile()) return null;
+        if (!image.isFile())
+            return null;
         try {
-            sCachedBackgroundImages[index] = new BitmapDrawable(context.getResources(), BitmapFactory.decodeFile(image.getAbsolutePath()));
+            sCachedBackgroundImages[index] = new BitmapDrawable(context.getResources(),
+                    BitmapFactory.decodeFile(image.getAbsolutePath()));
             return sCachedBackgroundImages[index];
         } catch (Exception e) {
             return null;
@@ -478,7 +507,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public static File getCustomBackgroundFile(final Context context, final boolean night, final boolean landscape) {
-        return new File(DeviceProtectedUtils.getFilesDir(context), "custom_background_image" + (landscape ? "_landscape" : "") + (night ? "_night" : ""));
+        return new File(DeviceProtectedUtils.getFilesDir(context),
+                "custom_background_image" + (landscape ? "_landscape" : "") + (night ? "_night" : ""));
     }
 
     public static void clearCachedBackgroundImages() {
@@ -492,7 +522,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         final Configuration config = new Configuration(context.getResources().getConfiguration());
         final int night = config.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         final int uiModeWithNightBitsZero = config.uiMode - night;
-        config.uiMode = uiModeWithNightBitsZero + (wantNight ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO);
+        config.uiMode = uiModeWithNightBitsZero
+                + (wantNight ? Configuration.UI_MODE_NIGHT_YES : Configuration.UI_MODE_NIGHT_NO);
         final ContextThemeWrapper wrapper = new ContextThemeWrapper(context, R.style.platformActivityTheme);
         wrapper.applyOverrideConfiguration(config);
         return wrapper;
@@ -531,31 +562,38 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         return new File(DeviceProtectedUtils.getFilesDir(context), "custom_emoji_font");
     }
 
-    // "default" layout as in this is used if nothing else is specified in the subtype
+    // "default" layout as in this is used if nothing else is specified in the
+    // subtype
     public static String readDefaultLayoutName(final LayoutType type, final SharedPreferences prefs) {
         return prefs.getString(PREF_LAYOUT_PREFIX + type.name(), Defaults.INSTANCE.getDefault(type));
     }
 
-    public static void writeDefaultLayoutName(@Nullable final String name, final LayoutType type, final SharedPreferences prefs) {
-        if (name == null) prefs.edit().remove(PREF_LAYOUT_PREFIX + type.name()).apply();
-        else prefs.edit().putString(PREF_LAYOUT_PREFIX + type.name(), name).apply();
+    public static void writeDefaultLayoutName(@Nullable final String name, final LayoutType type,
+            final SharedPreferences prefs) {
+        if (name == null)
+            prefs.edit().remove(PREF_LAYOUT_PREFIX + type.name()).apply();
+        else
+            prefs.edit().putString(PREF_LAYOUT_PREFIX + type.name(), name).apply();
     }
 
     public void saveSubtypeForApp(RichInputMethodSubtype subtype, String packageName) {
-        if (isSubtypePerApp() && ! StringUtils.isEmpty(packageName)) {
+        if (isSubtypePerApp() && !StringUtils.isEmpty(packageName)) {
             mPrefs.edit().putString(PREF_SAVED_APP_SUBTYPE_PREFIX + packageName,
-                                    SettingsSubtype.Companion.toSettingsSubtype(subtype.getRawSubtype()).toPref()).apply();
+                    SettingsSubtype.Companion.toSettingsSubtype(subtype.getRawSubtype()).toPref()).apply();
         }
     }
 
     public RichInputMethodSubtype getSubtypeForApp(String packageName) {
-        if (! isSubtypePerApp() || StringUtils.isEmpty(packageName)) return null;
+        if (!isSubtypePerApp() || StringUtils.isEmpty(packageName))
+            return null;
         var subtypePref = mPrefs.getString(PREF_SAVED_APP_SUBTYPE_PREFIX + packageName, null);
-        if (subtypePref == null) return null;
+        if (subtypePref == null)
+            return null;
         var settingsSubtype = SettingsSubtype.Companion.toSettingsSubtype(subtypePref);
         var subtype = settingsSubtype.toEnabledSubtype();
-        if (subtype == null) subtype = RichInputMethodManager.getInstance().findSubtypeForHintLocale(settingsSubtype.getLocale());
-        return subtype != null? RichInputMethodSubtype.Companion.get(subtype) : null;
+        if (subtype == null)
+            subtype = RichInputMethodManager.getInstance().findSubtypeForHintLocale(settingsSubtype.getLocale());
+        return subtype != null ? RichInputMethodSubtype.Companion.get(subtype) : null;
     }
 
     private boolean isSubtypePerApp() {
@@ -567,7 +605,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         if (!sCustomTypefaceLoaded) {
             try {
                 sCachedTypeface = Typeface.createFromFile(getCustomFontFile(mContext));
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {
+            }
         }
         sCustomTypefaceLoaded = true;
         return sCachedTypeface;
@@ -578,7 +617,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         if (!sCustomEmojiTypefaceLoaded) {
             try {
                 sCachedEmojiTypeface = Typeface.createFromFile(getCustomEmojiFontFile(mContext));
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {
+            }
         }
         sCustomEmojiTypefaceLoaded = true;
         return sCachedEmojiTypeface;

@@ -773,13 +773,8 @@ public final class InputLogic {
             textToProofread = selectedText != null ? selectedText.toString() : "";
             Log.i(TAG, "Proofreading selected text: " + textToProofread.length() + " chars");
         } else {
-            // Select all text first so user sees what will be proofread
-            mConnection.selectAll();
-
-            // Get entire text field content - use reasonable limit to avoid overflow in
-            // some apps
-            // Some Compose-based apps crash with Integer.MAX_VALUE
-            // Reduce max chars to avoid overflow issues in some implementations
+            // Get entire text field content FIRST to ensure we capture everything relative
+            // to cursor
             final int maxChars = 60000;
             CharSequence textBefore = null;
             CharSequence textAfter = null;
@@ -805,6 +800,9 @@ public final class InputLogic {
             final String after = textAfter != null ? textAfter.toString() : "";
             textToProofread = before + after;
             Log.i(TAG, "Proofreading entire field: " + textToProofread.length() + " chars");
+
+            // Select all text NOW so user sees what will be proofread
+            mConnection.selectAll();
         }
 
         // Store original text for undo (via standard undo mechanism)
@@ -864,10 +862,7 @@ public final class InputLogic {
             textToTranslate = selectedText != null ? selectedText.toString() : "";
             Log.i(TAG, "Translating selected text: " + textToTranslate.length() + " chars");
         } else {
-            // Select all text first so user sees what will be translated
-            mConnection.selectAll();
-
-            // Get entire text field content
+            // Get entire text field content FIRST
             final int maxChars = 60000;
             CharSequence textBefore = null;
             CharSequence textAfter = null;
@@ -892,6 +887,9 @@ public final class InputLogic {
             final String after = textAfter != null ? textAfter.toString() : "";
             textToTranslate = before + after;
             Log.i(TAG, "Translating entire field: " + textToTranslate.length() + " chars");
+
+            // Select all text NOW
+            mConnection.selectAll();
         }
 
         // Store original text for undo
