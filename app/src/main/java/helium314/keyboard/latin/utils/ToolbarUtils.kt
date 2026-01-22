@@ -122,10 +122,10 @@ enum class ToolbarMode {
 val toolbarKeyStrings = entries.associateWithTo(EnumMap(ToolbarKey::class.java)) { it.toString().lowercase(Locale.US) }
 
 val defaultToolbarPref by lazy {
-    val default = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
-        listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
-    } else {
-        listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
+    val default = when (helium314.keyboard.latin.BuildConfig.FLAVOR) {
+        "offline" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
+        "offlinelite" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE)
+        else -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
     }
     val others = entries.filterNot { it in default || it == CLOSE_HISTORY }
     default.joinToString(Separators.ENTRY) { it.name + Separators.KV + true } + Separators.ENTRY +
@@ -133,10 +133,9 @@ val defaultToolbarPref by lazy {
 }
 
 val defaultPinnedToolbarPref by lazy {
-    val pinnedDefault = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
-        listOf(CLIPBOARD, PROOFREAD)
-    } else {
-        listOf(CLIPBOARD, PROOFREAD)
+    val pinnedDefault = when (helium314.keyboard.latin.BuildConfig.FLAVOR) {
+        "offlinelite" -> listOf(CLIPBOARD)
+        else -> listOf(CLIPBOARD, PROOFREAD)
     }
     entries.filterNot { it == CLOSE_HISTORY }.joinToString(Separators.ENTRY) {
         it.name + Separators.KV + (it in pinnedDefault)

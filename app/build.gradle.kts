@@ -39,6 +39,10 @@ android {
             dimension = "privacy"
             applicationIdSuffix = ".offline"
         }
+        create("offlinelite") {
+            dimension = "privacy"
+            applicationIdSuffix = ".offlinelite"
+        }
     }
 
     signingConfigs {

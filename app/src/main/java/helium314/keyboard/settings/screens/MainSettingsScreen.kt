@@ -52,11 +52,13 @@ fun MainSettingsScreen(
             Column(
                 Modifier.verticalScroll(rememberScrollState()).then(Modifier.padding(innerPadding))
             ) {
-                Preference(
-                    name = stringResource(R.string.settings_screen_ai_integration),
-                    onClick = onClickAIIntegration,
-                    icon = R.drawable.ic_proofread
-                ) { NextScreenIcon() }
+                if (helium314.keyboard.latin.BuildConfig.FLAVOR != "offlinelite") {
+                    Preference(
+                        name = stringResource(R.string.settings_screen_ai_integration),
+                        onClick = onClickAIIntegration,
+                        icon = R.drawable.ic_proofread
+                    ) { NextScreenIcon() }
+                }
                 Preference(
                     name = stringResource(R.string.language_and_layouts_title),
                     description = enabledSubtypes.joinToString(", ") { it.displayName() },
