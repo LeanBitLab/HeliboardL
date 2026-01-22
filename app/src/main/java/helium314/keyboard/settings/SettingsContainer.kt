@@ -88,6 +88,7 @@ object SettingsWithoutKey {
     const val GEMINI_TARGET_LANGUAGE = "gemini_target_language"
     const val OFFLINE_MODEL_PATH = "offline_model_path"
     const val AI_PROVIDER = "ai_provider"
+    const val GROQ_TOKEN = "groq_token"
     const val HUGGINGFACE_TOKEN = "huggingface_token"
     const val HUGGINGFACE_MODEL = "huggingface_model"
     const val HUGGINGFACE_ENDPOINT = "huggingface_endpoint"

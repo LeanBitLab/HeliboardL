@@ -352,6 +352,35 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             }
         )
     },
+    Setting(context, SettingsWithoutKey.GROQ_TOKEN, R.string.groq_token_title, R.string.groq_token_summary) { setting ->
+        var showDialog by rememberSaveable { mutableStateOf(false) }
+        val ctx = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        Preference(
+            name = setting.title,
+            description = setting.description,
+            onClick = { showDialog = true }
+        )
+        if (showDialog) {
+            TextInputDialog(
+                onDismissRequest = { showDialog = false },
+                textInputLabel = { Text(stringResource(R.string.groq_token_hint)) },
+                initialText = service.getHuggingFaceToken() ?: "",
+                onConfirmed = { service.setHuggingFaceToken(it) },
+                title = { Text(stringResource(R.string.groq_token_title)) },
+                neutralButtonText = if (service.getHuggingFaceToken() != null) stringResource(R.string.delete) else null,
+                onNeutral = { service.setHuggingFaceToken(null) },
+                extraContent = {
+                    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+                    TextButton(
+                        onClick = { uriHandler.openUri("https://console.groq.com/keys") }
+                    ) {
+                        Text(stringResource(R.string.get_hf_token))
+                    }
+                }
+            )
+        }
+    },
     Setting(context, SettingsWithoutKey.HUGGINGFACE_TOKEN, R.string.huggingface_token_title, R.string.huggingface_token_summary) { setting ->
         var showDialog by rememberSaveable { mutableStateOf(false) }
         val ctx = LocalContext.current

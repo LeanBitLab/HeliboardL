@@ -133,7 +133,14 @@ class ProofreadService(private val context: Context) {
     }
 
     // HuggingFace API endpoint
-    fun getHuggingFaceEndpoint(): String = securePrefs.getString(KEY_HF_ENDPOINT, DEFAULT_HF_ENDPOINT) ?: DEFAULT_HF_ENDPOINT
+    fun getHuggingFaceEndpoint(): String {
+        // Auto-select correct endpoint based on provider
+        val defaultEndpoint = when (getProvider()) {
+            AIProvider.GROQ -> GROQ_ENDPOINT
+            else -> DEFAULT_HF_ENDPOINT
+        }
+        return securePrefs.getString(KEY_HF_ENDPOINT, defaultEndpoint) ?: defaultEndpoint
+    }
 
     fun setHuggingFaceEndpoint(endpoint: String) {
         securePrefs.edit().putString(KEY_HF_ENDPOINT, endpoint.trim()).apply()
@@ -407,6 +414,7 @@ class ProofreadService(private val context: Context) {
         private const val DEFAULT_TARGET_LANGUAGE = "English"
         private const val DEFAULT_HF_MODEL = "gpt-4o-mini"
         private const val DEFAULT_HF_ENDPOINT = "https://api.openai.com/v1/chat/completions"
+        private const val GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
         
         val AVAILABLE_MODELS = listOf(
             "gemini-flash-latest",

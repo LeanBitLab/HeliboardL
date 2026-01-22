@@ -45,7 +45,7 @@ private fun StandardAIIntegrationScreen(onClickBack: () -> Unit) {
         // Show settings based on selected provider
         when (currentProvider) {
             "GROQ" -> {
-                add(SettingsWithoutKey.HUGGINGFACE_TOKEN)
+                add(SettingsWithoutKey.GROQ_TOKEN)
                 add(SettingsWithoutKey.GROQ_MODEL)
                 add(SettingsWithoutKey.GEMINI_TARGET_LANGUAGE)
             }

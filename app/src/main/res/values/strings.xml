@@ -388,6 +388,9 @@
     <string name="ai_provider_openai">HF/OpenAI-compatible</string>
     <string name="huggingface_token_title">API Token</string>
     <string name="huggingface_token_summary">Enter your HuggingFace or OpenAI-compatible API key</string>
+    <string name="groq_token_title">API Token</string>
+    <string name="groq_token_summary">Enter your Groq API key</string>
+    <string name="groq_token_hint">Enter API key</string>
     <string name="huggingface_token_hint">Enter API key</string>
     <string name="get_hf_token">Get Groq Key</string>
     <string name="huggingface_no_token">API token not set. Go to Settings → Advanced.</string>
