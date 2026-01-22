@@ -108,7 +108,8 @@ class ClipboardHistoryView @JvmOverloads constructor(
             it.setOnClickListener(this@ClipboardHistoryView)
             it.setOnLongClickListener(this@ClipboardHistoryView)
             colors.setColor(it, ColorType.TOOL_BAR_KEY)
-            colors.setBackground(it, ColorType.STRIP_BACKGROUND)
+            it.setBackgroundResource(R.drawable.toolbar_key_background)
+            colors.setColor(it.background, ColorType.TOOL_BAR_EXPAND_KEY_BACKGROUND)
         }
     }
 

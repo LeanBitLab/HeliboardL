@@ -102,7 +102,15 @@ fun SearchSettingsScreen(
                 }
             }
         },
-        filteredItems = { SettingsActivity.settingsContainer.filter(it) },
+        filteredItems = { 
+            SettingsActivity.settingsContainer.filter(it).filter { setting ->
+                if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
+                    setting.key.contains("gemini", ignoreCase = true).not()
+                } else {
+                    true
+                }
+            } 
+        },
         itemContent = { it.Preference() }
     )
 }

@@ -24,3 +24,6 @@
 -keep class helium314.keyboard.latin.utils.GeminiProofreadService { *; }
 -keep class helium314.keyboard.latin.utils.ProofreadHelper { *; }
 -keep class helium314.keyboard.latin.utils.ProofreadHelper$* { *; }
+
+# Keep java-llama.cpp classes
+-keep class de.kherud.llama.** { *; }

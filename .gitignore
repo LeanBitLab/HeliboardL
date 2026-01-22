@@ -18,3 +18,9 @@ tools/*.txt
 *.keystore
 keystore.properties
 signing.properties
+
+# Build logs
+*.log
+
+# Offline model files
+tokenizer.json

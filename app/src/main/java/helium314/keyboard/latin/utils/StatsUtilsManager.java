@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
  */
 
-
 package helium314.keyboard.latin.utils;
 
 import android.content.Context;

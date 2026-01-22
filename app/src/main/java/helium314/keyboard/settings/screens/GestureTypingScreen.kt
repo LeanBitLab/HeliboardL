@@ -34,24 +34,29 @@ fun GestureTypingScreen(
     val b = (LocalContext.current.getActivity() as? SettingsActivity)?.prefChanged?.collectAsState()
     if ((b?.value ?: 0) < 0)
         Log.v("irrelevant", "stupid way to trigger recomposition on preference change")
+    val hasGestureLib = JniUtils.sHaveGestureLib
     val gestureFloatingPreviewEnabled = prefs.getBoolean(Settings.PREF_GESTURE_FLOATING_PREVIEW_TEXT, Defaults.PREF_GESTURE_FLOATING_PREVIEW_TEXT)
-    val gestureEnabled = prefs.getBoolean(Settings.PREF_GESTURE_INPUT, Defaults.PREF_GESTURE_INPUT)
-    val items = listOf(
-        Settings.PREF_GESTURE_INPUT,
-        if (gestureEnabled)
-            Settings.PREF_GESTURE_PREVIEW_TRAIL else null,
-        if (gestureEnabled)
-            Settings.PREF_GESTURE_FLOATING_PREVIEW_TEXT else null,
-        if (gestureEnabled && gestureFloatingPreviewEnabled)
-            Settings.PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC else null,
-        if (gestureEnabled)
-            Settings.PREF_GESTURE_SPACE_AWARE else null,
-        if (gestureEnabled)
-            Settings.PREF_GESTURE_FAST_TYPING_COOLDOWN else null,
-        if (gestureEnabled &&
-            (prefs.getBoolean(Settings.PREF_GESTURE_PREVIEW_TRAIL, Defaults.PREF_GESTURE_PREVIEW_TRAIL) || gestureFloatingPreviewEnabled))
-            Settings.PREF_GESTURE_TRAIL_FADEOUT_DURATION else null
-        )
+    val gestureEnabled = hasGestureLib && prefs.getBoolean(Settings.PREF_GESTURE_INPUT, Defaults.PREF_GESTURE_INPUT)
+    
+    // Always show library loader first when no library
+    val items = buildList {
+        // Library loader is always first if allowed
+        if (helium314.keyboard.latin.BuildConfig.BUILD_TYPE != "nouserlib") {
+            add(helium314.keyboard.settings.SettingsWithoutKey.LOAD_GESTURE_LIB)
+        }
+        // Show all gesture settings (they will be disabled if no library)
+        add(Settings.PREF_GESTURE_INPUT)
+        if (hasGestureLib && gestureEnabled) {
+            add(Settings.PREF_GESTURE_PREVIEW_TRAIL)
+            add(Settings.PREF_GESTURE_FLOATING_PREVIEW_TEXT)
+            if (gestureFloatingPreviewEnabled)
+                add(Settings.PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC)
+            add(Settings.PREF_GESTURE_SPACE_AWARE)
+            add(Settings.PREF_GESTURE_FAST_TYPING_COOLDOWN)
+            if (prefs.getBoolean(Settings.PREF_GESTURE_PREVIEW_TRAIL, Defaults.PREF_GESTURE_PREVIEW_TRAIL) || gestureFloatingPreviewEnabled)
+                add(Settings.PREF_GESTURE_TRAIL_FADEOUT_DURATION)
+        }
+    }
     SearchSettingsScreen(
         onClickBack = onClickBack,
         title = stringResource(R.string.settings_screen_gesture),
@@ -109,6 +114,9 @@ fun createGestureTypingSettings(context: Context) = listOf(
             description = { stringResource(R.string.abbreviation_unit_milliseconds, (it + 100).toString()) },
             stepSize = 10,
         ) { KeyboardSwitcher.getInstance().setThemeNeedsReload() }
+    },
+    Setting(context, helium314.keyboard.settings.SettingsWithoutKey.LOAD_GESTURE_LIB, R.string.load_gesture_library, R.string.load_gesture_library_summary) {
+        helium314.keyboard.settings.preferences.LoadGestureLibPreference(it)
     },
 )
 

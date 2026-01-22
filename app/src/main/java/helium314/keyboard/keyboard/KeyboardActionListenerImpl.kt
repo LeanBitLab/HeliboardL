@@ -15,6 +15,7 @@ import helium314.keyboard.keyboard.internal.keyboard_parser.floris.KeyCode
 import helium314.keyboard.latin.AudioAndHapticFeedbackManager
 import helium314.keyboard.latin.EmojiAltPhysicalKeyDetector
 import helium314.keyboard.latin.LatinIME
+import helium314.keyboard.latin.R
 import helium314.keyboard.latin.RichInputMethodManager
 import helium314.keyboard.latin.common.Constants
 import helium314.keyboard.latin.common.InputPointers
@@ -146,6 +147,14 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
         if (requestCode == Constants.CUSTOM_CODE_SHOW_INPUT_METHOD_PICKER) {
             return latinIME.showInputPickerDialog()
         }
+        if (requestCode == KeyboardActionListener.CODE_TOUCHPAD_ON) {
+            keyboardSwitcher.getMainKeyboardView()?.alpha = 0.5f
+            return true
+        }
+        if (requestCode == KeyboardActionListener.CODE_TOUCHPAD_OFF) {
+            keyboardSwitcher.getMainKeyboardView()?.alpha = 1.0f
+            return true
+        }
         return false
     }
 
@@ -162,6 +171,11 @@ class KeyboardActionListenerImpl(private val latinIME: LatinIME, private val inp
         KeyboardActionListener.SWIPE_TOGGLE_NUMPAD -> toggleNumpad(false, false)
         KeyboardActionListener.SWIPE_HIDE_KEYBOARD -> {
             latinIME.requestHideSelf(0)
+            true
+        }
+        KeyboardActionListener.SWIPE_TOUCHPAD_MODE -> {
+            // Activate touchpad mode - the actual cursor movement will be handled in PointerTracker
+            PointerTracker.setTouchpadModeActive(true)
             true
         }
         else -> false

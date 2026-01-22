@@ -123,7 +123,7 @@ val toolbarKeyStrings = entries.associateWithTo(EnumMap(ToolbarKey::class.java))
 
 val defaultToolbarPref by lazy {
     val default = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
-        listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE)
+        listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
     } else {
         listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
     }
@@ -134,7 +134,7 @@ val defaultToolbarPref by lazy {
 
 val defaultPinnedToolbarPref by lazy {
     val pinnedDefault = if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
-        listOf(CLIPBOARD)
+        listOf(CLIPBOARD, PROOFREAD)
     } else {
         listOf(CLIPBOARD, PROOFREAD)
     }

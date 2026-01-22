@@ -46,6 +46,8 @@ import helium314.keyboard.settings.dialogs.DictionaryDialog
 import helium314.keyboard.settings.dictionaryFilePicker
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.previewDark
+import helium314.keyboard.settings.SettingsDestination
+import helium314.keyboard.settings.NextScreenIcon
 import java.io.File
 import java.util.Locale
 
@@ -61,6 +63,7 @@ fun DictionaryScreen(
     var selectedLocale: Locale? by remember { mutableStateOf(null) }
     var showAddDictDialog by remember { mutableStateOf(false) }
     val dictPicker = dictionaryFilePicker(selectedLocale)
+
     SearchScreen(
         onClickBack = onClickBack,
         title = { Text(stringResource(R.string.dictionary_settings_category)) },
@@ -74,6 +77,23 @@ fun DictionaryScreen(
         },
         itemContent = { locale ->
             if (locale.language == SubtypeLocaleUtils.NO_LANGUAGE) {
+                // Personal Dictionary Entry
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .clickable { SettingsDestination.navigateTo(SettingsDestination.PersonalDictionaries) }
+                ) {
+                    Text(
+                        stringResource(R.string.edit_personal_dictionary),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    NextScreenIcon()
+                }
+                androidx.compose.material3.Divider(modifier = Modifier.padding(vertical = 4.dp))
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,

@@ -58,7 +58,7 @@ fun TextCorrectionScreen(
     val suggestionsEnabled = suggestionsVisible && prefs.getBoolean(Settings.PREF_SHOW_SUGGESTIONS, Defaults.PREF_SHOW_SUGGESTIONS)
     val gestureEnabled = JniUtils.sHaveGestureLib && prefs.getBoolean(Settings.PREF_GESTURE_INPUT, Defaults.PREF_GESTURE_INPUT)
     val items = listOf(
-        SettingsWithoutKey.EDIT_PERSONAL_DICTIONARY,
+
         R.string.settings_category_correction,
         Settings.PREF_BLOCK_POTENTIALLY_OFFENSIVE,
         Settings.PREF_AUTO_CORRECTION,
@@ -67,6 +67,7 @@ fun TextCorrectionScreen(
         if (autocorrectEnabled) Settings.PREF_AUTO_CORRECT_THRESHOLD else null,
         if (autocorrectEnabled) Settings.PREF_BACKSPACE_REVERTS_AUTOCORRECT else null,
         Settings.PREF_AUTO_CAP,
+        Settings.PREF_FORCE_AUTO_CAPS,
         R.string.settings_category_space,
         Settings.PREF_KEY_USE_DOUBLE_SPACE_PERIOD,
         Settings.PREF_AUTOSPACE_AFTER_PUNCTUATION,
@@ -99,12 +100,7 @@ fun TextCorrectionScreen(
 }
 
 fun createCorrectionSettings(context: Context) = listOf(
-    Setting(context, SettingsWithoutKey.EDIT_PERSONAL_DICTIONARY, R.string.edit_personal_dictionary) {
-        Preference(
-            name = stringResource(R.string.edit_personal_dictionary),
-            onClick = { SettingsDestination.navigateTo(SettingsDestination.PersonalDictionaries) },
-        ) { NextScreenIcon() }
-    },
+
     Setting(context, Settings.PREF_BLOCK_POTENTIALLY_OFFENSIVE,
         R.string.prefs_block_potentially_offensive_title, R.string.prefs_block_potentially_offensive_summary
     ) {
@@ -141,6 +137,9 @@ fun createCorrectionSettings(context: Context) = listOf(
         R.string.auto_cap, R.string.auto_cap_summary
     ) {
         SwitchPreference(it, Defaults.PREF_AUTO_CAP)
+    },
+    Setting(context, Settings.PREF_FORCE_AUTO_CAPS, R.string.force_auto_caps_title, R.string.force_auto_caps_summary) {
+        SwitchPreference(it, Defaults.PREF_FORCE_AUTO_CAPS)
     },
     Setting(context, Settings.PREF_KEY_USE_DOUBLE_SPACE_PERIOD,
         R.string.use_double_space_period, R.string.use_double_space_period_summary

@@ -10,27 +10,30 @@
 
 **HeliboardL** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
-This fork adds **AI-powered features** using the Gemini API while maintaining the offline-first philosophy of the original.
+This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-compatible APIs, offering a hybrid experience: a private, offline core with opt-in cloud intelligence.
 
 ## What's New in HeliboardL
 
-- **🤖 Gemini AI Proofreading** - Fix grammar and spelling with one tap (Standard only)
-- **🌐 AI Translation** - Translate selected text directly (Standard only)
-- **🎨 Modern UI** - "Squircle" key backgrounds and refined icons (incognito, etc.)
-- **🕵️ Clear Incognito Mode** - Distinct "Hat & Glasses" icon for clear visibility
-- **🔒 Privacy Choices** - Choose **Standard** (Offline-first with opt-in AI) or **Offline** (Hard-disabled network) versions
-- **📥 Gesture Library Downloader** - Easier setup for glide typing
+- **🤖 Multi-Provider AI** - Proofread using **Gemini**, **Groq** (Llama 3, Mixtral), or **OpenAI-compatible** providers.
+- **🛡️ Offline AI** - Private, on-device proofreading and translation using ONNX models (Offline build only).
+- **🌐 AI Translation** - Translate selected text directly using your chosen AI provider.
+- **⌨️ Dual Toolbar / Split Suggestions** - Option to split suggestions and toolbar for easier access.
+- **🖱️ Touchpad Mode** - Swipe spacebar up to toggle touchpad; custom sensitivity controls.
+- **🎨 Modern UI** - "Squircle" key backgrounds, refined icons, and polished aesthetics.
+- **🔄 Google Dictionary Import** - Easily import your personal dictionary words.
+- **⚙️ Enhanced Customization** - Force auto-capitalization toggle, reorganized settings, and more.
+- **🕵️ Clear Incognito Mode** - Distinct "Hat & Glasses" icon for clear visibility.
+- **🔒 Privacy Choices** - Choose **Standard** (Offline-first with opt-in AI) or **Offline** (Hard-disabled network) versions.
 
 ## Screenshots
 
 <table>
   <tr>
-    <td><img src="docs/images/Screenshot1.png" height="500" alt="Screenshot 1"/></td>
-    <td><img src="docs/images/Screenshot2.png" height="500" alt="Screenshot 2"/></td>
-    <td><img src="docs/images/Screenshot3.png" height="500" alt="Screenshot 3"/></td>
-    <td><img src="docs/images/Screenshot4.png" height="500" alt="Screenshot 4"/></td>
-    <td><img src="docs/images/Screenshot5.png" height="500" alt="Screenshot 5"/></td>
-    <td><img src="docs/images/Screenshot6.png" height="500" alt="Screenshot 6"/></td>
+    <td><img src="docs/images/1.png" height="500" alt="Screenshot 1"/></td>
+    <td><img src="docs/images/2.png" height="500" alt="Screenshot 2"/></td>
+    <td><img src="docs/images/3.png" height="500" alt="Screenshot 3"/></td>
+    <td><img src="docs/images/4.png" height="500" alt="Screenshot 4"/></td>
+    <td><img src="docs/images/5.png" height="500" alt="Screenshot 5"/></td>
   </tr>
 </table>
 
@@ -41,17 +44,18 @@ You can download the latest release from the [GitHub Releases](https://github.co
 
 ### 📦 Choose Your Version
 
-We provide two distinct versions. **Note:** Both versions use the same package name (`helium314.keyboard.l`) and signature. You can only have **one** installed at a time.
-
 #### 1. Standard Version (`-standard-release.apk`)
 *   **Features:** Full suite including **AI Proofreading**, **AI Translation**, and **Gesture Library Downloader**.
-*   **Permissions:** Request `INTERNET` permission (used *only* when you explicitly use AI features or download libraries).
-*   **Best For:** Users who want smart features alongside privacy.
+*   **Permissions:** Request `INTERNET` permission (used *only* when you explicitly use AI features).
+*   **Setup:** Use the built-in downloader for Gesture Typing. Configure AI keys in Settings.
 
 #### 2. Offline Version (`-offline-release.apk`)
-*   **Features:** All UI/UX refinements (Squircle keys, new Icons) but **excludes** all AI and network features.
-*   **Permissions:** **NO INTERNET PERMISSION** in the manifest. Guaranteed at the OS level.
-*   **Best For:** Privacy purists who require a hard guarantee that no data can ever leave the device.
+*   **Features:** All UI/UX enhancements and **Offline Neural Proofreading** (ONNX).
+*   **Permissions:** **NO INTERNET PERMISSION**. Guaranteed at OS level.
+*   **Best For:** Privacy purists.
+*   **Manual Setup Required:**
+    *   **Gesture Typing:** [Download library manually](https://github.com/Helium314/HeliBoard/blob/master/app/src/main/jniLibs/arm64-v8a/libjni_latinimegoogle.so) and load via *Settings > Advanced*.
+    *   **Offline AI:** Download ONNX models and load via *Settings > AI Integration*. 👉 **[See Offline Setup Instructions](docs/FEATURES.md#3-offline-proofreading-privacy-focused)**
 
 ## Original HeliBoard Features
 
@@ -60,7 +64,7 @@ We provide two distinct versions. **Note:** Both versions use the same package n
   <li>Customize keyboard themes (style, colors and background image)</li>
   <li>Customize keyboard layouts</li>
   <li>Multilingual typing</li>
-  <li>Glide typing (<i>requires closed source library</i>)</li>
+  <li>Glide typing (<i>requires library</i>)</li>
   <li>Clipboard history</li>
   <li>One-handed mode</li>
   <li>Split keyboard</li>
@@ -72,30 +76,22 @@ For original feature documentation, visit the [HeliBoard Wiki](https://github.co
 
 ## Setup
 
-### Gemini API Key (for AI features)
-1. Get your free API key from [Google AI Studio](https://aistudio.google.com/apikey)
-2. Go to HeliboardL Settings → Advanced → Gemini API Key
-3. Enter your API key
-4. Change Gemini model to **gemini-2.5-flash** or **gemini-3n-e2b-it** for best performance.
+### AI Features Setup
 
-### AI Translation Setup
-1.  Go to Settings → Toolbar → Customize Toolbar and add the "Translate" key.
-2.  Go to **Settings → Advanced → Translation Target Language** and select your desired output language.
+HeliboardL supports multiple AI providers: **Google Gemini**, **Groq**, and **OpenAI-compatible** (OpenRouter, HuggingFace, etc.).
+
+👉 **[Read the Full AI Setup & Features Guide](docs/FEATURES.md)**
+
+**Quick Start:**
+1.  Get a free key from [Google AI Studio](https://aistudio.google.com/apikey) (Gemini) or [Groq Console](https://console.groq.com/keys) (Groq).
+2.  Copy the API key.
+3.  Go to **Settings → AI Integration → Set AI Provider**.
+4.  Select your provider and paste the API Token.
+5.  Select Model and target language
 
 > [!IMPORTANT]
-> **Privacy Notice**: While HeliboardL itself is open-source and respects your privacy, using the **free tier** of the Google Gemini API means your input data may be used by Google to improve their models.
-> - Using AI features is **optional**.
-> - **Do not process sensitive information** (passwords, credit card numbers, private addresses) using the AI Proofreading or Translation features.
-> - The **Offline Version** completely removes this code and permission.
-
-### Gesture/Glide Typing
-**Standard Version:** Use the built-in downloader in Settings → Advanced → Load Gesture Typing Library.
-
-**Offline Version:**
-Since network access is disabled, you must manually install the library:
-1.  Download the library file: [libjni_latinimegoogle.so](https://github.com/Helium314/HeliBoard/blob/master/app/src/main/jniLibs/arm64-v8a/libjni_latinimegoogle.so) (for arm64)
-2.  Go to Settings → Advanced → Load Gesture Typing Library.
-3.  Select "Load from file" and pick the downloaded `.so` file.
+> **Privacy**: Your input data is sent to the configured provider.
+> 👉 **[View Privacy Policies for Providers](docs/FEATURES.md#supported-ai-providers)**
 
 ## Contributing
 

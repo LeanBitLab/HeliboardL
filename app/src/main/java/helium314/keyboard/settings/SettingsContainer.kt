@@ -65,7 +65,7 @@ class Setting(
 private fun createSettings(context: Context) = createAboutSettings(context) + createAppearanceSettings(context) +
         createCorrectionSettings(context) + createPreferencesSettings(context) + createToolbarSettings(context) +
         createLayoutSettings(context) + createAdvancedSettings(context) +
-        if (JniUtils.sHaveGestureLib) createGestureTypingSettings(context) else emptyList()
+        createGestureTypingSettings(context) // Always include (options disabled until library loaded)
 
 object SettingsWithoutKey {
     const val EDIT_PERSONAL_DICTIONARY = "edit_personal_dictionary"
@@ -86,4 +86,10 @@ object SettingsWithoutKey {
     const val GEMINI_API_KEY = "gemini_api_key"
     const val GEMINI_MODEL = "gemini_model"
     const val GEMINI_TARGET_LANGUAGE = "gemini_target_language"
+    const val OFFLINE_MODEL_PATH = "offline_model_path"
+    const val AI_PROVIDER = "ai_provider"
+    const val HUGGINGFACE_TOKEN = "huggingface_token"
+    const val HUGGINGFACE_MODEL = "huggingface_model"
+    const val HUGGINGFACE_ENDPOINT = "huggingface_endpoint"
+    const val GROQ_MODEL = "groq_model"
 }

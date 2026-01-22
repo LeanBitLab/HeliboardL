@@ -62,6 +62,7 @@ fun ToolbarScreen(
         || !prefs.getBoolean(Settings.PREF_TOOLBAR_HIDING_GLOBAL, Defaults.PREF_TOOLBAR_HIDING_GLOBAL)
     val items = listOf(
         Settings.PREF_TOOLBAR_MODE,
+        Settings.PREF_SPLIT_TOOLBAR,
         if (toolbarMode == ToolbarMode.HIDDEN) Settings.PREF_TOOLBAR_HIDING_GLOBAL else null,
         if (toolbarMode in listOf(ToolbarMode.EXPANDABLE, ToolbarMode.TOOLBAR_KEYS))
             Settings.PREF_TOOLBAR_KEYS else null,
@@ -100,14 +101,10 @@ fun createToolbarSettings(context: Context) = listOf(
         }
     },
     Setting(context, Settings.PREF_TOOLBAR_KEYS, R.string.toolbar_keys) {
-        ReorderSwitchPreference(it, Defaults.PREF_TOOLBAR_KEYS) { key ->
-            BuildConfig.FLAVOR != "offline" || (key != "PROOFREAD" && key != "TRANSLATE")
-        }
+        ReorderSwitchPreference(it, Defaults.PREF_TOOLBAR_KEYS)
     },
     Setting(context, Settings.PREF_PINNED_TOOLBAR_KEYS, R.string.pinned_toolbar_keys) {
-        ReorderSwitchPreference(it, Defaults.PREF_PINNED_TOOLBAR_KEYS) { key ->
-            BuildConfig.FLAVOR != "offline" || (key != "PROOFREAD" && key != "TRANSLATE")
-        }
+        ReorderSwitchPreference(it, Defaults.PREF_PINNED_TOOLBAR_KEYS)
     },
     Setting(context, Settings.PREF_CLIPBOARD_TOOLBAR_KEYS, R.string.clipboard_toolbar_keys) {
         ReorderSwitchPreference(it, Defaults.PREF_CLIPBOARD_TOOLBAR_KEYS)
@@ -141,6 +138,16 @@ fun createToolbarSettings(context: Context) = listOf(
         R.string.var_toolbar_direction, R.string.var_toolbar_direction_summary)
     {
         SwitchPreference(it, Defaults.PREF_VARIABLE_TOOLBAR_DIRECTION)
+    },
+    Setting(context, Settings.PREF_SPLIT_TOOLBAR, R.string.split_toolbar, R.string.split_toolbar_summary) {
+        val prefs = LocalContext.current.prefs()
+        SwitchPreference(it, Defaults.PREF_SPLIT_TOOLBAR) { isEnabled ->
+            // When split toolbar is enabled, disable auto-hide toolbar
+            if (isEnabled) {
+                prefs.edit().putBoolean(Settings.PREF_AUTO_HIDE_TOOLBAR, false).apply()
+            }
+            KeyboardSwitcher.getInstance().setThemeNeedsReload()
+        }
     }
 )
 

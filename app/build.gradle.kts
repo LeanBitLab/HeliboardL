@@ -22,14 +22,13 @@ android {
         applicationId = "helium314.keyboardl"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3604
-        versionName = "3.6.1"
-        ndk {
-            abiFilters.clear()
-            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
-        }
+        versionCode = 3609
+        versionName = "3.6.9"
+
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
+
+    // ONNX Runtime is used instead of llama.cpp native build
 
     flavorDimensions += "privacy"
     productFlavors {
@@ -38,6 +37,7 @@ android {
         }
         create("offline") {
             dimension = "privacy"
+            applicationIdSuffix = ".offline"
         }
     }
 
@@ -105,12 +105,12 @@ android {
         compose = true
     }
 
-    externalNativeBuild {
-        ndkBuild {
-            path = File("src/main/jni/Android.mk")
-        }
-    }
-    ndkVersion = "28.0.13004108"
+//    externalNativeBuild {
+//        ndkBuild {
+//            path = File("src/main/jni/Android.mk")
+//        }
+//    }
+////    ndkVersion = "28.0.13004108"
 
     packaging {
         jniLibs {
@@ -171,6 +171,10 @@ dependencies {
     // gemini ai proofreading
     "standardImplementation"("com.google.ai.client.generativeai:generativeai:0.9.0")
     "standardImplementation"("androidx.security:security-crypto:1.1.0-alpha06") // for encrypted API key storage
+
+    // local llm proofreading (offline)
+    // ONNX Runtime for T5 encoder-decoder grammar models
+    "offlineImplementation"("com.microsoft.onnxruntime:onnxruntime-android:1.17.3")
 
     // test
     testImplementation(kotlin("test"))

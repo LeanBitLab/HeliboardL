@@ -8,6 +8,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -47,6 +48,7 @@ import helium314.keyboard.settings.preferences.Preference
 import helium314.keyboard.settings.SearchSettingsScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.SettingsDestination
+import helium314.keyboard.settings.dialogs.TextInputDialog
 import helium314.keyboard.settings.preferences.SliderPreference
 import helium314.keyboard.settings.preferences.SwitchPreference
 import helium314.keyboard.settings.Theme
@@ -58,7 +60,13 @@ import helium314.keyboard.settings.previewDark
 import androidx.core.content.edit
 import helium314.keyboard.latin.utils.Log
 import helium314.keyboard.latin.utils.getActivity
-import helium314.keyboard.latin.utils.GeminiProofreadService
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+
 
 @Composable
 fun AdvancedSettingsScreen(
@@ -74,6 +82,7 @@ fun AdvancedSettingsScreen(
         Settings.PREF_KEY_LONGPRESS_TIMEOUT,
         Settings.PREF_SPACE_HORIZONTAL_SWIPE,
         Settings.PREF_SPACE_VERTICAL_SWIPE,
+        Settings.PREF_TOUCHPAD_SENSITIVITY,
         if (Settings.readHorizontalSpaceSwipe(prefs) == KeyboardActionListener.SWIPE_SWITCH_LANGUAGE
             || Settings.readVerticalSpaceSwipe(prefs) == KeyboardActionListener.SWIPE_SWITCH_LANGUAGE)
             Settings.PREF_LANGUAGE_SWIPE_DISTANCE else null,
@@ -95,12 +104,7 @@ fun AdvancedSettingsScreen(
         R.string.settings_category_experimental,
         Settings.PREF_EMOJI_MAX_SDK,
         Settings.PREF_URL_DETECTION,
-        if (BuildConfig.BUILD_TYPE != "nouserlib") SettingsWithoutKey.LOAD_GESTURE_LIB else null,
-        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_API_KEY else null,
-        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_MODEL else null,
-        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_API_KEY else null,
-        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_MODEL else null,
-        if (BuildConfig.FLAVOR == "standard") SettingsWithoutKey.GEMINI_TARGET_LANGUAGE else null,
+
     )
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -140,9 +144,19 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             stringResource(R.string.switch_language) to "switch_language",
             stringResource(R.string.space_swipe_toggle_numpad_entry) to "toggle_numpad",
             stringResource(R.string.space_swipe_hide_keyboard_entry) to "hide_keyboard",
+            stringResource(R.string.space_swipe_touchpad_mode_entry) to "touchpad_mode",
             stringResource(R.string.action_none) to "none",
         )
         ListPreference(it, items, Defaults.PREF_SPACE_VERTICAL_SWIPE)
+    },
+    Setting(context, Settings.PREF_TOUCHPAD_SENSITIVITY, R.string.touchpad_sensitivity) {
+        SliderPreference(
+            name = it.title,
+            key = it.key,
+            default = Defaults.PREF_TOUCHPAD_SENSITIVITY,
+            range = 0f..100f,
+            description = { value -> value.toInt().toString() }
+        )
     },
     Setting(context, Settings.PREF_LANGUAGE_SWIPE_DISTANCE, R.string.prefs_language_swipe_distance) { setting ->
         SliderPreference(
@@ -264,13 +278,11 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
     Setting(context, Settings.PREF_URL_DETECTION, R.string.url_detection_title, R.string.url_detection_summary) {
         SwitchPreference(it, Defaults.PREF_URL_DETECTION)
     },
-    Setting(context, SettingsWithoutKey.LOAD_GESTURE_LIB, R.string.load_gesture_library, R.string.load_gesture_library_summary) {
-        LoadGestureLibPreference(it)
-    },
+
     Setting(context, SettingsWithoutKey.GEMINI_API_KEY, R.string.gemini_api_key_title, R.string.gemini_api_key_summary) { setting ->
         var showDialog by rememberSaveable { mutableStateOf(false) }
         val ctx = LocalContext.current
-        val geminiService = remember { GeminiProofreadService(ctx) }
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
         Preference(
             name = setting.title,
             description = setting.description,
@@ -280,11 +292,11 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             TextInputDialog(
                 onDismissRequest = { showDialog = false },
                 textInputLabel = { Text(stringResource(R.string.gemini_api_key_hint)) },
-                initialText = geminiService.getApiKey() ?: "",
-                onConfirmed = { geminiService.setApiKey(it) },
+                initialText = service.getApiKey() ?: "",
+                onConfirmed = { service.setApiKey(it) },
                 title = { Text(stringResource(R.string.gemini_api_key_title)) },
-                neutralButtonText = if (geminiService.hasApiKey()) stringResource(R.string.delete) else null,
-                onNeutral = { geminiService.setApiKey(null) },
+                neutralButtonText = if (service.hasApiKey()) stringResource(R.string.delete) else null,
+                onNeutral = { service.setApiKey(null) },
                 extraContent = {
                     androidx.compose.foundation.layout.Box(
                         modifier = Modifier.fillMaxWidth(),
@@ -306,40 +318,293 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
     },
     Setting(context, SettingsWithoutKey.GEMINI_MODEL, R.string.gemini_model_title, R.string.gemini_model_summary) { setting ->
         val ctx = LocalContext.current
-        val geminiService = remember { GeminiProofreadService(ctx) }
-        val items = GeminiProofreadService.AVAILABLE_MODELS.map { it to it }
-        var selectedModel by remember { mutableStateOf(geminiService.getModelName()) }
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        val items = helium314.keyboard.latin.utils.ProofreadService.AVAILABLE_MODELS.map { it to it }
+        var selectedModel by remember { mutableStateOf(service.getModelName()) }
         ListPreference(
             setting = setting,
             items = items,
             default = selectedModel,
             onChanged = { newModel ->
-                geminiService.setModelName(newModel)
+                service.setModelName(newModel)
                 selectedModel = newModel
             }
         )
     },
+    Setting(context, SettingsWithoutKey.AI_PROVIDER, R.string.ai_provider_title, R.string.ai_provider_summary) { setting ->
+        val ctx = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        val items = listOf(
+            ctx.getString(R.string.ai_provider_huggingface) to helium314.keyboard.latin.utils.ProofreadService.AIProvider.GROQ.name,
+            ctx.getString(R.string.ai_provider_gemini) to helium314.keyboard.latin.utils.ProofreadService.AIProvider.GEMINI.name,
+            ctx.getString(R.string.ai_provider_openai) to helium314.keyboard.latin.utils.ProofreadService.AIProvider.OPENAI.name
+        )
+        var selectedProvider by remember { mutableStateOf(service.getProvider().name) }
+        ListPreference(
+            setting = setting,
+            items = items,
+            default = selectedProvider,
+            onChanged = { newProvider ->
+                service.setProvider(helium314.keyboard.latin.utils.ProofreadService.AIProvider.valueOf(newProvider))
+                selectedProvider = newProvider
+                // Trigger AI Integration screen recomposition
+                helium314.keyboard.settings.screens.updateProviderState(newProvider)
+            }
+        )
+    },
+    Setting(context, SettingsWithoutKey.HUGGINGFACE_TOKEN, R.string.huggingface_token_title, R.string.huggingface_token_summary) { setting ->
+        var showDialog by rememberSaveable { mutableStateOf(false) }
+        val ctx = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        Preference(
+            name = setting.title,
+            description = setting.description,
+            onClick = { showDialog = true }
+        )
+        if (showDialog) {
+            TextInputDialog(
+                onDismissRequest = { showDialog = false },
+                textInputLabel = { Text(stringResource(R.string.huggingface_token_hint)) },
+                initialText = service.getHuggingFaceToken() ?: "",
+                onConfirmed = { service.setHuggingFaceToken(it) },
+                title = { Text(stringResource(R.string.huggingface_token_title)) },
+                neutralButtonText = if (service.getHuggingFaceToken() != null) stringResource(R.string.delete) else null,
+                onNeutral = { service.setHuggingFaceToken(null) },
+                extraContent = {
+                    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+                    TextButton(
+                        onClick = { uriHandler.openUri("https://huggingface.co/settings/tokens") }
+                    ) {
+                        Text(stringResource(R.string.get_hf_token))
+                    }
+                }
+            )
+        }
+    },
+    Setting(context, SettingsWithoutKey.HUGGINGFACE_MODEL, R.string.huggingface_model_title, R.string.huggingface_model_summary) { setting ->
+        var showDialog by rememberSaveable { mutableStateOf(false) }
+        val ctx = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        Preference(
+            name = setting.title,
+            description = service.getHuggingFaceModel(),
+            onClick = { showDialog = true }
+        )
+        if (showDialog) {
+            TextInputDialog(
+                onDismissRequest = { showDialog = false },
+                textInputLabel = { Text(stringResource(R.string.huggingface_model_hint)) },
+                initialText = service.getHuggingFaceModel(),
+                onConfirmed = { service.setHuggingFaceModel(it) },
+                title = { Text(stringResource(R.string.huggingface_model_title)) }
+            )
+        }
+    },
+    Setting(context, SettingsWithoutKey.GROQ_MODEL, R.string.huggingface_model_title, R.string.huggingface_model_summary) { setting ->
+        val ctx = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        val items = helium314.keyboard.latin.utils.GroqModels.AVAILABLE_MODELS.map { it to it }
+        var selectedModel by remember { mutableStateOf(service.getHuggingFaceModel()) }
+        
+        // Ensure default is selected if current is empty or invalid
+        if (selectedModel.isBlank()) {
+            selectedModel = helium314.keyboard.latin.utils.GroqModels.DEFAULT_MODEL
+        }
+        
+        ListPreference(
+            setting = setting,
+            items = items,
+            default = selectedModel,
+            onChanged = { newModel ->
+                service.setHuggingFaceModel(newModel)
+                selectedModel = newModel
+            }
+        )
+    },
+    Setting(context, SettingsWithoutKey.HUGGINGFACE_ENDPOINT, R.string.huggingface_endpoint_title, R.string.huggingface_endpoint_summary) { setting ->
+        var showDialog by rememberSaveable { mutableStateOf(false) }
+        val ctx = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        Preference(
+            name = setting.title,
+            description = service.getHuggingFaceEndpoint(),
+            onClick = { showDialog = true }
+        )
+        if (showDialog) {
+            TextInputDialog(
+                onDismissRequest = { showDialog = false },
+                textInputLabel = { Text(stringResource(R.string.huggingface_endpoint_hint)) },
+                initialText = service.getHuggingFaceEndpoint(),
+                onConfirmed = { service.setHuggingFaceEndpoint(it) },
+                title = { Text(stringResource(R.string.huggingface_endpoint_title)) }
+            )
+        }
+    },
     Setting(context, SettingsWithoutKey.GEMINI_TARGET_LANGUAGE, R.string.translate_target_language_title, R.string.translate_target_language_summary) { setting ->
         val ctx = LocalContext.current
-        val geminiService = remember { GeminiProofreadService(ctx) }
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
         val languageNames = ctx.resources.getStringArray(helium314.keyboard.latin.R.array.translate_language_names)
         val languageCodes = ctx.resources.getStringArray(helium314.keyboard.latin.R.array.translate_language_codes)
         val items = languageNames.zip(languageCodes)
-        var selectedLanguage by remember { mutableStateOf(geminiService.getTargetLanguage()) }
+        var selectedLanguage by remember { mutableStateOf(service.getTargetLanguage()) }
         ListPreference(
             setting = setting,
             items = items,
             default = selectedLanguage,
             onChanged = { newLanguage ->
-                geminiService.setTargetLanguage(newLanguage)
+                service.setTargetLanguage(newLanguage)
                 selectedLanguage = newLanguage
             }
         )
     },
+    if (BuildConfig.FLAVOR == "offline") Setting(context, SettingsWithoutKey.OFFLINE_MODEL_PATH, R.string.offline_model_title, R.string.offline_model_summary) { setting ->
+        val context = LocalContext.current
+        val service = remember { helium314.keyboard.latin.utils.ProofreadService(context) }
+        var encoderPath by remember { mutableStateOf(service.getModelPath()) }
+        var decoderPath by remember { mutableStateOf(service.getDecoderPath()) }
+        var tokenizerPath by remember { mutableStateOf(service.getTokenizerPath()) }
+        
+        // Encoder file picker
+        val encoderLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+            contract = androidx.activity.result.contract.ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let {
+                try {
+                     context.contentResolver.takePersistableUriPermission(it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (e: Exception) {
+                     Log.e("AdvancedScreen", "Failed to take persistable permission", e)
+                }
+                service.setModelPath(it.toString())
+                encoderPath = it.toString()
+                android.widget.Toast.makeText(context, "Encoder selected", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+        
+        // Decoder file picker
+        val decoderLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+            contract = androidx.activity.result.contract.ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let {
+                try {
+                     context.contentResolver.takePersistableUriPermission(it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (e: Exception) {
+                     Log.e("AdvancedScreen", "Failed to take persistable permission", e)
+                }
+                service.setDecoderPath(it.toString())
+                decoderPath = it.toString()
+                android.widget.Toast.makeText(context, "Decoder selected", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+        
+        // Tokenizer file picker
+        val tokenizerLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+            contract = androidx.activity.result.contract.ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let {
+                try {
+                     context.contentResolver.takePersistableUriPermission(it, android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                } catch (e: Exception) {
+                     Log.e("AdvancedScreen", "Failed to take persistable permission", e)
+                }
+                service.setTokenizerPath(it.toString())
+                tokenizerPath = it.toString()
+                android.widget.Toast.makeText(context, "Tokenizer selected", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
 
-)
+        androidx.compose.foundation.layout.Column {
+            // Encoder (required)
+            Preference(
+                name = "Encoder Model (.onnx)", 
+                description = if (encoderPath != null) service.getModelName() else "Required - select encoder ONNX file",
+                onClick = { encoderLauncher.launch(arrayOf("application/octet-stream", "*/*")) }
+            )
+            
+            // Decoder (required for generation)
+            Preference(
+                name = "Decoder Model (.onnx)", 
+                description = if (decoderPath != null) "Selected" else "Required - select decoder ONNX file",
+                onClick = { decoderLauncher.launch(arrayOf("application/octet-stream", "*/*")) }
+            )
+            
+            // Tokenizer (required for proper tokenization)
+            Preference(
+                name = "Tokenizer (tokenizer.json)", 
+                description = if (tokenizerPath != null) "Selected" else "Required - select tokenizer.json",
+                onClick = { tokenizerLauncher.launch(arrayOf("application/json", "*/*")) }
+            )
 
-@Preview
+            if (encoderPath != null || decoderPath != null || tokenizerPath != null) {
+                Preference(
+                    name = "Remove All Models",
+                    description = "Unload models and free memory",
+                    onClick = { 
+                        service.unloadModel()
+                        service.setModelPath(null)
+                        service.setDecoderPath(null)
+                        service.setTokenizerPath(null)
+                        encoderPath = null
+                        decoderPath = null
+                        tokenizerPath = null
+                    }
+                )
+            }
+
+            var showSystemPromptDialog by remember { mutableStateOf(false) }
+            if (showSystemPromptDialog) {
+                TextInputDialog(
+                    title = { Text("System Instruction") },
+                    initialText = service.getSystemPrompt(),
+                    checkTextValid = { true },
+                    onConfirmed = { 
+                        service.setSystemPrompt(it)
+                        showSystemPromptDialog = false 
+                    },
+                    onDismissRequest = { showSystemPromptDialog = false }
+                )
+            }
+
+            Preference(
+                name = "System Instruction",
+                description = service.getSystemPrompt().takeIf { it.isNotBlank() } ?: "Default",
+                onClick = { showSystemPromptDialog = true }
+            )
+
+            // Target Language for Translation
+            val languageSetting = Setting(context, Settings.PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE, R.string.translate_target_language_title, R.string.translate_target_language_summary) { }
+            val languages = listOf("French", "German", "Romanian", "Spanish", "Italian", "Dutch", "Portuguese", "Russian", "Chinese", "Japanese")
+            val languageItems = languages.map { it to it }
+            ListPreference(
+                setting = languageSetting,
+                items = languageItems,
+                default = Defaults.PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE
+            )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            androidx.compose.material3.HorizontalDivider()
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Sampling Settings",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp)
+            )
+
+
+
+            val tokenEntries = context.resources.getStringArray(R.array.offline_max_tokens_entries)
+            val tokenValues = context.resources.getStringArray(R.array.offline_max_tokens_values).map { it.toInt() }
+            val tokenItems = tokenEntries.zip(tokenValues)
+            val maxTokenSetting = Setting(context, Settings.PREF_OFFLINE_MAX_TOKENS, R.string.offline_max_tokens_title, R.string.offline_max_tokens_summary) { }
+
+            ListPreference(
+                setting = maxTokenSetting,
+                items = tokenItems,
+                default = Defaults.PREF_OFFLINE_MAX_TOKENS
+            )
+        }
+    } else null
+) // Close listOfNotNull
 @Composable
 private fun Preview() {
     SettingsActivity.settingsContainer = SettingsContainer(LocalContext.current)

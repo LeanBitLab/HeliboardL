@@ -379,6 +379,25 @@
     <string name="open_app_info">Open System App Info</string>
     <string name="open_app_info_summary">Manage permissions and battery usage in Android settings</string>
     <string name="gemini_network_disabled">Network access is disabled in HeliboardL settings</string>
+    <string name="ai_provider_title">AI Provider</string>
+    <string name="ai_provider_summary">Select AI service for proofreading</string>
+    <string name="ai_provider_gemini">Google Gemini</string>
+    <string name="split_toolbar">Split toolbar</string>
+    <string name="split_toolbar_summary">Separate suggestions from toolbar</string>
+    <string name="ai_provider_huggingface">Groq</string>
+    <string name="ai_provider_openai">HF/OpenAI-compatible</string>
+    <string name="huggingface_token_title">API Token</string>
+    <string name="huggingface_token_summary">Enter your HuggingFace or OpenAI-compatible API key</string>
+    <string name="huggingface_token_hint">Enter API key</string>
+    <string name="get_hf_token">Get Groq Key</string>
+    <string name="huggingface_no_token">API token not set. Go to Settings → Advanced.</string>
+    <string name="huggingface_model_title">Model</string>
+    <string name="huggingface_model_summary">Select Groq model</string>
+    <string name="huggingface_model_hint">model-name</string>
+    <string name="huggingface_no_model">No model configured. Go to Settings → Advanced.</string>
+    <string name="huggingface_endpoint_title">API Endpoint</string>
+    <string name="huggingface_endpoint_summary">API endpoint URL</string>
+    <string name="huggingface_endpoint_hint">https://api.groq.com/openai/v1/chat/completions</string>
     <!-- Translation feature strings -->
     <string name="translate" tools:keep="@string/translate">Translate</string>
     <string name="translate_loading">Translating…</string>
@@ -922,6 +941,7 @@ New dictionary:
     <string name="settings_screen_appearance">Appearance</string>
     <!-- Settings screen title for toolbar preferences -->
     <string name="settings_screen_toolbar">Toolbar</string>
+    <string name="settings_screen_ai_integration">AI Integration</string>
     <!-- Hidden features title -->
     <string name="hidden_features_title">Description of hidden features</string>
     <!-- Hidden features summary -->
@@ -1026,6 +1046,11 @@ New dictionary:
     <string name="space_swipe_toggle_numpad_entry">Toggle numpad</string>
     <!-- Option to hide the keyboard when swiping the spacebar -->
     <string name="space_swipe_hide_keyboard_entry">Hide keyboard</string>
+    <!-- Option to enable touchpad mode when swiping the spacebar -->
+    <string name="space_swipe_touchpad_mode_entry">Touchpad mode</string>
+    <string name="touchpad_sensitivity">Touchpad sensitivity</string>
+    <string name="force_auto_caps_title">Force auto-capitalization</string>
+    <string name="force_auto_caps_summary">Force sentence capitalization on all text fields except passwords</string>
     <!-- Title of the setting for variable toolbar direction -->
     <string name="var_toolbar_direction">Variable toolbar direction</string>
     <!-- Description of the variable toolbar direction setting -->
@@ -1062,4 +1087,24 @@ New dictionary:
     <string name="custom_subtype">Custom subtype</string>
     <!-- Name for landscape orientation, used in various settings -->
     <string name="landscape">Landscape</string>
+    <string name="offline_model_title">Offline Model</string>
+    <string name="offline_model_summary">Manage local LLM</string>
+    <string name="offline_max_tokens_title">Offline AI Max Tokens</string>
+    <string name="offline_max_tokens_summary">Maximum length of the generated correction</string>
+    <!-- Placeholder for token options if using a list, but I'll use a Slider or similar if possible. 
+         However the user asked for a "list off options", so I'll create entries and entryValues. -->
+    <string-array name="offline_max_tokens_entries">
+        <item>Ultra Fast (12 tokens)</item>
+        <item>Fast (20 tokens)</item>
+        <item>Balanced (32 tokens)</item>
+        <item>Accurate (64 tokens)</item>
+        <item>Deep (128 tokens)</item>
+    </string-array>
+    <string-array name="offline_max_tokens_values" translatable="false">
+        <item>12</item>
+        <item>20</item>
+        <item>32</item>
+        <item>64</item>
+        <item>128</item>
+    </string-array>
 </resources>

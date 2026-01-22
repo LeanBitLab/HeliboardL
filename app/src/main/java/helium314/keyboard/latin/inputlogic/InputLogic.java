@@ -764,7 +764,12 @@ public final class InputLogic {
     private void handleProofread() {
         Log.i(TAG, "handleProofread() called");
 
-        // Get selected text or entire text field content
+        // If an operation is in progress, cancel it
+        if (helium314.keyboard.latin.utils.ProofreadHelper.isOperationInProgress()) {
+            Log.i(TAG, "Cancelling current proofreading operation");
+            helium314.keyboard.latin.utils.ProofreadHelper.cancelCurrentOperation();
+            return;
+        }
         String textToProofread;
         final boolean hasSelection = mConnection.hasSelection();
 
@@ -799,7 +804,6 @@ public final class InputLogic {
             final String before = textBefore != null ? textBefore.toString() : "";
             final String after = textAfter != null ? textAfter.toString() : "";
             textToProofread = before + after;
-            Log.i(TAG, "Proofreading entire field: " + textToProofread.length() + " chars");
 
             // Select all text NOW so user sees what will be proofread
             mConnection.selectAll();
@@ -807,8 +811,6 @@ public final class InputLogic {
 
         // Store original text for undo (via standard undo mechanism)
         mTextBeforeProofread = textToProofread;
-
-        Log.i(TAG, "Calling ProofreadHelper.proofreadAsync");
 
         // Use the Kotlin helper for async proofreading
         helium314.keyboard.latin.utils.ProofreadHelper.proofreadAsync(
@@ -818,19 +820,16 @@ public final class InputLogic {
                 new helium314.keyboard.latin.utils.ProofreadHelper.ProofreadCallback() {
                     @Override
                     public void onSuccess(String proofreadText) {
-                        Log.i(TAG, "Proofreading success, result length: "
-                                + (proofreadText != null ? proofreadText.length() : 0));
-                        Log.i(TAG, "Original text: '" + mTextBeforeProofread + "'");
-                        Log.i(TAG, "Proofread text: '" + proofreadText + "'");
+
                         if (proofreadText != null && !proofreadText.equals(mTextBeforeProofread)) {
-                            Log.i(TAG, "Text differs, applying replacement");
+
                             // Text should already be selected (either user selection or selectAll before
                             // API call)
                             // Just commit the new text to replace selection
                             mConnection.commitText(proofreadText, 1);
-                            Log.i(TAG, "Replaced text successfully");
+
                         } else {
-                            Log.i(TAG, "Text unchanged, no replacement needed");
+
                             // Deselect the text since no changes were made
                             if (!hasSelection) {
                                 int len = mTextBeforeProofread != null ? mTextBeforeProofread.length() : 0;
@@ -851,7 +850,6 @@ public final class InputLogic {
     private String mTextBeforeTranslate = null;
 
     private void handleTranslate() {
-        Log.i(TAG, "handleTranslate() called");
 
         // Get selected text or entire text field content
         String textToTranslate;
@@ -860,7 +858,7 @@ public final class InputLogic {
         if (hasSelection) {
             final CharSequence selectedText = mConnection.getSelectedText(0);
             textToTranslate = selectedText != null ? selectedText.toString() : "";
-            Log.i(TAG, "Translating selected text: " + textToTranslate.length() + " chars");
+
         } else {
             // Get entire text field content FIRST
             final int maxChars = 60000;
@@ -886,7 +884,6 @@ public final class InputLogic {
             final String before = textBefore != null ? textBefore.toString() : "";
             final String after = textAfter != null ? textAfter.toString() : "";
             textToTranslate = before + after;
-            Log.i(TAG, "Translating entire field: " + textToTranslate.length() + " chars");
 
             // Select all text NOW
             mConnection.selectAll();
@@ -894,8 +891,6 @@ public final class InputLogic {
 
         // Store original text for undo
         mTextBeforeTranslate = textToTranslate;
-
-        Log.i(TAG, "Calling ProofreadHelper.translateAsync");
 
         // Use the Kotlin helper for async translation
         helium314.keyboard.latin.utils.ProofreadHelper.translateAsync(
@@ -905,14 +900,13 @@ public final class InputLogic {
                 new helium314.keyboard.latin.utils.ProofreadHelper.ProofreadCallback() {
                     @Override
                     public void onSuccess(String translatedText) {
-                        Log.i(TAG, "Translation success, result length: "
-                                + (translatedText != null ? translatedText.length() : 0));
+
                         if (translatedText != null && !translatedText.equals(mTextBeforeTranslate)) {
-                            Log.i(TAG, "Text differs, applying translation");
+
                             mConnection.commitText(translatedText, 1);
-                            Log.i(TAG, "Replaced text successfully");
+
                         } else {
-                            Log.i(TAG, "Text unchanged, no replacement needed");
+
                             if (!hasSelection) {
                                 int len = mTextBeforeTranslate != null ? mTextBeforeTranslate.length() : 0;
                                 mConnection.setSelection(len, len);
@@ -2429,7 +2423,11 @@ public final class InputLogic {
         final EditorInfo ei = getCurrentInputEditorInfo();
         if (ei == null)
             return Constants.TextUtils.CAP_MODE_OFF;
-        final int inputType = ei.inputType;
+        int inputType = ei.inputType;
+        if (settingsValues.mForceAutoCaps && !InputTypeUtils.isPasswordInputType(inputType)
+                && !InputTypeUtils.isVisiblePasswordInputType(inputType)) {
+            inputType |= InputType.TYPE_TEXT_FLAG_CAP_SENTENCES;
+        }
         // Warning: this depends on mSpaceState, which may not be the most current
         // value. If
         // mSpaceState gets updated later, whoever called this may need to be told about

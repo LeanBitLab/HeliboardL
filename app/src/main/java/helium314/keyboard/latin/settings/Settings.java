@@ -150,6 +150,13 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
 
     public static final String PREF_SPACE_TO_CHANGE_LANG = "prefs_long_press_keyboard_to_change_lang";
     public static final String PREF_LANGUAGE_SWIPE_DISTANCE = "language_swipe_distance";
+    public static final String PREF_TOUCHPAD_SENSITIVITY = "touchpad_sensitivity";
+    public static final String PREF_FORCE_AUTO_CAPS = "force_auto_caps";
+    public static final String PREF_OFFLINE_TEMP = "offline_temp";
+    public static final String PREF_OFFLINE_TOP_P = "offline_top_p";
+    public static final String PREF_OFFLINE_SYSTEM_PROMPT = "offline_system_prompt";
+    public static final String PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE = "offline_translate_target_language";
+    public static final String PREF_OFFLINE_MAX_TOKENS = "offline_max_tokens";
 
     public static final String PREF_ENABLE_CLIPBOARD_HISTORY = "enable_clipboard_history";
     public static final String PREF_CLIPBOARD_HISTORY_RETENTION_TIME = "clipboard_history_retention_time";
@@ -178,6 +185,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_TIMESTAMP_FORMAT = "timestamp_format";
     public static final String PREF_TOOLBAR_MODE = "toolbar_mode";
     public static final String PREF_TOOLBAR_HIDING_GLOBAL = "toolbar_hiding_global";
+    public static final String PREF_SPLIT_TOOLBAR = "split_toolbar";
 
     // Emoji
     public static final String PREF_EMOJI_MAX_SDK = "emoji_max_sdk";
@@ -367,6 +375,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
             case "switch_language" -> KeyboardActionListener.SWIPE_SWITCH_LANGUAGE;
             case "toggle_numpad" -> KeyboardActionListener.SWIPE_TOGGLE_NUMPAD;
             case "hide_keyboard" -> KeyboardActionListener.SWIPE_HIDE_KEYBOARD;
+            case "touchpad_mode" -> KeyboardActionListener.SWIPE_TOUCHPAD_MODE;
             default -> KeyboardActionListener.SWIPE_NO_ACTION;
         };
     }

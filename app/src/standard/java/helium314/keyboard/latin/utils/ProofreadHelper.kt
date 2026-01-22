@@ -9,6 +9,7 @@ import helium314.keyboard.latin.R
 import helium314.keyboard.latin.RichInputConnection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -19,36 +20,73 @@ object ProofreadHelper {
     private val mainHandler = Handler(Looper.getMainLooper())
     private val scope = CoroutineScope(Dispatchers.IO)
     
+    // Track current operation for cancellation
+    private var currentJob: Job? = null
+    
+    // Check if an operation is in progress
+    @JvmStatic
+    val isOperationInProgress: Boolean
+        get() = currentJob?.isActive == true
+    
     // Store original text for potential undo
     @JvmStatic
     var lastOriginalText: String? = null
         private set
+    
+    /**
+     * Cancel the current proofreading/translation operation if one is in progress.
+     */
+    @JvmStatic
+    fun cancelCurrentOperation() {
+        if (currentJob?.isActive == true) {
+            currentJob?.cancel()
+            currentJob = null
+            mainHandler.post {
+                KeyboardSwitcher.getInstance().hideLoadingAnimation()
+                // Toast removed as visual feedback (stopping animation) is sufficient
+            }
+        }
+    }
     
     private fun performAsyncOperation(
         context: Context,
         text: String,
         noTextErrorResId: Int,
         errorResId: Int,
-        apiCall: suspend (GeminiProofreadService) -> Result<String>,
+        apiCall: suspend (ProofreadService) -> Result<String>,
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
-        val geminiService = GeminiProofreadService(context)
+        val service = ProofreadService(context)
 
-        // Check if API key is configured
-        if (!geminiService.hasApiKey()) {
-            Log.w("ProofreadHelper", "No API key configured")
-            mainHandler.post {
-                KeyboardSwitcher.getInstance().showToast(
-                    context.getString(R.string.proofread_no_api_key),
-                    true
-                )
+        // Check if API key/token is configured based on provider
+        val provider = service.getProvider()
+        when (provider) {
+            ProofreadService.AIProvider.GEMINI -> {
+                if (!service.hasApiKey()) {
+                    mainHandler.post {
+                        KeyboardSwitcher.getInstance().showToast(
+                            context.getString(R.string.proofread_no_api_key),
+                            true
+                        )
+                    }
+                    return
+                }
             }
-            return
+            ProofreadService.AIProvider.GROQ, ProofreadService.AIProvider.OPENAI -> {
+                if (service.getHuggingFaceToken() == null) {
+                    mainHandler.post {
+                        KeyboardSwitcher.getInstance().showToast(
+                            context.getString(R.string.huggingface_no_token),
+                            true
+                        )
+                    }
+                    return
+                }
+            }
         }
 
         if (text.isBlank()) {
-            Log.w("ProofreadHelper", "Text is blank")
             mainHandler.post {
                 KeyboardSwitcher.getInstance().showToast(
                     context.getString(noTextErrorResId),
@@ -62,27 +100,24 @@ object ProofreadHelper {
         lastOriginalText = text
 
         // Show loading animation on suggestion strip
-        Log.i("ProofreadHelper", "Showing loading animation and starting API call")
         mainHandler.post {
             KeyboardSwitcher.getInstance().showLoadingAnimation()
         }
 
-        // Launch coroutine for API call
-        scope.launch {
-            val result = apiCall(geminiService)
-            Log.i("ProofreadHelper", "API call completed, success: ${result.isSuccess}")
+        // Launch coroutine for API call and track it for cancellation
+        currentJob = scope.launch {
+            val result = apiCall(service)
 
             mainHandler.post {
+                currentJob = null
                 // Hide loading animation
                 KeyboardSwitcher.getInstance().hideLoadingAnimation()
 
                 result.fold(
                     onSuccess = { resultText ->
-                        Log.i("ProofreadHelper", "Calling onSuccess callback")
                         onSuccess(resultText)
                     },
                     onFailure = { error ->
-                        Log.e("ProofreadHelper", "API error: ${error.message}", error)
                         onError(error.message ?: "Unknown error")
                         KeyboardSwitcher.getInstance().showToast(
                             context.getString(errorResId, error.message ?: "Unknown error"),
@@ -111,7 +146,6 @@ object ProofreadHelper {
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
-        Log.i("ProofreadHelper", "proofreadAsync called")
         performAsyncOperation(
             context = context,
             text = text,
@@ -167,7 +201,6 @@ object ProofreadHelper {
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
-        Log.i("ProofreadHelper", "translateAsync called")
         performAsyncOperation(
             context = context,
             text = text,

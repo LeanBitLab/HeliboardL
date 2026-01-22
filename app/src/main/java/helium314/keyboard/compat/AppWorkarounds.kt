@@ -23,6 +23,7 @@ object AppWorkarounds {
                 // for all others we also add NO_SUGGESTIONS to avoid JS messing with the composing text
                 inputType or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT
             }
+
             else -> inputType
         }
     }
