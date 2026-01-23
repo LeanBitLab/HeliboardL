@@ -73,7 +73,18 @@ object ProofreadHelper {
                     return
                 }
             }
-            ProofreadService.AIProvider.GROQ, ProofreadService.AIProvider.OPENAI -> {
+            ProofreadService.AIProvider.GROQ -> {
+                if (service.getGroqToken() == null) {
+                    mainHandler.post {
+                        KeyboardSwitcher.getInstance().showToast(
+                            context.getString(R.string.huggingface_no_token),
+                            true
+                        )
+                    }
+                    return
+                }
+            }
+            ProofreadService.AIProvider.OPENAI -> {
                 if (service.getHuggingFaceToken() == null) {
                     mainHandler.post {
                         KeyboardSwitcher.getInstance().showToast(

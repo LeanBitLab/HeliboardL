@@ -285,7 +285,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
         val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
         Preference(
             name = setting.title,
-            description = setting.description,
+            description = if (service.hasApiKey()) "Key set" else stringResource(R.string.gemini_api_key_summary),
             onClick = { showDialog = true }
         )
         if (showDialog) {
@@ -356,9 +356,11 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
         var showDialog by rememberSaveable { mutableStateOf(false) }
         val ctx = LocalContext.current
         val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
+        var hasToken by remember { mutableStateOf(service.getGroqToken() != null) }
+        
         Preference(
             name = setting.title,
-            description = setting.description,
+            description = if (hasToken) "Key set" else "Not set",
             onClick = { showDialog = true }
         )
         if (showDialog) {
@@ -366,10 +368,16 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
                 onDismissRequest = { showDialog = false },
                 textInputLabel = { Text(stringResource(R.string.groq_token_hint)) },
                 initialText = service.getGroqToken() ?: "",
-                onConfirmed = { service.setGroqToken(it) },
+                onConfirmed = { 
+                    service.setGroqToken(it)
+                    hasToken = true
+                },
                 title = { Text(stringResource(R.string.groq_token_title)) },
-                neutralButtonText = if (service.getGroqToken() != null) stringResource(R.string.delete) else null,
-                onNeutral = { service.setGroqToken(null) },
+                neutralButtonText = if (hasToken) stringResource(R.string.delete) else null,
+                onNeutral = { 
+                    service.setGroqToken(null)
+                    hasToken = false
+                },
                 extraContent = {
                     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
                     TextButton(
@@ -387,7 +395,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
         val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
         Preference(
             name = setting.title,
-            description = setting.description,
+            description = if (service.getHuggingFaceToken() != null) "Key set" else "Not set",
             onClick = { showDialog = true }
         )
         if (showDialog) {
