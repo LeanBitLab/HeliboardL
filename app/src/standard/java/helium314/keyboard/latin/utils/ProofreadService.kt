@@ -301,17 +301,40 @@ class ProofreadService(private val context: Context) {
         }
     }
 
+    // Groq token
+    fun getGroqToken(): String? = securePrefs.getString(KEY_GROQ_TOKEN, null)?.takeIf { it.isNotBlank() }
+
+    fun setGroqToken(token: String?) {
+        securePrefs.edit().apply {
+            if (token.isNullOrBlank()) {
+                remove(KEY_GROQ_TOKEN)
+            } else {
+                putString(KEY_GROQ_TOKEN, token.trim())
+            }
+            apply()
+        }
+    }
+
+    // Groq model name
+    fun getGroqModel(): String = securePrefs.getString(KEY_GROQ_MODEL, GroqModels.DEFAULT_MODEL) ?: GroqModels.DEFAULT_MODEL
+
+    fun setGroqModel(model: String) {
+        securePrefs.edit().putString(KEY_GROQ_MODEL, model.trim()).apply()
+    }
+
     // ======================== HuggingFace/Groq Implementation ========================
 
     private fun huggingFaceRequest(prompt: String): Result<String> {
-        val modelName = getHuggingFaceModel()
+        val isGroq = getProvider() == AIProvider.GROQ
+        val modelName = if (isGroq) getGroqModel() else getHuggingFaceModel()
+        
         if (modelName.isBlank()) {
             return Result.failure(
                 ProofreadException(context.getString(R.string.huggingface_no_model))
             )
         }
 
-        val token = getHuggingFaceToken()
+        val token = if (isGroq) getGroqToken() else getHuggingFaceToken()
         if (token == null) {
             return Result.failure(
                 ProofreadException(context.getString(R.string.huggingface_no_token))
@@ -411,6 +434,8 @@ class ProofreadService(private val context: Context) {
         private const val KEY_HF_TOKEN = "huggingface_token"
         private const val KEY_HF_MODEL = "huggingface_model"
         private const val KEY_HF_ENDPOINT = "huggingface_endpoint"
+        private const val KEY_GROQ_TOKEN = "groq_token"
+        private const val KEY_GROQ_MODEL = "groq_model"
         private const val DEFAULT_TARGET_LANGUAGE = "English"
         private const val DEFAULT_HF_MODEL = "gpt-4o-mini"
         private const val DEFAULT_HF_ENDPOINT = "https://api.openai.com/v1/chat/completions"

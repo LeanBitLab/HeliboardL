@@ -11,5 +11,5 @@ object GroqModels {
         "groq/compound-mini",
         "canopylabs/orpheus-v1-english"
     )
-    const val DEFAULT_MODEL = "llama-3.3-70b-versatile"
+    const val DEFAULT_MODEL = "llama-3.1-8b-instant"
 }

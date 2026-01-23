@@ -121,13 +121,21 @@ enum class ToolbarMode {
 
 val toolbarKeyStrings = entries.associateWithTo(EnumMap(ToolbarKey::class.java)) { it.toString().lowercase(Locale.US) }
 
+private val excludedKeys by lazy {
+    if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offlinelite")
+        listOf(CLOSE_HISTORY, PROOFREAD, TRANSLATE)
+    else
+        listOf(CLOSE_HISTORY)
+}
+
 val defaultToolbarPref by lazy {
     val default = when (helium314.keyboard.latin.BuildConfig.FLAVOR) {
         "offline" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
         "offlinelite" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE)
         else -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
     }
-    val others = entries.filterNot { it in default || it == CLOSE_HISTORY }
+        
+    val others = entries.filterNot { it in default || it in excludedKeys }
     default.joinToString(Separators.ENTRY) { it.name + Separators.KV + true } + Separators.ENTRY +
             others.joinToString(Separators.ENTRY) { it.name + Separators.KV + false }
 }
@@ -137,7 +145,8 @@ val defaultPinnedToolbarPref by lazy {
         "offlinelite" -> listOf(CLIPBOARD)
         else -> listOf(CLIPBOARD, PROOFREAD)
     }
-    entries.filterNot { it == CLOSE_HISTORY }.joinToString(Separators.ENTRY) {
+
+    entries.filterNot { it in excludedKeys }.joinToString(Separators.ENTRY) {
         it.name + Separators.KV + (it in pinnedDefault)
     }
 }

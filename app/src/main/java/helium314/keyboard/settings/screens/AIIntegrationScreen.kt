@@ -19,6 +19,12 @@ private val providerState = MutableStateFlow<String?>(null)
 fun AIIntegrationScreen(
     onClickBack: () -> Unit,
 ) {
+    // Hide AI settings completely in offlinelite flavor
+    if (BuildConfig.FLAVOR == "offlinelite") {
+        onClickBack()
+        return
+    }
+    
     if (BuildConfig.FLAVOR == "standard") {
         StandardAIIntegrationScreen(onClickBack)
     } else {

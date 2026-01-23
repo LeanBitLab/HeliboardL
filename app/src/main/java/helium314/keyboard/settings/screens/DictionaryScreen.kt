@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import helium314.keyboard.latin.dictionary.Dictionary
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.common.Links
@@ -48,6 +49,10 @@ import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.previewDark
 import helium314.keyboard.settings.SettingsDestination
 import helium314.keyboard.settings.NextScreenIcon
+import helium314.keyboard.settings.preferences.SwitchPreference
+import helium314.keyboard.latin.settings.Settings
+import helium314.keyboard.latin.settings.Defaults
+import helium314.keyboard.latin.utils.prefs
 import java.io.File
 import java.util.Locale
 
@@ -106,6 +111,42 @@ fun DictionaryScreen(
                         stringResource(R.string.add_new_dictionary_title),
                     )
                     Icon(painterResource(R.drawable.ic_plus), stringResource(R.string.add_new_dictionary_title))
+                }
+                androidx.compose.material3.Divider(modifier = Modifier.padding(vertical = 4.dp))
+                
+                // Personal Dictionary Setting
+                val prefs = ctx.prefs()
+                var personalDictEnabled by remember { mutableStateOf(prefs.getBoolean(Settings.PREF_ADD_TO_PERSONAL_DICTIONARY, Defaults.PREF_ADD_TO_PERSONAL_DICTIONARY)) }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 16.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            val newValue = !personalDictEnabled
+                            personalDictEnabled = newValue
+                            ctx.prefs().edit { putBoolean(Settings.PREF_ADD_TO_PERSONAL_DICTIONARY, newValue) }
+                        }
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            stringResource(R.string.add_to_personal_dictionary),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            stringResource(R.string.add_to_personal_dictionary_summary),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    androidx.compose.material3.Switch(
+                        checked = personalDictEnabled,
+                        onCheckedChange = { 
+                            personalDictEnabled = it
+                            ctx.prefs().edit { putBoolean(Settings.PREF_ADD_TO_PERSONAL_DICTIONARY, it) } 
+                        }
+                    )
                 }
             } else {
                 Column(

@@ -22,8 +22,8 @@ android {
         applicationId = "helium314.keyboardl"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3609
-        versionName = "3.6.9"
+        versionCode = 3700
+        versionName = "3.7.0"
 
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
@@ -109,12 +109,12 @@ android {
         compose = true
     }
 
-//    externalNativeBuild {
-//        ndkBuild {
-//            path = File("src/main/jni/Android.mk")
-//        }
-//    }
-////    ndkVersion = "28.0.13004108"
+    externalNativeBuild {
+        ndkBuild {
+            path = File("src/main/jni/Android.mk")
+        }
+    }
+//    ndkVersion = "28.0.13004108"
 
     packaging {
         jniLibs {

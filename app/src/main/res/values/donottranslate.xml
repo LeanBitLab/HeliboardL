@@ -70,6 +70,6 @@
 
     <string name="english_ime_name" translatable="false">HeliboardL</string>
     <!-- App slogan-->
-    <string name="app_slogan" translatable="false">Privacy-focused keyboard with Gemini AI enhancements.</string>
+    <string name="app_slogan" translatable="false">Privacy-focused keyboard with AI enhancements.</string>
 
 </resources>

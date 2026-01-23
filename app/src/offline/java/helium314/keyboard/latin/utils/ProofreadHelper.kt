@@ -61,7 +61,7 @@ object ProofreadHelper {
         if (service.getModelPath().isNullOrBlank()) {
             mainHandler.post {
                 KeyboardSwitcher.getInstance().showToast(
-                    "No local model selected. Please select a .gguf model in Settings.",
+                    "No local model selected. Please select an ONNX model in Settings.",
                     true
                 )
             }

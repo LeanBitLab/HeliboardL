@@ -363,7 +363,7 @@
     <string name="proofread_success">Text proofread</string>
     <string name="proofread_error">Proofreading failed: %s</string>
     <string name="proofread_no_text">No text to proofread</string>
-    <string name="proofread_no_api_key">Gemini API key not set. Go to Settings → Advanced to configure.</string>
+    <string name="proofread_no_api_key">Gemini API key not set. Go to Settings → AI integration.</string>
     <string name="gemini_api_key_title">Gemini API Key</string>
     <string name="gemini_api_key_summary">Enter your Google Gemini API key for proofreading</string>
     <string name="gemini_api_key_hint">Enter API key</string>
@@ -392,12 +392,13 @@
     <string name="groq_token_summary">Enter your Groq API key</string>
     <string name="groq_token_hint">Enter API key</string>
     <string name="huggingface_token_hint">Enter API key</string>
-    <string name="get_hf_token">Get Groq Key</string>
-    <string name="huggingface_no_token">API token not set. Go to Settings → Advanced.</string>
+    <string name="get_groq_key">Get Groq Key</string>
+    <string name="get_huggingface_key">Get API Token</string>
+    <string name="huggingface_no_token">API token not set. Go to Settings → AI integration.</string>
     <string name="huggingface_model_title">Model</string>
     <string name="huggingface_model_summary">Select Groq model</string>
     <string name="huggingface_model_hint">model-name</string>
-    <string name="huggingface_no_model">No model configured. Go to Settings → Advanced.</string>
+    <string name="huggingface_no_model">No model configured. Go to Settings → AI integration.</string>
     <string name="huggingface_endpoint_title">API Endpoint</string>
     <string name="huggingface_endpoint_summary">API endpoint URL</string>
     <string name="huggingface_endpoint_hint">https://api.groq.com/openai/v1/chat/completions</string>

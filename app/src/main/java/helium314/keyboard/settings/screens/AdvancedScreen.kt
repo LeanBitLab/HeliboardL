@@ -365,17 +365,17 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             TextInputDialog(
                 onDismissRequest = { showDialog = false },
                 textInputLabel = { Text(stringResource(R.string.groq_token_hint)) },
-                initialText = service.getHuggingFaceToken() ?: "",
-                onConfirmed = { service.setHuggingFaceToken(it) },
+                initialText = service.getGroqToken() ?: "",
+                onConfirmed = { service.setGroqToken(it) },
                 title = { Text(stringResource(R.string.groq_token_title)) },
-                neutralButtonText = if (service.getHuggingFaceToken() != null) stringResource(R.string.delete) else null,
-                onNeutral = { service.setHuggingFaceToken(null) },
+                neutralButtonText = if (service.getGroqToken() != null) stringResource(R.string.delete) else null,
+                onNeutral = { service.setGroqToken(null) },
                 extraContent = {
                     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
                     TextButton(
                         onClick = { uriHandler.openUri("https://console.groq.com/keys") }
                     ) {
-                        Text(stringResource(R.string.get_hf_token))
+                        Text(stringResource(R.string.get_groq_key))
                     }
                 }
             )
@@ -404,7 +404,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
                     TextButton(
                         onClick = { uriHandler.openUri("https://huggingface.co/settings/tokens") }
                     ) {
-                        Text(stringResource(R.string.get_hf_token))
+                        Text(stringResource(R.string.get_huggingface_key))
                     }
                 }
             )
@@ -433,19 +433,15 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
         val ctx = LocalContext.current
         val service = remember { helium314.keyboard.latin.utils.ProofreadService(ctx) }
         val items = helium314.keyboard.latin.utils.GroqModels.AVAILABLE_MODELS.map { it to it }
-        var selectedModel by remember { mutableStateOf(service.getHuggingFaceModel()) }
         
-        // Ensure default is selected if current is empty or invalid
-        if (selectedModel.isBlank()) {
-            selectedModel = helium314.keyboard.latin.utils.GroqModels.DEFAULT_MODEL
-        }
+        var selectedModel by remember { mutableStateOf(service.getGroqModel()) }
         
         ListPreference(
             setting = setting,
             items = items,
             default = selectedModel,
             onChanged = { newModel ->
-                service.setHuggingFaceModel(newModel)
+                service.setGroqModel(newModel)
                 selectedModel = newModel
             }
         )

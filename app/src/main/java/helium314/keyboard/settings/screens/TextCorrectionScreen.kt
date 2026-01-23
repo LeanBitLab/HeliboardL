@@ -88,9 +88,7 @@ fun TextCorrectionScreen(
         Settings.PREF_SUGGEST_PUNCTUATION,
         Settings.PREF_SUGGEST_CLIPBOARD_CONTENT,
         Settings.PREF_USE_CONTACTS,
-        Settings.PREF_USE_APPS,
-        if (prefs.getBoolean(Settings.PREF_KEY_USE_PERSONALIZED_DICTS, Defaults.PREF_KEY_USE_PERSONALIZED_DICTS))
-            Settings.PREF_ADD_TO_PERSONAL_DICTIONARY else null
+        Settings.PREF_USE_APPS
     )
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -253,11 +251,6 @@ fun createCorrectionSettings(context: Context) = listOf(
     Setting(
         context, Settings.PREF_INLINE_EMOJI_SEARCH, R.string.inline_emoji_search, R.string.inline_emoji_search_summary) {
         SwitchPreferenceWithEmojiDictWarning(it, Defaults.PREF_INLINE_EMOJI_SEARCH)
-    },
-    Setting(context, Settings.PREF_ADD_TO_PERSONAL_DICTIONARY,
-        R.string.add_to_personal_dictionary, R.string.add_to_personal_dictionary_summary
-    ) {
-        SwitchPreference(it, Defaults.PREF_ADD_TO_PERSONAL_DICTIONARY)
     },
 )
 

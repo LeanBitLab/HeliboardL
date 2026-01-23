@@ -104,10 +104,22 @@ fun SearchSettingsScreen(
         },
         filteredItems = { 
             SettingsActivity.settingsContainer.filter(it).filter { setting ->
-                if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offline") {
-                    setting.key.contains("gemini", ignoreCase = true).not()
-                } else {
-                    true
+                val key = setting.key
+                when (helium314.keyboard.latin.BuildConfig.FLAVOR) {
+                    "offlinelite" -> {
+                        !key.startsWith("gemini") &&
+                        !key.startsWith("groq") &&
+                        !key.startsWith("huggingface") &&
+                        !key.startsWith("ai_provider") &&
+                        !key.startsWith("offline_model_path")
+                    }
+                    "offline" -> {
+                        !key.startsWith("gemini") &&
+                        !key.startsWith("groq") &&
+                        !key.startsWith("huggingface") &&
+                        !key.startsWith("ai_provider")
+                    }
+                    else -> true
                 }
             } 
         },

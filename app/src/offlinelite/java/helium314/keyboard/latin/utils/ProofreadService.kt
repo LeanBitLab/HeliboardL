@@ -46,6 +46,12 @@ class ProofreadService(private val context: Context) {
     fun getHuggingFaceEndpoint(): String = ""
     fun setHuggingFaceEndpoint(endpoint: String) { /* No-op */ }
 
+    fun getGroqToken(): String? = null
+    fun setGroqToken(token: String?) { /* No-op */ }
+
+    fun getGroqModel(): String = "Lite Mode"
+    fun setGroqModel(model: String) { /* No-op */ }
+
     suspend fun testApiKey(): Result<String> = Result.failure(Exception("Not supported in Lite version"))
 
     suspend fun proofread(text: String): Result<String> = Result.failure(Exception("Not supported in Lite version"))

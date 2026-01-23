@@ -39,12 +39,17 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Abstract base class for an expandable dictionary that can be created and updated dynamically
- * during runtime. When updated it automatically generates a new binary dictionary to handle future
- * queries in native code. This binary dictionary is written to internal storage.
+ * Abstract base class for an expandable dictionary that can be created and
+ * updated dynamically
+ * during runtime. When updated it automatically generates a new binary
+ * dictionary to handle future
+ * queries in native code. This binary dictionary is written to internal
+ * storage.
  * <p>
- * A class that extends this abstract class must have a static factory method named
- *   getDictionary(Context context, Locale locale, File dictFile, String dictNamePrefix)
+ * A class that extends this abstract class must have a static factory method
+ * named
+ * getDictionary(Context context, Locale locale, File dictFile, String
+ * dictNamePrefix)
  */
 abstract public class ExpandableBinaryDictionary extends Dictionary {
     private static final boolean DEBUG = false;
@@ -60,25 +65,25 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     /**
      * The maximum length of a word in this dictionary.
      */
-    protected static final int MAX_WORD_LENGTH =
-            DecoderSpecificConstants.DICTIONARY_MAX_WORD_LENGTH;
+    protected static final int MAX_WORD_LENGTH = DecoderSpecificConstants.DICTIONARY_MAX_WORD_LENGTH;
 
     private static final int DICTIONARY_FORMAT_VERSION = FormatSpec.VERSION4;
 
-    private static final WordProperty[] DEFAULT_WORD_PROPERTIES_FOR_SYNC =
-            new WordProperty[0] /* default */;
+    private static final WordProperty[] DEFAULT_WORD_PROPERTIES_FOR_SYNC = new WordProperty[0] /* default */;
 
     /** The application context. */
     public final Context mContext;
 
     /**
-     * The binary dictionary generated dynamically from the fusion dictionary. This is used to
+     * The binary dictionary generated dynamically from the fusion dictionary. This
+     * is used to
      * answer unigram and bigram queries.
      */
     private BinaryDictionary mBinaryDictionary;
 
     /**
-     * The name of this dictionary, used as a part of the filename for storing the binary
+     * The name of this dictionary, used as a part of the filename for storing the
+     * binary
      * dictionary.
      */
     private final String mDictName;
@@ -107,8 +112,10 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     }
 
     private static boolean needsToMigrateDictionary(final int formatVersion) {
-        // When we bump up the dictionary format version, the old version should be added to here
-        // for supporting migration. Note that native code has to support reading such formats.
+        // When we bump up the dictionary format version, the old version should be
+        // added to here
+        // for supporting migration. Note that native code has to support reading such
+        // formats.
         return formatVersion == FormatSpec.VERSION402;
     }
 
@@ -119,13 +126,14 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     /**
      * Creates a new expandable binary dictionary.
      *
-     * @param context The application context of the parent.
+     * @param context  The application context of the parent.
      * @param dictName The name of the dictionary. Multiple instances with the same
-     *        name is supported.
-     * @param locale the dictionary locale.
+     *                 name is supported.
+     * @param locale   the dictionary locale.
      * @param dictType the dictionary type, as a human-readable string
-     * @param dictFile dictionary file path. if null, use default dictionary path based on
-     *        dictionary type.
+     * @param dictFile dictionary file path. if null, use default dictionary path
+     *                 based on
+     *                 dictionary type.
      */
     public ExpandableBinaryDictionary(final Context context, final String dictName,
             final Locale locale, final String dictType, final File dictFile) {
@@ -174,6 +182,9 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     public int getFrequency(final String word) {
         if (mLock.readLock().tryLock()) {
             try {
+                if (mBinaryDictionary == null) {
+                    return NOT_A_PROBABILITY;
+                }
                 return mBinaryDictionary.getFrequency(word);
             } finally {
                 mLock.readLock().unlock();
@@ -266,7 +277,8 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     }
 
     /**
-     * Adds unigram information of a word to the dictionary. May overwrite an existing entry.
+     * Adds unigram information of a word to the dictionary. May overwrite an
+     * existing entry.
      */
     public void addUnigramEntry(final String word, final int frequency,
             final String shortcutTarget, final int shortcutFreq, final boolean isNotAWord,
@@ -304,7 +316,8 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     }
 
     /**
-     * Adds n-gram information of a word to the dictionary. May overwrite an existing entry.
+     * Adds n-gram information of a word to the dictionary. May overwrite an
+     * existing entry.
      */
     public void addNgramEntry(@NonNull final NgramContext ngramContext, final String word,
             final int frequency, final int timestamp) {
@@ -362,12 +375,12 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
                 if (mBinaryDictionary == null) {
                     return null;
                 }
-                final ArrayList<SuggestedWordInfo> suggestions =
-                        mBinaryDictionary.getSuggestions(composedData, ngramContext,
-                                proximityInfoHandle, settingsValuesForSuggestion, sessionId,
-                                weightForLocale, inOutWeightOfLangModelVsSpatialModel);
+                final ArrayList<SuggestedWordInfo> suggestions = mBinaryDictionary.getSuggestions(composedData,
+                        ngramContext,
+                        proximityInfoHandle, settingsValuesForSuggestion, sessionId,
+                        weightForLocale, inOutWeightOfLangModelVsSpatialModel);
                 if (mBinaryDictionary.isCorrupted()) {
-                    Log.i(TAG, "Dictionary (" + mDictName +") is corrupted. "
+                    Log.i(TAG, "Dictionary (" + mDictName + ") is corrupted. "
                             + "Remove and regenerate it.");
                     removeBinaryDictionary();
                 }
@@ -407,7 +420,8 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     }
 
     protected boolean isInDictionaryLocked(final String word) {
-        if (mBinaryDictionary == null) return false;
+        if (mBinaryDictionary == null)
+            return false;
         return mBinaryDictionary.isInDictionary(word);
     }
 
@@ -434,14 +448,15 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
         return NOT_A_PROBABILITY;
     }
 
-
     /**
-     * Loads the current binary dictionary from internal storage. Assumes the dictionary file
+     * Loads the current binary dictionary from internal storage. Assumes the
+     * dictionary file
      * exists.
      */
     void loadBinaryDictionaryLocked() {
         if (DBG_STRESS_TEST) {
-            // Test if this class does not cause problems when it takes long time to load binary
+            // Test if this class does not cause problems when it takes long time to load
+            // binary
             // dictionary.
             try {
                 Log.w(TAG, "Start stress in loading: " + mDictName);
@@ -493,13 +508,18 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
     }
 
     /**
-     * Load the current binary dictionary from internal storage. If the dictionary file doesn't
-     * exists or needs to be regenerated, the new dictionary file will be asynchronously generated.
-     * However, the dictionary itself is accessible even before the new dictionary file is actually
-     * generated. It may return a null result for getSuggestions() in that case by design.
+     * Load the current binary dictionary from internal storage. If the dictionary
+     * file doesn't
+     * exists or needs to be regenerated, the new dictionary file will be
+     * asynchronously generated.
+     * However, the dictionary itself is accessible even before the new dictionary
+     * file is actually
+     * generated. It may return a null result for getSuggestions() in that case by
+     * design.
      */
     public final void reloadDictionaryIfRequired() {
-        if (!isReloadRequired()) return;
+        if (!isReloadRequired())
+            return;
         asyncReloadDictionary();
     }
 
@@ -531,7 +551,8 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
                     final BinaryDictionary binaryDictionary = getBinaryDictionary();
                     if (binaryDictionary != null && !(isValidDictionaryLocked()
                             // TODO: remove the check below
-                            && matchesExpectedBinaryDictFormatVersionForThisType(binaryDictionary.getFormatVersion()))) {
+                            && matchesExpectedBinaryDictFormatVersionForThisType(
+                                    binaryDictionary.getFormatVersion()))) {
                         // Binary dictionary or its format version is not valid. Regenerate
                         // the dictionary file. createNewDictionaryLocked will remove the
                         // existing files if appropriate.
@@ -567,8 +588,7 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
         reloadDictionaryIfRequired();
         final String dictName = mDictName;
         final File dictFile = mDictFile;
-        final AsyncResultHolder<DictionaryStats> result =
-                new AsyncResultHolder<>("DictionaryStats");
+        final AsyncResultHolder<DictionaryStats> result = new AsyncResultHolder<>("DictionaryStats");
         asyncExecuteTaskWithLock(mLock.readLock(), new Runnable() {
             @Override
             public void run() {
@@ -597,8 +617,7 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
             }
             int token = 0;
             do {
-                final BinaryDictionary.GetNextWordPropertyResult result =
-                        binaryDictionary.getNextWordProperty(token);
+                final BinaryDictionary.GetNextWordPropertyResult result = binaryDictionary.getNextWordProperty(token);
                 final WordProperty wordProperty = result.mWordProperty;
                 if (wordProperty == null) {
                     Log.d(tag, " dictionary is empty.");
@@ -615,8 +634,7 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
      */
     public WordProperty[] getWordPropertiesForSyncing() {
         reloadDictionaryIfRequired();
-        final AsyncResultHolder<WordProperty[]> result =
-                new AsyncResultHolder<>("WordPropertiesForSync");
+        final AsyncResultHolder<WordProperty[]> result = new AsyncResultHolder<>("WordPropertiesForSync");
         asyncExecuteTaskWithLock(mLock.readLock(), () -> {
             final ArrayList<WordProperty> wordPropertyList = new ArrayList<>();
             final BinaryDictionary binaryDictionary = getBinaryDictionary();
@@ -626,8 +644,8 @@ abstract public class ExpandableBinaryDictionary extends Dictionary {
             int token = 0;
             do {
                 // TODO: We need a new API that returns *new* un-synced data.
-                final BinaryDictionary.GetNextWordPropertyResult nextWordPropertyResult =
-                        binaryDictionary.getNextWordProperty(token);
+                final BinaryDictionary.GetNextWordPropertyResult nextWordPropertyResult = binaryDictionary
+                        .getNextWordProperty(token);
                 final WordProperty wordProperty = nextWordPropertyResult.mWordProperty;
                 if (wordProperty == null) {
                     break;

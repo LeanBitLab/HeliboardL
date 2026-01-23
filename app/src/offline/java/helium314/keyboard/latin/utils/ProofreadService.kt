@@ -69,6 +69,12 @@ class ProofreadService(private val context: Context) {
     fun getHuggingFaceEndpoint(): String = "Offline Mode"
     fun setHuggingFaceEndpoint(endpoint: String) { /* No-op */ }
 
+    fun getGroqToken(): String? = null
+    fun setGroqToken(token: String?) { /* No-op */ }
+
+    fun getGroqModel(): String = "Offline Mode"
+    fun setGroqModel(model: String) { /* No-op */ }
+
     // Model management - encoder path
     fun getModelPath(): String? = prefs.getString(KEY_ENCODER_PATH, null)
     
