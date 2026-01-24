@@ -54,7 +54,7 @@ You can download the latest release from the [GitHub Releases](https://github.co
 *   **Permissions:** **NO INTERNET PERMISSION**. Guaranteed at OS level.
 *   **Best For:** Privacy purists.
 *   **Manual Setup Required:**
-    *   **Gesture Typing:** [Download library manually](https://github.com/erkserkserks/openboard/raw/46fdf2b550035ca69299ce312fa158e7ade36967/app/src/main/jniLibs/arm64-v8a/libjni_latinimegoogle.so) and load via *Settings > Gesture typing*.
+    *   **Gesture Typing:** [Download library manually](https://github.com/erkserkserks/openboard/tree/46fdf2b550035ca69299ce312fa158e7ade36967/app/src/main/jniLibs) and load via *Settings > Gesture typing*.
     *   **Offline AI:** Download ONNX models and load via *Settings > AI Integration*. 👉 **[See Offline Setup Instructions](docs/FEATURES.md#3-offline-proofreading-privacy-focused)**
 
 #### 3. Offline Lite Version (`-offlinelite-release.apk`)
@@ -62,7 +62,7 @@ You can download the latest release from the [GitHub Releases](https://github.co
 *   **Permissions:** **NO INTERNET PERMISSION**. Guaranteed at OS level.
 *   **Best For:** Minimalists who want a modern keyboard without any AI components (~20MB size).
 *   **Manual Setup Required:**
-    *   **Gesture Typing:** [Download library manually](https://github.com/erkserkserks/openboard/raw/46fdf2b550035ca69299ce312fa158e7ade36967/app/src/main/jniLibs/arm64-v8a/libjni_latinimegoogle.so) and load via *Settings > Gesture typing*.
+    *   **Gesture Typing:** [Download library manually](https://github.com/erkserkserks/openboard/tree/46fdf2b550035ca69299ce312fa158e7ade36967/app/src/main/jniLibs) and load via *Settings > Gesture typing*.
 
 ## Original HeliBoard Features
 
