@@ -881,10 +881,15 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     private void drawIncognitoOnSpacebar(final Key key, final Canvas canvas) {
         final int width = key.getWidth();
         final int height = key.getHeight();
-        // Draw incognito icon centered on spacebar with low opacity
         final int iconSize = (int) (height * 0.8f);
-        final int iconX = (width - iconSize) / 2;
         final int iconY = (height - iconSize) / 2;
+
+        int iconX = (width - iconSize) / 2;
+        // If language text is visible, move the icon to the right to avoid overlap
+        if (mLanguageOnSpacebarFormatType != LanguageOnSpacebarUtils.FORMAT_TYPE_NONE) {
+            iconX = width - iconSize - (int) (width * 0.05f); // 5% padding from right edge
+        }
+
         mIncognitoIcon.setAlpha(38); // ~15% opacity for very subtle watermark effect
         mIncognitoIcon.setBounds(iconX, iconY, iconX + iconSize, iconY + iconSize);
         mIncognitoIcon.draw(canvas);

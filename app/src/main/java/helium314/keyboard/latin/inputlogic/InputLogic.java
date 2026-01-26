@@ -9,6 +9,7 @@ package helium314.keyboard.latin.inputlogic;
 import static helium314.keyboard.latin.common.SuggestionSpanUtilsKt.getTextWithSuggestionSpan;
 
 import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.text.InputType;
 import android.text.SpannableString;
@@ -1074,6 +1075,36 @@ public final class InputLogic {
                 break;
             case KeyCode.REDO:
                 sendDownUpKeyEventWithMetaState(KeyEvent.KEYCODE_Z, KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON);
+                break;
+            case KeyCode.CUSTOM_AI_1:
+                handleCustomAIKey(1);
+                break;
+            case KeyCode.CUSTOM_AI_2:
+                handleCustomAIKey(2);
+                break;
+            case KeyCode.CUSTOM_AI_3:
+                handleCustomAIKey(3);
+                break;
+            case KeyCode.CUSTOM_AI_4:
+                handleCustomAIKey(4);
+                break;
+            case KeyCode.CUSTOM_AI_5:
+                handleCustomAIKey(5);
+                break;
+            case KeyCode.CUSTOM_AI_6:
+                handleCustomAIKey(6);
+                break;
+            case KeyCode.CUSTOM_AI_7:
+                handleCustomAIKey(7);
+                break;
+            case KeyCode.CUSTOM_AI_8:
+                handleCustomAIKey(8);
+                break;
+            case KeyCode.CUSTOM_AI_9:
+                handleCustomAIKey(9);
+                break;
+            case KeyCode.CUSTOM_AI_10:
+                handleCustomAIKey(10);
                 break;
             case KeyCode.PROOFREAD:
                 handleProofread();
@@ -3304,5 +3335,152 @@ public final class InputLogic {
             mEmojiDictionaryFacilitator.closeDictionaries();
             mEmojiDictionaryFacilitator = null;
         }
+    }
+
+    private void handleCustomAIKey(int index) {
+        final android.content.SharedPreferences prefs = helium314.keyboard.latin.utils.DeviceProtectedUtils
+                .getSharedPreferences(mLatinIME);
+        String prompt = prefs.getString("pref_custom_ai_prompt_" + index, "");
+        String systemInstruction = "";
+        boolean shouldAppend = false;
+
+        // Keyword parsing for system instructions / personas
+        if (prompt.contains("#editor")) {
+            systemInstruction = " You are a text editor tool. Output ONLY the edited text. Do not add any conversational filler.";
+            prompt = prompt.replace("#editor", "").trim();
+        } else if (prompt.contains("#outputonly")) {
+            systemInstruction = " Output ONLY the result. Do not add introductions or explanations.";
+            prompt = prompt.replace("#outputonly", "").trim();
+        } else if (prompt.contains("#proofread")) {
+            systemInstruction = " You are a proofreader. Fix grammar and spelling errors. Output ONLY the fixed text.";
+            prompt = prompt.replace("#proofread", "").trim();
+        } else if (prompt.contains("#paraphrase")) {
+            systemInstruction = " You are a paraphrasing tool. Rewrite the text using different words while keeping the meaning. Output ONLY the result.";
+            prompt = prompt.replace("#paraphrase", "").trim();
+        } else if (prompt.contains("#summarize")) {
+            systemInstruction = " You are a summarizer. Provide a concise summary of the text. Output ONLY the summary.";
+            prompt = prompt.replace("#summarize", "").trim();
+        } else if (prompt.contains("#expand")) {
+            systemInstruction = " You are a creative writing assistant. Expand on the text with more details. Output ONLY the result.";
+            prompt = prompt.replace("#expand", "").trim();
+        } else if (prompt.contains("#toneshift")) {
+            systemInstruction = " You are a tone modifier. Adjust the tone as requested. Output ONLY the result.";
+            prompt = prompt.replace("#toneshift", "").trim();
+        } else if (prompt.contains("#generate")) {
+            systemInstruction = " You are a creative content generator. Output ONLY the generated content.";
+            prompt = prompt.replace("#generate", "").trim();
+        }
+
+        // Input handling keywords
+        if (prompt.contains("#append")) {
+            shouldAppend = true;
+            prompt = prompt.replace("#append", "").trim();
+        }
+
+        if (android.text.TextUtils.isEmpty(prompt)) {
+            // User has not set a prompt (or it's empty after stripping).
+            KeyboardSwitcher.getInstance().showToast("Custom AI key is not set. Long-press to configure.", true);
+            return;
+        }
+
+        // Append system instruction to the prompt
+        // Ideally this should be passed as a separate 'system' role message to the LLM,
+        // but since ProofreadHelper.customAsync takes a single prompt string, we append
+        // it.
+        prompt = prompt + systemInstruction;
+
+        // Get selected text or entire text field content
+        String textToProcess;
+        final boolean hasSelection = mConnection.hasSelection();
+
+        if (hasSelection) {
+            final CharSequence selectedText = mConnection.getSelectedText(0);
+            textToProcess = selectedText != null ? selectedText.toString() : "";
+            // If appending on a selection, we unselect (move cursor to end of selection) so
+            // we don't overwrite?
+            // User requested "generate wish after 'see you'", which implies keeping 'see
+            // you'.
+            if (shouldAppend) {
+                mConnection.setSelection(mConnection.getExpectedSelectionEnd(), mConnection.getExpectedSelectionEnd());
+                // Insert a separator?
+                // For now, let's just append. The AI result might need leading space/newline.
+                // We can inject a newline into the prompt request implicitly or ask the AI to
+                // include it?
+                // Better: "Output result. Start with a newline if appropriate." - simplistic
+                // but maybe enough.
+            }
+        } else {
+            // Get entire text field content FIRST
+            final int maxChars = 60000;
+            CharSequence textBefore = null;
+            CharSequence textAfter = null;
+            try {
+                textBefore = mConnection.getTextBeforeCursor(maxChars, 0);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get text before cursor: " + e);
+            }
+
+            try {
+                textAfter = mConnection.getTextAfterCursor(maxChars, 0);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get text after cursor: " + e);
+                try {
+                    textAfter = mConnection.getTextAfterCursor(2048, 0);
+                } catch (Exception e2) {
+                    Log.e(TAG, "Failed to get text after cursor (retry): " + e2);
+                }
+            }
+
+            final String before = textBefore != null ? textBefore.toString() : "";
+            final String after = textAfter != null ? textAfter.toString() : "";
+            textToProcess = before + after;
+
+            if (!shouldAppend) {
+                // Select all text NOW so user sees what will be processed
+                mConnection.selectAll();
+            } else {
+                // If appending, we probably want to move cursor to the end so we append at the
+                // end of the current text?
+                // Or just leave cursor where it is? "generate good night wash" context is whole
+                // text.
+                // Usually "append" means add to the end of the document.
+                // But if cursor is in middle, maybe insert there?
+                // Let's assume append means "add to end of context".
+                // But context is "before + after".
+                // Let's safe bet: Move cursor to end of text.
+                // Because onTextInput inserts at cursor.
+                if (textToProcess.length() > 0) {
+                    // We don't have absolute position easily unless we assume 0 is start.
+                    // beginBatchEdit/endBatchEdit might be needed if we move cursor?
+                    // Actually, we can just delete nothing and insert.
+                    // But we need to be at the end.
+                    // We can try: mConnection.setSelection(textToProcess.length(),
+                    // textToProcess.length())?
+                    // But we don't know the absolute offset of 'textBefore'.
+                    // Wait, textBefore + textAfter = whole text.
+                    // But we are at cursor.
+                    // To go to end: move cursor by textAfter.length().
+                    if (after.length() > 0 && mConnection.getExpectedSelectionEnd() >= 0) {
+                        int newPos = mConnection.getExpectedSelectionEnd() + after.length();
+                        mConnection.setSelection(newPos, newPos);
+                    }
+                }
+            }
+        }
+
+        helium314.keyboard.latin.utils.ProofreadHelper.INSTANCE.customAsync(mLatinIME,
+                textToProcess, prompt, hasSelection,
+                new helium314.keyboard.latin.utils.ProofreadHelper.ProofreadCallback() {
+                    @Override
+                    public void onSuccess(String resultText) {
+                        mLatinIME.onTextInput(resultText);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e(TAG, "Custom AI Error: " + errorMessage);
+                        KeyboardSwitcher.getInstance().showToast("AI Error: " + errorMessage, true);
+                    }
+                });
     }
 }

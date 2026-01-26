@@ -150,6 +150,7 @@ object Defaults {
     const val PREF_OFFLINE_SYSTEM_PROMPT = "Correct the grammar and spelling. Output only the corrected text."
     const val PREF_OFFLINE_MAX_TOKENS = 64  // Accurate (64 tokens) default
     const val PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE = "French"
+    const val PREF_OFFLINE_KEEP_MODEL_LOADED = false
     const val PREF_ENABLE_CLIPBOARD_HISTORY = true
     const val PREF_CLIPBOARD_HISTORY_RETENTION_TIME = 15 // minutes
     const val PREF_CLIPBOARD_HISTORY_PINNED_FIRST = true

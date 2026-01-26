@@ -91,6 +91,8 @@ class ClipboardDao private constructor(private val db: Database) {
 
     fun getAt(index: Int) = cache[index]
 
+    fun getClips(): List<ClipboardHistoryEntry> = cache.toList()
+
     fun get(id: Long) = cache.first { it.id == id }
 
     fun count() = cache.size

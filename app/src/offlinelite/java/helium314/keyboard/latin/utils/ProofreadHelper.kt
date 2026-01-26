@@ -71,6 +71,29 @@ object ProofreadHelper {
         showNotSupportedToast()
     }
 
+    @JvmStatic
+    fun customAsync(
+        context: Context,
+        text: String,
+        prompt: String,
+        hasSelection: Boolean,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        showNotSupportedToast()
+    }
+
+    @JvmStatic
+    fun customAsync(
+        context: Context,
+        text: String,
+        prompt: String,
+        hasSelection: Boolean,
+        callback: ProofreadCallback
+    ) {
+        showNotSupportedToast()
+    }
+
     private fun showNotSupportedToast() {
         mainHandler.post {
             KeyboardSwitcher.getInstance().showToast("Not available in Lite version", false)

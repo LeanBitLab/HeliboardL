@@ -31,6 +31,32 @@ class ClipboardAdapter(
     var itemTextColor = 0
     var itemTextSize = 0f
 
+    private var filteredList: List<ClipboardHistoryEntry>? = null
+    private var searchQuery: String = ""
+
+    val isFiltering: Boolean
+        get() = filteredList != null
+
+    fun filter(query: String) {
+        searchQuery = query
+        if (query.isEmpty()) {
+            filteredList = null
+        } else {
+            val allClips = clipboardHistoryManager?.getClips() ?: emptyList()
+            filteredList = allClips.filter { it.text.contains(query, ignoreCase = true) }
+        }
+        notifyDataSetChanged()
+    }
+
+    // Call this when underlying data changes while filtering
+    fun refresh() {
+        if (isFiltering) {
+            filter(searchQuery)
+        } else {
+            notifyDataSetChanged()
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.clipboard_entry_key, parent, false)
@@ -41,9 +67,13 @@ class ClipboardAdapter(
         holder.setContent(getItem(position))
     }
 
-    private fun getItem(position: Int) = clipboardHistoryManager?.getHistoryEntry(position)
+    private fun getItem(position: Int): ClipboardHistoryEntry? {
+        return filteredList?.getOrNull(position) ?: clipboardHistoryManager?.getHistoryEntry(position)
+    }
 
-    override fun getItemCount() = clipboardHistoryManager?.getHistorySize() ?: 0
+    override fun getItemCount(): Int {
+        return filteredList?.size ?: clipboardHistoryManager?.getHistorySize() ?: 0
+    }
 
     inner class ViewHolder(
             view: View
@@ -79,6 +109,11 @@ class ClipboardAdapter(
             itemView.tag = historyEntry?.id
             contentView.text = historyEntry?.text?.take(1000) // truncate displayed text for performance reasons
             pinnedIconView.visibility = if (historyEntry?.isPinned == true) View.VISIBLE else View.GONE
+            if (historyEntry?.isPinned == true) {
+                 val colors = Settings.getValues().mColors
+                 colors.setColor(pinnedIconView, ColorType.CLIPBOARD_PIN)
+                 pinnedIconView.setImageResource(pinnedIconResId)
+            }
         }
 
         @SuppressLint("ClickableViewAccessibility")

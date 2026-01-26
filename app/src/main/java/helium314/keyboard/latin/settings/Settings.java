@@ -157,6 +157,7 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_OFFLINE_SYSTEM_PROMPT = "offline_system_prompt";
     public static final String PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE = "offline_translate_target_language";
     public static final String PREF_OFFLINE_MAX_TOKENS = "offline_max_tokens";
+    public static final String PREF_OFFLINE_KEEP_MODEL_LOADED = "offline_keep_model_loaded";
 
     public static final String PREF_ENABLE_CLIPBOARD_HISTORY = "enable_clipboard_history";
     public static final String PREF_CLIPBOARD_HISTORY_RETENTION_TIME = "clipboard_history_retention_time";

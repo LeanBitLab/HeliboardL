@@ -185,18 +185,19 @@ class ProofreadService(private val context: Context) {
     /**
      * Proofreads the given text using the selected AI provider.
      * @param text The text to proofread
+     * @param overridePrompt Optional custom prompt to use instead of the default proofreading prompt
      * @return Result containing the proofread text or an error
      */
-    suspend fun proofread(text: String): Result<String> = withContext(Dispatchers.IO) {
-        if (text.isBlank()) {
+    suspend fun proofread(text: String, overridePrompt: String? = null): Result<String> = withContext(Dispatchers.IO) {
+        if (text.isBlank() && overridePrompt == null) {
             return@withContext Result.failure(
                 ProofreadException(context.getString(R.string.proofread_no_text))
             )
         }
 
         when (getProvider()) {
-            AIProvider.GEMINI -> geminiProofread(text)
-            AIProvider.GROQ, AIProvider.OPENAI -> huggingFaceProofread(text)
+            AIProvider.GEMINI -> geminiProofread(text, overridePrompt)
+            AIProvider.GROQ, AIProvider.OPENAI -> huggingFaceProofread(text, overridePrompt)
         }
     }
 
@@ -220,7 +221,7 @@ class ProofreadService(private val context: Context) {
 
     // ======================== Gemini Implementation ========================
 
-    private suspend fun geminiProofread(text: String): Result<String> {
+    private suspend fun geminiProofread(text: String, overridePrompt: String?): Result<String> {
         val apiKey = getApiKey()
         if (apiKey.isNullOrBlank()) {
             return Result.failure(
@@ -246,7 +247,19 @@ class ProofreadService(private val context: Context) {
                 )
             )
 
-            val response = model.generateContent(PROOFREAD_PROMPT + text)
+            // If overridePrompt is set, use it directly (relaxed mode for Custom Keys)
+            // Otherwise use the strict proofreading prompt
+            val fullInput = if (overridePrompt != null) {
+                if (text.isNotBlank()) {
+                    "$overridePrompt\n\n$text"
+                } else {
+                    overridePrompt
+                }
+            } else {
+                "$PROOFREAD_PROMPT$text"
+            }
+            
+            val response = model.generateContent(fullInput)
             val proofreadText = response.text?.trim()
             
             if (proofreadText.isNullOrBlank()) {
@@ -411,8 +424,16 @@ class ProofreadService(private val context: Context) {
         }
     }
 
-    private fun huggingFaceProofread(text: String): Result<String> {
-        val prompt = "$PROOFREAD_PROMPT$text"
+    private fun huggingFaceProofread(text: String, overridePrompt: String?): Result<String> {
+        val prompt = if (overridePrompt != null) {
+            if (text.isNotBlank()) {
+                "$overridePrompt\n\n$text"
+            } else {
+                overridePrompt
+            }
+        } else {
+            "$PROOFREAD_PROMPT$text"
+        }
         return huggingFaceRequest(prompt)
     }
 

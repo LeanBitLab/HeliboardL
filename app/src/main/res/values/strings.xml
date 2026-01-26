@@ -199,6 +199,12 @@
     <string name="clipboard_history_retention_time">History retention time</string>
     <!-- Preferences item for showing pinned clipboard items first -->
     <string name="clipboard_history_pinned_first">Show pinned items on top</string>
+    <!-- Hint for clipboard search bar -->
+    <string name="clipboard_search_hint">Search clips...</string>
+    <!-- Text for empty clipboard state -->
+    <string name="clipboard_empty_text">No items found</string>
+    <!-- Text for no search results -->
+    <string name="clipboard_no_search_results">No results found</string>
     <!-- Preferences item for enabling swipe deletion -->
     <string name="delete_swipe">Delete swipe</string>
     <!-- Description for "delete_swipe" option. -->
@@ -402,6 +408,8 @@
     <string name="huggingface_endpoint_title">API Endpoint</string>
     <string name="huggingface_endpoint_summary">API endpoint URL</string>
     <string name="huggingface_endpoint_hint">https://api.groq.com/openai/v1/chat/completions</string>
+    <string name="offline_keep_model_loaded_title">Keep model loaded</string>
+    <string name="offline_keep_model_loaded_summary">Keep the offline AI model in memory to avoid reloading delay (uses more RAM)</string>
     <!-- Translation feature strings -->
     <string name="translate" tools:keep="@string/translate">Translate</string>
     <string name="translate_loading">Translating…</string>
@@ -882,6 +890,10 @@ New dictionary:
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violette</string>
     <!-- Theme name for user-defined theme -->
     <string name="theme_name_user" tools:keep="@string/theme_name_user">User-Defined</string>
+    <!-- Theme name for LeanBitLab Light theme -->
+    <string name="theme_name_leanbitlab_light" tools:keep="@string/theme_name_leanbitlab_light">LeanBitLab Light</string>
+    <!-- Theme name for LeanBitLab Dark theme -->
+    <string name="theme_name_leanbitlab_dark" tools:keep="@string/theme_name_leanbitlab_dark">LeanBitLab Dark</string>
     <!-- Theme name for user-defined theme night mode theme -->
     <!-- Text when determining color automatically -->
     <string name="auto_user_color">Choose color automatically</string>
@@ -946,6 +958,8 @@ New dictionary:
     <!-- Settings screen title for toolbar preferences -->
     <string name="settings_screen_toolbar">Toolbar</string>
     <string name="settings_screen_ai_integration">AI Integration</string>
+    <string name="custom_ai_keys_title">Custom AI Keys</string>
+    <string name="custom_ai_keys_summary">Customize numbered toolbar keys with your own prompts</string>
     <!-- Hidden features title -->
     <string name="hidden_features_title">Description of hidden features</string>
     <!-- Hidden features summary -->

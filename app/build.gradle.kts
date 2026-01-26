@@ -22,8 +22,8 @@ android {
         applicationId = "helium314.keyboardl"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3700
-        versionName = "3.7.0"
+        versionCode = 3701
+        versionName = "3.7.1"
 
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
@@ -90,7 +90,22 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug"
         }
-        base.archivesBaseName = "HeliboardL_" + defaultConfig.versionName
+        // base.archivesBaseName = "HeliboardL_" + defaultConfig.versionName // replaced by dynamic naming below
+        applicationVariants.all {
+            val flavor = productFlavors.firstOrNull()?.name ?: ""
+            val number = when(flavor) {
+                "standard" -> "1"
+                "offline" -> "2"
+                "offlinelite" -> "3"
+                else -> ""
+            }
+            if (number.isNotEmpty()) {
+                outputs.all {
+                    val output = this as? com.android.build.gradle.api.ApkVariantOutput
+                    output?.outputFileName = "$number-HeliboardL_${defaultConfig.versionName}-${flavor}-${buildType.name}.apk"
+                }
+            }
+        }
         // got a little too big for GitHub after some dependency upgrades, so we remove the largest dictionary
         androidComponents.onVariants { variant: ApplicationVariant ->
             if (variant.buildType == "debug") {
@@ -122,6 +137,8 @@ android {
             useLegacyPackaging = true
         }
     }
+
+
 
     testOptions {
         unitTests {

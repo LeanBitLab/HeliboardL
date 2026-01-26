@@ -13,6 +13,10 @@ import helium314.keyboard.latin.settings.Defaults
 import helium314.keyboard.latin.settings.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.FloatBuffer
@@ -36,17 +40,149 @@ class ProofreadService(private val context: Context) {
         context.prefs()
     }
     
-    // ONNX Runtime state
-    private var ortEnvironment: OrtEnvironment? = null
-    private var encoderSession: OrtSession? = null
-    private var decoderSession: OrtSession? = null
-    private var currentEncoderPath: String? = null
-    private var currentDecoderPath: String? = null
-    private var tokenizer: T5Tokenizer? = null
-    private var isModelAvailable: Boolean = true
-    
-    // Model cache directory
-    private var modelDir: File? = null
+    // Singleton holder for model state to prevent reloading on every request
+    object ModelHolder {
+        var ortEnvironment: OrtEnvironment? = null
+        var encoderSession: OrtSession? = null
+        var decoderSession: OrtSession? = null
+        var currentEncoderPath: String? = null
+        var currentDecoderPath: String? = null
+        var tokenizer: T5Tokenizer? = null
+        var isModelAvailable: Boolean = true
+        private var modelDir: File? = null
+
+        // Smart Unload Logic
+        private var unloadJob: Job? = null
+        private val scope = CoroutineScope(Dispatchers.IO)
+        private const val UNLOAD_DELAY_MS = 10 * 60 * 1000L // 10 minutes
+
+        @Synchronized
+        fun scheduleUnload(context: Context) { // Context required to check prefs
+            unloadJob?.cancel()
+            
+            // Check preference
+            val prefs = context.prefs()
+            val keepLoaded = prefs.getBoolean(Settings.PREF_OFFLINE_KEEP_MODEL_LOADED, Defaults.PREF_OFFLINE_KEEP_MODEL_LOADED)
+            
+            if (keepLoaded) {
+                 Log.i("OnnxProofreadService", "Model unload skipped (Keep Model Loaded enabled)")
+                 return
+            }
+
+            unloadJob = scope.launch {
+                delay(UNLOAD_DELAY_MS)
+                unloadModel()
+                Log.i("OnnxProofreadService", "Offline AI model unloaded due to inactivity")
+            }
+        }
+
+        @Synchronized
+        fun cancelUnload() {
+            unloadJob?.cancel()
+            unloadJob = null
+        }
+
+        @Synchronized
+        fun unloadModel() {
+            try {
+                encoderSession?.close()
+                decoderSession?.close()
+                ortEnvironment?.close()
+            } catch (e: Exception) {
+                Log.w("OnnxProofreadService", "Error closing ONNX sessions", e)
+            }
+            encoderSession = null
+            decoderSession = null
+            ortEnvironment = null
+            currentEncoderPath = null
+            currentDecoderPath = null
+            tokenizer = null
+            isModelAvailable = true // Reset availability flag on unload
+        }
+
+        @Synchronized
+        fun loadModel(
+            context: Context,
+            encoderPath: String,
+            decoderPath: String?,
+            tokenizerPath: String?
+        ): Boolean {
+            cancelUnload() // Cancel any pending unload since we are loading/using it
+
+            // Check if already loaded with same paths
+            if (encoderSession != null && currentEncoderPath == encoderPath &&
+                (decoderPath.isNullOrBlank() || (decoderSession != null && currentDecoderPath == decoderPath))) {
+                return true
+            }
+
+            unloadModel() // Ensure clean slate if paths changed
+
+            return try {
+                // Create model cache directory
+                modelDir = File(context.cacheDir, "onnx_model")
+                modelDir!!.mkdirs()
+
+                // Initialize tokenizer
+                tokenizer = T5Tokenizer(context)
+                if (!tokenizerPath.isNullOrBlank()) {
+                    val tokenizerFile = copyUriToCache(context, Uri.parse(tokenizerPath), "tokenizer.json", modelDir!!)
+                    if (tokenizerFile != null) {
+                        tokenizer!!.loadVocab(tokenizerFile)
+                    }
+                }
+
+                // Initialize ONNX Runtime
+                ortEnvironment = OrtEnvironment.getEnvironment()
+                val sessionOptions = OrtSession.SessionOptions().apply {
+                    setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
+                    setIntraOpNumThreads(4)
+                }
+
+                // Copy and load encoder
+                val encoderFile = copyUriToCache(context, Uri.parse(encoderPath), "encoder.onnx", modelDir!!)
+                if (encoderFile == null) {
+                    Log.e("OnnxProofreadService", "Failed to copy encoder")
+                    return false
+                }
+
+                encoderSession = ortEnvironment!!.createSession(encoderFile.absolutePath, sessionOptions)
+                currentEncoderPath = encoderPath
+
+                // Copy and load decoder if provided
+                if (!decoderPath.isNullOrBlank()) {
+                    val decoderFile = copyUriToCache(context, Uri.parse(decoderPath), "decoder.onnx", modelDir!!)
+                    if (decoderFile != null) {
+                        decoderSession = ortEnvironment!!.createSession(decoderFile.absolutePath, sessionOptions)
+                        currentDecoderPath = decoderPath
+                    }
+                }
+                
+                isModelAvailable = true
+                true
+            } catch (e: Throwable) {
+                Log.e("OnnxProofreadService", "Failed to load ONNX models", e)
+                isModelAvailable = false
+                false
+            }
+        }
+
+        private fun copyUriToCache(context: Context, uri: Uri, targetName: String, dir: File): File? {
+            val targetFile = File(dir, targetName)
+            if (targetFile.exists() && targetFile.length() > 0) return targetFile
+            
+            return try {
+                context.contentResolver.openInputStream(uri)?.use { input ->
+                    FileOutputStream(targetFile).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+                if (targetFile.exists() && targetFile.length() > 0) targetFile else null
+            } catch (e: Exception) {
+                Log.e("OnnxProofreadService", "Failed to copy $targetName", e)
+                null
+            }
+        }
+    }
 
     // AI Provider support (API compatibility)
     enum class AIProvider {
@@ -87,7 +223,7 @@ class ProofreadService(private val context: Context) {
             }
             apply()
         }
-        unloadModel()
+        ModelHolder.unloadModel()
     }
 
     // Decoder path (separate setting)
@@ -102,7 +238,7 @@ class ProofreadService(private val context: Context) {
             }
             apply()
         }
-        unloadModel()
+        ModelHolder.unloadModel()
     }
 
     // Tokenizer path (vocabulary file)
@@ -117,8 +253,8 @@ class ProofreadService(private val context: Context) {
             }
             apply()
         }
-        // Reload tokenizer on next use
-        tokenizer = null
+        ModelHolder.unloadModel()
+        ModelHolder.tokenizer = null
     }
 
     fun getSystemPrompt(): String = prefs.getString(Settings.PREF_OFFLINE_SYSTEM_PROMPT, "") ?: ""
@@ -156,113 +292,13 @@ class ProofreadService(private val context: Context) {
     fun setTargetLanguage(language: String) { /* No-op */ }
 
     fun unloadModel() {
-        try {
-            encoderSession?.close()
-            decoderSession?.close()
-            ortEnvironment?.close()
-        } catch (e: Exception) {
-            Log.w(TAG, "Error closing ONNX sessions", e)
-        }
-        encoderSession = null
-        decoderSession = null
-        ortEnvironment = null
-        currentEncoderPath = null
-        currentDecoderPath = null
-        tokenizer = null
-        modelDir = null
-        
-        // Clean up cached models
-        File(context.cacheDir, "onnx_model").deleteRecursively()
+        ModelHolder.unloadModel()
     }
 
     /**
      * Copy a content URI to cache and return the local file path.
      */
-    private fun copyUriToCache(uri: Uri, targetName: String): File? {
-        val targetFile = File(modelDir, targetName)
-        return try {
-            context.contentResolver.openInputStream(uri)?.use { input ->
-                FileOutputStream(targetFile).use { output ->
-                    input.copyTo(output)
-                }
-            }
-            if (targetFile.exists() && targetFile.length() > 0) targetFile else null
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to copy $targetName", e)
-            null
-        }
-    }
 
-    /**
-     * Load encoder and decoder ONNX models.
-     */
-    private suspend fun loadModelIfNeeded(): Boolean {
-        val encoderPath = getModelPath()
-        val decoderPath = getDecoderPath()
-        
-        if (encoderPath.isNullOrBlank()) {
-            Log.e(TAG, "Encoder path is empty")
-            return false
-        }
-        
-        // Check if already loaded
-        if (encoderSession != null && currentEncoderPath == encoderPath &&
-            (decoderPath.isNullOrBlank() || (decoderSession != null && currentDecoderPath == decoderPath))) {
-            return true
-        }
-        
-        unloadModel()
-
-        return withContext(Dispatchers.IO) {
-            try {
-                // Create model cache directory
-                modelDir = File(context.cacheDir, "onnx_model")
-                modelDir!!.mkdirs()
-                
-                // Initialize tokenizer with vocabulary file if provided
-                tokenizer = T5Tokenizer(context)
-                val tokenizerPath = getTokenizerPath()
-                if (!tokenizerPath.isNullOrBlank()) {
-                    val tokenizerFile = copyUriToCache(Uri.parse(tokenizerPath), "tokenizer.json")
-                    if (tokenizerFile != null) {
-                        tokenizer!!.loadVocab(tokenizerFile)
-                    }
-                }
-                
-                // Initialize ONNX Runtime
-                ortEnvironment = OrtEnvironment.getEnvironment()
-                val sessionOptions = OrtSession.SessionOptions().apply {
-                    setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
-                    setIntraOpNumThreads(4)
-                }
-                
-                // Copy and load encoder
-                val encoderFile = copyUriToCache(Uri.parse(encoderPath), "encoder.onnx")
-                if (encoderFile == null) {
-                    Log.e(TAG, "Failed to copy encoder")
-                    return@withContext false
-                }
-                
-                encoderSession = ortEnvironment!!.createSession(encoderFile.absolutePath, sessionOptions)
-                currentEncoderPath = encoderPath
-                
-                // Copy and load decoder if provided
-                if (!decoderPath.isNullOrBlank()) {
-                    val decoderFile = copyUriToCache(Uri.parse(decoderPath), "decoder.onnx")
-                    if (decoderFile != null) {
-                        decoderSession = ortEnvironment!!.createSession(decoderFile.absolutePath, sessionOptions)
-                        currentDecoderPath = decoderPath
-                    }
-                }
-                
-                true
-            } catch (e: Throwable) {
-                Log.e(TAG, "Failed to load ONNX models", e)
-                isModelAvailable = false
-                false
-            }
-        }
-    }
 
     /**
      * Run T5 encoder-decoder inference for grammar correction.
@@ -281,10 +317,19 @@ class ProofreadService(private val context: Context) {
      * Run T5 encoder-decoder inference.
      */
     suspend fun proofread(text: String, overridePrompt: String? = null): Result<String> = withContext(Dispatchers.IO) {
-        if (!loadModelIfNeeded() || encoderSession == null || tokenizer == null) {
-            Log.e(TAG, "Model not loaded")
+        val encoderPath = getModelPath()
+        if (encoderPath.isNullOrBlank()) {
             return@withContext Result.failure(ProofreadException("Model not loaded. Please select encoder ONNX file."))
         }
+
+        // Load model (or get cached)
+        if (!ModelHolder.loadModel(context, encoderPath, getDecoderPath(), getTokenizerPath())) {
+             Log.e(TAG, "Model load failed")
+             return@withContext Result.failure(ProofreadException("Failed to load model."))
+        }
+
+        // Cancel unload timer while working
+        ModelHolder.cancelUnload()
 
         try {
             val maxTokens = prefs.getInt(Settings.PREF_OFFLINE_MAX_TOKENS, Defaults.PREF_OFFLINE_MAX_TOKENS)
@@ -292,16 +337,16 @@ class ProofreadService(private val context: Context) {
             // 1. Tokenize input
             val prompt = overridePrompt ?: getSystemPrompt()
             val inputText = if (prompt.isNotBlank()) "$prompt$text" else text
-            val inputIds = tokenizer!!.encode(inputText, addPrefix = false)
+            val inputIds = ModelHolder.tokenizer!!.encode(inputText, addPrefix = false)
             
             val batchSize = 1L
             val seqLen = inputIds.size.toLong()
             val inputShape = longArrayOf(batchSize, seqLen)
             
             // 2. Create input tensors
-            val inputTensor = OnnxTensor.createTensor(ortEnvironment!!, LongBuffer.wrap(inputIds), inputShape)
+            val inputTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, LongBuffer.wrap(inputIds), inputShape)
             val attentionMask = LongArray(inputIds.size) { 1L }
-            val attentionTensor = OnnxTensor.createTensor(ortEnvironment!!, LongBuffer.wrap(attentionMask), inputShape)
+            val attentionTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, LongBuffer.wrap(attentionMask), inputShape)
             
             // 3. Run encoder
             val encoderInputs = mapOf(
@@ -311,7 +356,7 @@ class ProofreadService(private val context: Context) {
             
             
             val startTime = System.currentTimeMillis()
-            val encoderResults = encoderSession!!.run(encoderInputs)
+            val encoderResults = ModelHolder.encoderSession!!.run(encoderInputs)
             val encoderTime = System.currentTimeMillis() - startTime
             
             // Get encoder hidden states
@@ -319,7 +364,7 @@ class ProofreadService(private val context: Context) {
             val hiddenStates = encoderOutput.value // [batch, seq, hidden_dim]
             
             // 4. Run decoder (if available)
-            val outputText = if (decoderSession != null && hiddenStates is Array<*>) {
+            val outputText = if (ModelHolder.decoderSession != null && hiddenStates is Array<*>) {
                 runDecoderLoop(hiddenStates, attentionMask, maxTokens)
             } else {
                 Log.w(TAG, "Decoder not available, returning original text")
@@ -331,6 +376,9 @@ class ProofreadService(private val context: Context) {
             attentionTensor.close()
             encoderResults.close()
             
+            // Schedule unload after work is done
+            ModelHolder.scheduleUnload(context)
+
             // Strip prompt prefix if model echoed it back
             val cleanedOutput = if (prompt.isNotBlank() && outputText.startsWith(prompt, ignoreCase = true)) {
                 outputText.removePrefix(prompt).trimStart()
@@ -346,6 +394,7 @@ class ProofreadService(private val context: Context) {
 
         } catch (e: Throwable) {
             Log.e(TAG, "Proofread failed", e)
+            ModelHolder.scheduleUnload(context) // Ensure we still schedule unload on error
             Result.failure(ProofreadException(e.message ?: "Unknown error"))
         }
     }
@@ -358,7 +407,7 @@ class ProofreadService(private val context: Context) {
      * - Merged decoder (adds use_cache_branch flag)
      */
     private fun runDecoderLoop(encoderHiddenStates: Array<*>, encoderAttentionMask: LongArray, maxTokens: Int): String {
-        if (decoderSession == null) return ""
+        if (ModelHolder.decoderSession == null) return ""
         
         try {
             // Get hidden states as 3D array [batch, seq, hidden]
@@ -377,14 +426,14 @@ class ProofreadService(private val context: Context) {
             
             // Create encoder_hidden_states tensor
             val hiddenShape = longArrayOf(1, seqLen.toLong(), hiddenDim.toLong())
-            val hiddenTensor = OnnxTensor.createTensor(ortEnvironment!!, FloatBuffer.wrap(flatHidden), hiddenShape)
+            val hiddenTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, FloatBuffer.wrap(flatHidden), hiddenShape)
             
             // Create encoder attention mask tensor
             val attentionShape = longArrayOf(1, encoderAttentionMask.size.toLong())
-            val attentionTensor = OnnxTensor.createTensor(ortEnvironment!!, LongBuffer.wrap(encoderAttentionMask), attentionShape)
+            val attentionTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, LongBuffer.wrap(encoderAttentionMask), attentionShape)
             
             // Analyze decoder inputs to determine model type
-            val inputNames = decoderSession!!.inputNames.toList()
+            val inputNames = ModelHolder.decoderSession!!.inputNames.toList()
             val pkvInputNames = inputNames.filter { it.startsWith("past_key_values") || it.startsWith("pkv") }
             val useCacheBranchInput = inputNames.find { it == "use_cache_branch" }
             val numLayers = pkvInputNames.size / 4 // 4 tensors per layer (decoder key/value, encoder key/value)
@@ -396,7 +445,7 @@ class ProofreadService(private val context: Context) {
             
             // Start with decoder start token (pad_token = 0 for T5)
             val generatedTokens = mutableListOf<Long>(0L)
-            val eosTokenId = tokenizer!!.getEosTokenId()
+            val eosTokenId = ModelHolder.tokenizer!!.getEosTokenId()
             
             // KV-cache storage for decoders that output present.* tensors
             var pastKeyValues: Map<String, OnnxTensor>? = null
@@ -413,7 +462,7 @@ class ProofreadService(private val context: Context) {
                 }
                 
                 val decoderShape = longArrayOf(1, inputTokens.size.toLong())
-                val decoderInputTensor = OnnxTensor.createTensor(ortEnvironment!!, LongBuffer.wrap(inputTokens), decoderShape)
+                val decoderInputTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, LongBuffer.wrap(inputTokens), decoderShape)
                 
                 // Build decoder inputs
                 val decoderInputs = mutableMapOf<String, OnnxTensor>()
@@ -431,7 +480,7 @@ class ProofreadService(private val context: Context) {
                 // Handle use_cache_branch for merged decoders
                 if (isMergedDecoder && useCacheBranchInput != null) {
                     val useCacheValue = step > 0 // false on first run, true after
-                    val useCacheTensor = OnnxTensor.createTensor(ortEnvironment!!, booleanArrayOf(useCacheValue))
+                    val useCacheTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, booleanArrayOf(useCacheValue))
                     decoderInputs[useCacheBranchInput] = useCacheTensor
                 }
                 
@@ -460,7 +509,7 @@ class ProofreadService(private val context: Context) {
                     // improved head detection from model metadata
                     try {
                         // Try to find the shape of the first PKV input
-                        val pkvInfo = decoderSession!!.inputInfo[pkvInputNames.first()]
+                        val pkvInfo = ModelHolder.decoderSession!!.inputInfo[pkvInputNames.first()]
                         val shape = pkvInfo?.info as? ai.onnxruntime.TensorInfo
                         if (shape != null) {
                             val dims = shape.shape
@@ -486,7 +535,7 @@ class ProofreadService(private val context: Context) {
                         val pkvSeqLen = if (isEncoderPkv) seqLen.toLong() else 0L
                         val pkvShape = longArrayOf(1, numHeads, pkvSeqLen, headDim)
                         val emptyPkv = FloatArray((1 * numHeads * pkvSeqLen * headDim).toInt())
-                        val pkvTensor = OnnxTensor.createTensor(ortEnvironment!!, FloatBuffer.wrap(emptyPkv), pkvShape)
+                        val pkvTensor = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, FloatBuffer.wrap(emptyPkv), pkvShape)
                         decoderInputs[pkvName] = pkvTensor
                     }
                 }
@@ -494,14 +543,14 @@ class ProofreadService(private val context: Context) {
 
                 
                 // Run decoder step
-                val decoderResults = decoderSession!!.run(decoderInputs)
+                val decoderResults = ModelHolder.decoderSession!!.run(decoderInputs)
                 
                 // Get logits (usually first output)
                 var logitsOutput: Any? = null
                 val newPastKeyValues = mutableMapOf<String, OnnxTensor>()
                 
                 for (i in 0 until decoderResults.size()) {
-                    val outputInfo = decoderSession!!.outputNames.toList()[i]
+                    val outputInfo = ModelHolder.decoderSession!!.outputNames.toList()[i]
                     val outputValue = decoderResults[i]
                     
                     when {
@@ -531,7 +580,7 @@ class ProofreadService(private val context: Context) {
                                         }
                                     }
                                     val shape = longArrayOf(batch.toLong(), heads.toLong(), seqL.toLong(), dim.toLong())
-                                    newPastKeyValues[outputInfo] = OnnxTensor.createTensor(ortEnvironment!!, FloatBuffer.wrap(flat), shape)
+                                    newPastKeyValues[outputInfo] = OnnxTensor.createTensor(ModelHolder.ortEnvironment!!, FloatBuffer.wrap(flat), shape)
                                 }
                             }
                         }
@@ -564,7 +613,7 @@ class ProofreadService(private val context: Context) {
             
             // Decode tokens (skip first token which is start token)
             val outputTokens = generatedTokens.drop(1).toLongArray()
-            return tokenizer!!.decode(outputTokens)
+            return ModelHolder.tokenizer!!.decode(outputTokens)
             
         } catch (e: Exception) {
             Log.e(TAG, "Decoder loop failed", e)

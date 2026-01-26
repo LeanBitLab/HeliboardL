@@ -87,6 +87,8 @@ class ClipboardHistoryManager(
 
     fun getHistorySize() = clipboardDao?.count() ?: 0
 
+    fun getClips() = clipboardDao?.getClips() ?: emptyList()
+
     fun getHistoryEntry(position: Int) = clipboardDao?.getAt(position)
 
     fun getHistoryEntryContent(id: Long) = clipboardDao?.get(id)

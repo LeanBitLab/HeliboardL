@@ -2,6 +2,33 @@
 
 HeliboardL integrates with AI providers to offer advanced proofreading and translation capabilities directly within the keyboard. This guide explains how to set up the supported providers.
 
+## Index
+1.  [Summary of New Features](#summary-of-new-features) - Quick overview of what's new.
+2.  [Supported AI Providers](#supported-ai-providers) - Start here to choose your AI backend.
+3.  [Groq](#1-groq) - Ultra-fast cloud inference.
+4.  [Google Gemini](#2-google-gemini) - Reliable general-purpose AI.
+5.  [HF/OpenAI-compatible](#3-hfopenai-compatible-generic-provider) - Use Mistral, DeepSeek, OpenRouter, or HuggingFace.
+6.  [Custom AI Keys & Keywords](#4-custom-ai-keys--keywords) - **New!** Configure custom prompts and personas.
+7.  [Offline Proofreading](#5-offline-proofreading-privacy-focused) - Privacy-first, on-device AI.
+
+## Summary of New Features
+
+| Feature | Function | Settings Location |
+| :--- | :--- | :--- |
+| **Multi-Provider AI** | Uses Gemini, Groq, or OpenAI to proofread/rewrite text. | `AI Integration > Set AI Provider` |
+| **Offline Proofreading** | Private, on-device AI for grammar (requires downloads). | `AI Integration > Offline Proofreading` |
+| **Custom AI Keys** | 10 toolbar keys with customizable prompts (supports hashtags). | `AI Integration > Custom Keys` |
+| **AI Translation** | Translates selected text via your configured AI provider. | Toolbar > Translate Icon |
+| **Touchpad Mode** | Swipe up on Spacebar to control cursor like a touchpad. | `Gesture typing > Vertical spacebar swipe` |
+| **Split Suggestions** | Separates suggestions from toolbar for quicker access. | `Appearance > Split toolbar & suggestions` |
+| **Build Variants** | Choose Standard, Offline, or Offline Lite versions. | GitHub Releases |
+| **Clear Incognito** | Shows a clear "Hat & Glasses" icon when Incognito is active. | *Automatic (when Incognito)* |
+| **Clipboard Search** | Search through your clipboard history directly. | Clipboard Toolbar > Search Icon |
+| **Dictionary Import** | Import personal words from Google Gboard/other keyboards. | `Text correction > Dictionary > Import` |
+| **Force Auto-Caps** | Toggle to ensure automatic capitalization works reliably. | `Text correction > Auto-capitalization` |
+
+---
+
 ## Supported AI Providers
 
 | Provider | Privacy | Setup | Free Tier | Best For |
@@ -97,10 +124,64 @@ This provider supports any service using the standard OpenAI Chat Completion API
 
 ---
 
+## 4. Custom AI Keys & Keywords
+
+You can assign custom prompts to 10 specific keys in the toolbar. These keys can "act" differently based on the keywords (hashtags) you include in your prompt.
+
+### How to Use
+1.  Go to **Settings > AI Integration > Custom Keys**.
+2.  Tap a key (1-10) to configure it.
+3.  Enter your instructions. You can use the following hashtags to control the AI's behavior and output format.
+
+### AI Persona Keywords
+Add these to your prompt to enforce a specific role.
+
+| Keyword | Persona / Behavior | System Instruction Added |
+| :--- | :--- | :--- |
+| `#editor` | **Text Editor** | "Output ONLY the edited text. Do not add any conversational filler." |
+| `#outputonly` | **Strict Output** | "Output ONLY the result. Do not add introductions or explanations." |
+| `#proofread` | **Proofreader** | "Fix grammar and spelling errors. Output ONLY the fixed text." |
+| `#paraphrase` | **Rewriter** | "Rewrite using different words while keeping the meaning." |
+| `#summarize` | **Summarizer** | "Provide a concise summary." |
+| `#expand` | **Writer** | "Expand on the text with more details." |
+| `#toneshift` | **Tone Adjuster** | "Adjust the tone as requested." |
+| `#generate` | **Content Generator** | "You are a creative content generator. Output ONLY content." |
+
+### Input Handling Keywords
+Control how the result is inserted.
+
+| Keyword | Behavior | Use Case |
+| :--- | :--- | :--- |
+| **(Default)** | **Replace**: The AI output replaces the selected text or the entire text field content. | Proofreading, rewriting, summarizing. |
+| `#append` | **Append**: The AI output is added to the **end** of the text field (or selection) instead of replacing it. | Generating replies, continuing a story, adding a sign-off. |
+
+### Examples
+
+**1. Standard Proofreading (Replace)**
+> Prompt: `Fix grammar #proofread`
+> *Result: Replaces your text with the corrected version.*
+
+**2. Generate a Reply (Append)**
+> Prompt: `Generate a polite decline to this invitation #generate #append`
+> *Result: Keeps the original invitation text and adds your polite decline at the end.*
+
+**3. Strict Rewriting**
+> Prompt: `Rewrite this to be more professional #editor`
+> *Result: Replaces text with professional version, guaranteeing no "Here is the text:" prefixes.*
+
+**4. Tone Shift**
+> Prompt: `Make this sound more enthusiastic #toneshift`
+> *Result: Rewrites the text with high energy and exclamation points, keeping the core message.*
+
+> [!TIP]
+> **Hashtags are Optional**: You can write purely custom prompts (e.g., "Translate to French"). However, without a hashtag like `#outputonly` or `#editor`, the AI might act like a chatbot (e.g., responding with "Sure! Here is the translation: ..."). Using these keywords automatically injects strict system instructions to ensure you get *only* the result you want.
+
+---
+
 ## Privacy
 *   **Data**: Text is sent directly from your device to the chosen API provider. No intermediate servers are used.
 
-## 3. Offline Proofreading (Privacy Focused)
+## 5. Offline Proofreading (Privacy Focused)
 
 **Note**: This feature is only available in the "Offline" build flavor of HeliboardL.
 

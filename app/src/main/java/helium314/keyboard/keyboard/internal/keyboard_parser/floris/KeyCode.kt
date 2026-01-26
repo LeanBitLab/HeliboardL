@@ -179,6 +179,17 @@ object KeyCode {
     const val INLINE_EMOJI_SEARCH_DONE =  -10051
     const val PROOFREAD =                 -10052  // Gemini AI proofreading
     const val TRANSLATE =                 -10053  // Gemini AI translation
+    const val CUSTOM_AI_1 =               -10061
+    const val CUSTOM_AI_2 =               -10062
+    const val CUSTOM_AI_3 =               -10063
+    const val CUSTOM_AI_4 =               -10064
+    const val CUSTOM_AI_5 =               -10065
+    const val CUSTOM_AI_6 =               -10066
+    const val CUSTOM_AI_7 =               -10067
+    const val CUSTOM_AI_8 =               -10068
+    const val CUSTOM_AI_9 =               -10069
+    const val CUSTOM_AI_10 =              -10070
+    const val CLIPBOARD_SEARCH =          -10071
 
 
     // Intents
@@ -202,7 +213,9 @@ object KeyCode {
         PAGE_DOWN, META, TAB, ESCAPE, INSERT, SLEEP, MEDIA_PLAY, MEDIA_PAUSE, MEDIA_PLAY_PAUSE, MEDIA_NEXT,
         MEDIA_PREVIOUS, VOL_UP, VOL_DOWN, MUTE, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, BACK,
         TIMESTAMP, CTRL_LEFT, CTRL_RIGHT, ALT_LEFT, ALT_RIGHT, META_LEFT, META_RIGHT, SEND_INTENT_ONE, SEND_INTENT_TWO,
-        SEND_INTENT_THREE, INLINE_EMOJI_SEARCH_DONE, META_LOCK, PROOFREAD, TRANSLATE
+        SEND_INTENT_THREE, INLINE_EMOJI_SEARCH_DONE, META_LOCK, PROOFREAD, TRANSLATE,
+        CUSTOM_AI_1, CUSTOM_AI_2, CUSTOM_AI_3, CUSTOM_AI_4, CUSTOM_AI_5,
+        CUSTOM_AI_6, CUSTOM_AI_7, CUSTOM_AI_8, CUSTOM_AI_9, CUSTOM_AI_10, CLIPBOARD_SEARCH
         -> this
 
         // conversion

@@ -55,7 +55,8 @@ object ProofreadHelper {
         errorResId: Int,
         apiCall: suspend (ProofreadService) -> Result<String>,
         onSuccess: (String) -> Unit,
-        onError: (String) -> Unit
+        onError: (String) -> Unit,
+        allowEmptyInput: Boolean = false
     ) {
         val service = ProofreadService(context)
 
@@ -97,7 +98,7 @@ object ProofreadHelper {
             }
         }
 
-        if (text.isBlank()) {
+        if (!allowEmptyInput && text.isBlank()) {
             mainHandler.post {
                 KeyboardSwitcher.getInstance().showToast(
                     context.getString(noTextErrorResId),
@@ -236,6 +237,50 @@ object ProofreadHelper {
         translateAsync(
             context = context,
             text = text,
+            hasSelection = hasSelection,
+            onSuccess = { callback.onSuccess(it) },
+            onError = { callback.onError(it) }
+        )
+    }
+    /**
+     * Perform custom AI action asynchronously.
+     */
+    @JvmStatic
+    fun customAsync(
+        context: Context,
+        text: String,
+        prompt: String,
+        hasSelection: Boolean,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        performAsyncOperation(
+            context = context,
+            text = text,
+            noTextErrorResId = R.string.proofread_no_text,
+            errorResId = R.string.proofread_error,
+            apiCall = { service -> service.proofread(text, overridePrompt = prompt) },
+            onSuccess = onSuccess,
+            onError = onError,
+            allowEmptyInput = true
+        )
+    }
+
+    /**
+     * Java-friendly interface for custom action.
+     */
+    @JvmStatic
+    fun customAsync(
+        context: Context,
+        text: String,
+        prompt: String,
+        hasSelection: Boolean,
+        callback: ProofreadCallback
+    ) {
+        customAsync(
+            context = context,
+            text = text,
+            prompt = prompt,
             hasSelection = hasSelection,
             onSuccess = { callback.onSuccess(it) },
             onError = { callback.onError(it) }

@@ -25,6 +25,9 @@ import helium314.keyboard.settings.Theme
 import helium314.keyboard.settings.initPreview
 import helium314.keyboard.settings.previewDark
 import androidx.core.content.edit
+import helium314.keyboard.settings.SettingsWithoutKey
+import helium314.keyboard.settings.preferences.ListPreference
+import helium314.keyboard.settings.preferences.LoadGestureLibPreference
 
 @Composable
 fun GestureTypingScreen(
@@ -42,7 +45,7 @@ fun GestureTypingScreen(
     val items = buildList {
         // Library loader is always first if allowed
         if (helium314.keyboard.latin.BuildConfig.BUILD_TYPE != "nouserlib") {
-            add(helium314.keyboard.settings.SettingsWithoutKey.LOAD_GESTURE_LIB)
+            add(SettingsWithoutKey.LOAD_GESTURE_LIB)
         }
         // Show all gesture settings (they will be disabled if no library)
         add(Settings.PREF_GESTURE_INPUT)
@@ -56,6 +59,10 @@ fun GestureTypingScreen(
             if (prefs.getBoolean(Settings.PREF_GESTURE_PREVIEW_TRAIL, Defaults.PREF_GESTURE_PREVIEW_TRAIL) || gestureFloatingPreviewEnabled)
                 add(Settings.PREF_GESTURE_TRAIL_FADEOUT_DURATION)
         }
+        add(Settings.PREF_SPACE_HORIZONTAL_SWIPE)
+        add(Settings.PREF_SPACE_VERTICAL_SWIPE)
+        add(Settings.PREF_TOUCHPAD_SENSITIVITY)
+        add(Settings.PREF_DELETE_SWIPE)
     }
     SearchSettingsScreen(
         onClickBack = onClickBack,
@@ -115,8 +122,40 @@ fun createGestureTypingSettings(context: Context) = listOf(
             stepSize = 10,
         ) { KeyboardSwitcher.getInstance().setThemeNeedsReload() }
     },
-    Setting(context, helium314.keyboard.settings.SettingsWithoutKey.LOAD_GESTURE_LIB, R.string.load_gesture_library, R.string.load_gesture_library_summary) {
-        helium314.keyboard.settings.preferences.LoadGestureLibPreference(it)
+    Setting(context, SettingsWithoutKey.LOAD_GESTURE_LIB, R.string.load_gesture_library, R.string.load_gesture_library_summary) {
+        LoadGestureLibPreference(it)
+    },
+    Setting(context, Settings.PREF_SPACE_HORIZONTAL_SWIPE, R.string.show_horizontal_space_swipe) {
+        val items = listOf(
+            stringResource(R.string.space_swipe_move_cursor_entry) to "move_cursor",
+            stringResource(R.string.switch_language) to "switch_language",
+            stringResource(R.string.space_swipe_toggle_numpad_entry) to "toggle_numpad",
+            stringResource(R.string.action_none) to "none",
+        )
+        ListPreference(it, items, Defaults.PREF_SPACE_HORIZONTAL_SWIPE)
+    },
+    Setting(context, Settings.PREF_SPACE_VERTICAL_SWIPE, R.string.show_vertical_space_swipe) {
+        val items = listOf(
+            stringResource(R.string.space_swipe_move_cursor_entry) to "move_cursor",
+            stringResource(R.string.switch_language) to "switch_language",
+            stringResource(R.string.space_swipe_toggle_numpad_entry) to "toggle_numpad",
+            stringResource(R.string.space_swipe_hide_keyboard_entry) to "hide_keyboard",
+            stringResource(R.string.space_swipe_touchpad_mode_entry) to "touchpad_mode",
+            stringResource(R.string.action_none) to "none",
+        )
+        ListPreference(it, items, Defaults.PREF_SPACE_VERTICAL_SWIPE)
+    },
+    Setting(context, Settings.PREF_TOUCHPAD_SENSITIVITY, R.string.touchpad_sensitivity) {
+        SliderPreference(
+            name = it.title,
+            key = it.key,
+            default = Defaults.PREF_TOUCHPAD_SENSITIVITY,
+            range = 0f..100f,
+            description = { value -> value.toInt().toString() }
+        )
+    },
+    Setting(context, Settings.PREF_DELETE_SWIPE, R.string.delete_swipe, R.string.delete_swipe_summary) {
+        SwitchPreference(it, Defaults.PREF_DELETE_SWIPE)
     },
 )
 

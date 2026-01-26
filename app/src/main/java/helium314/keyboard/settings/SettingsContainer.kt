@@ -93,4 +93,6 @@ object SettingsWithoutKey {
     const val HUGGINGFACE_MODEL = "huggingface_model"
     const val HUGGINGFACE_ENDPOINT = "huggingface_endpoint"
     const val GROQ_MODEL = "groq_model"
+    const val CUSTOM_AI_KEYS = "custom_ai_keys"
+    const val OFFLINE_KEEP_MODEL_LOADED = "offline_keep_model_loaded"
 }

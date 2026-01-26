@@ -17,13 +17,15 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 - **🤖 Multi-Provider AI** - Proofread using **Gemini**, **Groq** (Llama 3, Mixtral), or **OpenAI-compatible** providers.
 - **🛡️ Offline AI** - Private, on-device proofreading and translation using ONNX models (Offline build only).
 - **🌐 AI Translation** - Translate selected text directly using your chosen AI provider.
+- **🧠 Custom AI Keys** - Assign custom prompts and personas (#editor, #proofread) to 10 customizable toolbar keys.
 - **⌨️ Dual Toolbar / Split Suggestions** - Option to split suggestions and toolbar for easier access.
 - **🖱️ Touchpad Mode** - Swipe spacebar up to toggle touchpad; custom sensitivity controls.
 - **🎨 Modern UI** - "Squircle" key backgrounds, refined icons, and polished aesthetics.
 - **🔄 Google Dictionary Import** - Easily import your personal dictionary words.
 - **⚙️ Enhanced Customization** - Force auto-capitalization toggle, reorganized settings, and more.
 - **🕵️ Clear Incognito Mode** - Distinct "Hat & Glasses" icon for clear visibility.
-- **🔒 Privacy Choices** - Choose **Standard** (Offline-first with opt-in AI) or **Offline** (Hard-disabled network) versions.
+- **🔍 Clipboard Search** - Search through your clipboard history directly from the toolbar.
+- **🔒 Privacy Choices** - Choose **Standard** (Opt-in AI), **Offline** (Hard-disabled network, offline model load), or **Offline Lite** (Minimalist, no AI) versions.
 
 ## Screenshots
 

@@ -266,7 +266,9 @@ class DynamicColors(context: Context, override val themeStyle: String, override 
         actionKeyIconColorFilter = when {
             themeStyle == STYLE_HOLO -> keyTextFilter
             // the white icon may not have enough contrast, and can't be adjusted by the user
-            isBrightColor(accent) -> colorFilter(Color.DKGRAY)
+            // Use 0.65 as threshold (white(1.0) on light accent > 0.65 is bad)
+            // Or easier: if accent is bright, use dark icon
+            androidx.core.graphics.ColorUtils.calculateLuminance(accent) > 0.6 -> colorFilter(Color.DKGRAY)
             else -> null
         }
     }

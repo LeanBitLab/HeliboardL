@@ -99,8 +99,8 @@
     <string name="incognito">Impor modo incógnito</string>
     <string name="day_night_mode">Modo diurno/noturno automático</string>
     <string name="day_night_mode_summary">Aparência usa as definições do sistema</string>
-    <string name="spell_checker_service_name">Corretor ortográfico HeliBoard</string>
-    <string name="ime_settings">Definições de HeliBoard</string>
+    <string name="spell_checker_service_name">Corretor ortográfico HeliboardL</string>
+    <string name="ime_settings">Definições de HeliboardL</string>
     <string name="settings_category_input">Introdução</string>
     <string name="settings_category_additional_keys">Teclas adicionais</string>
     <string name="settings_category_correction">Correções</string>
@@ -116,7 +116,7 @@
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Toque longo na tecla de Espaço abre o menu de seleção do método de entrada</string>
     <string name="prefs_keyboard_height_scale">Altura do teclado</string>
     <string name="key_borders">Limite das teclas</string>
-    <string name="android_spell_checker_settings">Definições do corretor ortográfico HeliBoard</string>
+    <string name="android_spell_checker_settings">Definições do corretor ortográfico HeliboardL</string>
     <string name="auto_correction_confidence">Confiança da correção automática</string>
     <string name="enable_clipboard_history_summary">Se desativado, a tecla da área de transferência colará o conteúdo disponível</string>
     <string name="select_input_method">"Escolher o método de entrada"</string>

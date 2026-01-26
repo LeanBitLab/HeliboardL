@@ -13,26 +13,99 @@
     android:background="@android:color/transparent"
     style="?attr/clipboardHistoryViewStyle">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/clipboard_empty_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            android:text="¯\\_(ツ)_/¯"
-            tools:ignore="HardcodedText" />
-
-        <helium314.keyboard.keyboard.clipboard.ClipboardHistoryRecyclerView
-            android:id="@+id/clipboard_list"
+        <!-- Modal Search Overlay: Visible only during search mode -->
+        <LinearLayout
+            android:id="@+id/clipboard_search_overlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:paddingHorizontal="0dp"
+            android:paddingVertical="4dp">
 
-    </FrameLayout>
+            <ImageButton
+                android:id="@+id/clipboard_search_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_back"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="10dp"
+                android:contentDescription="Back" />
+
+            <EditText
+                android:id="@+id/clipboard_search_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/clipboard_search_hint"
+                android:imeOptions="actionSearch|flagNoExtractUi"
+                android:inputType="text"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:padding="6dp"
+                android:textSize="16sp"
+                android:textColor="?android:attr/colorAccent"
+                android:textColorHint="?android:attr/textColorHint" />
+
+            <ImageButton
+                android:id="@+id/clipboard_clear_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_close"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                android:padding="10dp"
+                android:contentDescription="Clear search" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/clipboard_empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:id="@+id/clipboard_empty_icon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/sym_keyboard_paste_rounded"
+                    android:alpha="0.5"
+                    android:contentDescription="No items" />
+
+                <TextView
+                    android:id="@+id/clipboard_empty_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="No clipboard items found"
+                    android:textSize="16sp"
+                    android:alpha="0.7"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+            <helium314.keyboard.keyboard.clipboard.ClipboardHistoryRecyclerView
+                android:id="@+id/clipboard_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"/>
+
+        </FrameLayout>
+    </LinearLayout>
 
     <helium314.keyboard.keyboard.MainKeyboardView
         android:id="@+id/bottom_row_keyboard"

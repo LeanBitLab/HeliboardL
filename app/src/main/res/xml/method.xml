@@ -40,6 +40,7 @@
     en_IN: English (India)/qwerty
     en_US: English (United States)/qwerty
     en_GB: English (Great Britain)/qwerty
+    en_CA: English (Canada)/qwerty
     eo: Esperanto/esperanto
     es: Spanish/qwerty+
     es_US: Spanish (United States)/qwerty+
@@ -156,6 +157,15 @@
         android:subtypeId="0xc9194f98"
         android:imeSubtypeLocale="en_US"
         android:languageTag="en-US"
+        android:imeSubtypeMode="keyboard"
+        android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
+        android:isAsciiCapable="true"
+    />
+    <subtype android:icon="@drawable/ic_ime_switcher"
+        android:label="@string/subtype_generic"
+        android:subtypeId="0xc9194f99"
+        android:imeSubtypeLocale="en_CA"
+        android:languageTag="en-CA"
         android:imeSubtypeMode="keyboard"
         android:imeSubtypeExtraValue="TrySuppressingImeSwitcher,AsciiCapable,SupportTouchPositionCorrection,EmojiCapable"
         android:isAsciiCapable="true"

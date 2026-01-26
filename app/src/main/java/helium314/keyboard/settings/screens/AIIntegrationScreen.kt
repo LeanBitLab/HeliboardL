@@ -48,6 +48,11 @@ private fun StandardAIIntegrationScreen(onClickBack: () -> Unit) {
         // Always show provider selection
         add(SettingsWithoutKey.AI_PROVIDER)
         
+        // ADDED: Custom AI Keys entry
+        if (BuildConfig.FLAVOR == "standard") {
+            add(SettingsWithoutKey.CUSTOM_AI_KEYS)
+        }
+        
         // Show settings based on selected provider
         when (currentProvider) {
             "GROQ" -> {
@@ -79,7 +84,8 @@ private fun StandardAIIntegrationScreen(onClickBack: () -> Unit) {
 @Composable
 private fun OfflineAIIntegrationScreen(onClickBack: () -> Unit) {
     val items = listOf(
-        SettingsWithoutKey.OFFLINE_MODEL_PATH
+        SettingsWithoutKey.OFFLINE_MODEL_PATH,
+        SettingsWithoutKey.OFFLINE_KEEP_MODEL_LOADED
     )
     
     SearchSettingsScreen(

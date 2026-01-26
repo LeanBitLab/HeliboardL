@@ -50,6 +50,8 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
 
         // new themes that are just colors
         const val THEME_LIGHT = "light"
+        const val THEME_LEANBITLAB_LIGHT = "leanbitlab_light"
+        const val THEME_LEANBITLAB_DARK = "leanbitlab_dark"
         const val THEME_HOLO_WHITE = "holo_white"
         const val THEME_DARK = "dark"
         const val THEME_DARKER = "darker"
@@ -66,7 +68,10 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         const val THEME_SAND = "sand"
         const val THEME_VIOLETTE = "violette"
         fun getAvailableDefaultColors(prefs: SharedPreferences, isNight: Boolean) = listOfNotNull(
-            if (!isNight) THEME_LIGHT else null, THEME_DARK,
+            if (!isNight) THEME_LIGHT else null,
+            if (!isNight) THEME_LEANBITLAB_LIGHT else null,
+            THEME_LEANBITLAB_DARK,
+            THEME_DARK,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) THEME_DYNAMIC else null,
             if (prefs.getString(Settings.PREF_THEME_STYLE, Defaults.PREF_THEME_STYLE) == STYLE_HOLO) THEME_HOLO_WHITE else null,
             THEME_DARKER,
@@ -152,6 +157,30 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) DynamicColors(context, themeStyle, hasBorders, backgroundImage)
                     else getThemeColors(THEME_LIGHT, themeStyle, context, prefs, isNight)
                 }
+                THEME_LEANBITLAB_LIGHT -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#9AA0A6".toColorInt(), // Accent (Google Grey 500) - Darker than functional (#DADCE0)
+                    "#F1F3F4".toColorInt(), // Background (Google Light Grey)
+                    "#FFFFFF".toColorInt(), // Key Bg
+                    "#DADCE0".toColorInt(), // Functional Key (Google Grey)
+                    "#FFFFFF".toColorInt(), // Spacebar
+                    "#000000".toColorInt(), // Text
+                    "#B3000000".toColorInt(), // Hint
+                    keyboardBackground = backgroundImage
+                )
+                THEME_LEANBITLAB_DARK -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#5F6368".toColorInt(), // Accent (Google Grey 700) - Lighter than functional (#3C4043)
+                    "#202124".toColorInt(), // Background (Google Dark)
+                    "#303134".toColorInt(), // Key Bg (Google Dark Key)
+                    "#3C4043".toColorInt(), // Functional Key (Google Dark Lighter)
+                    "#303134".toColorInt(), // Spacebar
+                    "#FFFFFF".toColorInt(), // Text
+                    "#B3FFFFFF".toColorInt(), // Hint
+                    keyboardBackground = backgroundImage
+                )
                 THEME_LIGHT -> DefaultColors(
                     themeStyle,
                     hasBorders,

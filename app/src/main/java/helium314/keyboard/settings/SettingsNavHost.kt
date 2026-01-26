@@ -22,6 +22,7 @@ import helium314.keyboard.settings.screens.AdvancedSettingsScreen
 import helium314.keyboard.settings.screens.AppearanceScreen
 import helium314.keyboard.settings.screens.ColorsScreen
 import helium314.keyboard.settings.screens.DebugScreen
+import helium314.keyboard.settings.screens.CustomAIKeysScreen
 import helium314.keyboard.settings.screens.DictionaryScreen
 import helium314.keyboard.settings.screens.GestureTypingScreen
 import helium314.keyboard.settings.screens.LanguageScreen
@@ -101,6 +102,9 @@ fun SettingsNavHost(
         composable(SettingsDestination.AIIntegration) {
             AIIntegrationScreen(onClickBack = ::goBack)
         }
+        composable(SettingsDestination.CustomAIKeys) {
+            CustomAIKeysScreen(onClickBack = ::goBack)
+        }
         composable(SettingsDestination.Debug) {
             DebugScreen(onClickBack = ::goBack)
         }
@@ -159,6 +163,7 @@ object SettingsDestination {
     const val Subtype = "subtype/"
     const val Layouts = "layouts"
     const val Dictionaries = "dictionaries"
+    const val CustomAIKeys = "custom_ai_keys"
     val navTarget = MutableStateFlow(Settings)
 
     private val navScope = CoroutineScope(Dispatchers.Default)

@@ -126,6 +126,7 @@ class KeyboardIconsSet private constructor() {
                 put(it.name.lowercase(Locale.US), when (it) {
                     ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_holo
                     ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_holo
+                    ToolbarKey.CLIPBOARD_SEARCH -> R.drawable.sym_keyboard_search_holo
                     ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_holo
                     ToolbarKey.UNDO -> R.drawable.ic_undo
                     ToolbarKey.REDO -> R.drawable.ic_redo
@@ -156,6 +157,16 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
                     ToolbarKey.PROOFREAD -> R.drawable.ic_proofread
                     ToolbarKey.TRANSLATE -> R.drawable.ic_translate
+                    ToolbarKey.CUSTOM_AI_1 -> R.drawable.ic_custom_ai_1
+                    ToolbarKey.CUSTOM_AI_2 -> R.drawable.ic_custom_ai_2
+                    ToolbarKey.CUSTOM_AI_3 -> R.drawable.ic_custom_ai_3
+                    ToolbarKey.CUSTOM_AI_4 -> R.drawable.ic_custom_ai_4
+                    ToolbarKey.CUSTOM_AI_5 -> R.drawable.ic_custom_ai_5
+                    ToolbarKey.CUSTOM_AI_6 -> R.drawable.ic_custom_ai_6
+                    ToolbarKey.CUSTOM_AI_7 -> R.drawable.ic_custom_ai_7
+                    ToolbarKey.CUSTOM_AI_8 -> R.drawable.ic_custom_ai_8
+                    ToolbarKey.CUSTOM_AI_9 -> R.drawable.ic_custom_ai_9
+                    ToolbarKey.CUSTOM_AI_10 -> R.drawable.ic_custom_ai_10
                 })
             }
         } }
@@ -189,6 +200,7 @@ class KeyboardIconsSet private constructor() {
                 put(it.name.lowercase(Locale.US), when (it) {
                     ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_lxx
                     ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_lxx
+                    ToolbarKey.CLIPBOARD_SEARCH -> R.drawable.sym_keyboard_search_lxx
                     ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_lxx
                     ToolbarKey.UNDO -> R.drawable.ic_undo
                     ToolbarKey.REDO -> R.drawable.ic_redo
@@ -219,6 +231,16 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
                     ToolbarKey.PROOFREAD -> R.drawable.ic_proofread
                     ToolbarKey.TRANSLATE -> R.drawable.ic_translate
+                    ToolbarKey.CUSTOM_AI_1 -> R.drawable.ic_custom_ai_1
+                    ToolbarKey.CUSTOM_AI_2 -> R.drawable.ic_custom_ai_2
+                    ToolbarKey.CUSTOM_AI_3 -> R.drawable.ic_custom_ai_3
+                    ToolbarKey.CUSTOM_AI_4 -> R.drawable.ic_custom_ai_4
+                    ToolbarKey.CUSTOM_AI_5 -> R.drawable.ic_custom_ai_5
+                    ToolbarKey.CUSTOM_AI_6 -> R.drawable.ic_custom_ai_6
+                    ToolbarKey.CUSTOM_AI_7 -> R.drawable.ic_custom_ai_7
+                    ToolbarKey.CUSTOM_AI_8 -> R.drawable.ic_custom_ai_8
+                    ToolbarKey.CUSTOM_AI_9 -> R.drawable.ic_custom_ai_9
+                    ToolbarKey.CUSTOM_AI_10 -> R.drawable.ic_custom_ai_10
                 })
             }
         } }
@@ -252,6 +274,7 @@ class KeyboardIconsSet private constructor() {
                 put(it.name.lowercase(Locale.US), when (it) {
                     ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_rounded
                     ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_rounded
+                    ToolbarKey.CLIPBOARD_SEARCH -> R.drawable.sym_keyboard_search_rounded
                     ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_lxx
                     ToolbarKey.UNDO -> R.drawable.ic_undo_rounded
                     ToolbarKey.REDO -> R.drawable.ic_redo_rounded
@@ -282,6 +305,16 @@ class KeyboardIconsSet private constructor() {
                     ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
                     ToolbarKey.PROOFREAD -> R.drawable.ic_proofread_rounded
                     ToolbarKey.TRANSLATE -> R.drawable.ic_translate_rounded
+                    ToolbarKey.CUSTOM_AI_1 -> R.drawable.ic_custom_ai_1
+                    ToolbarKey.CUSTOM_AI_2 -> R.drawable.ic_custom_ai_2
+                    ToolbarKey.CUSTOM_AI_3 -> R.drawable.ic_custom_ai_3
+                    ToolbarKey.CUSTOM_AI_4 -> R.drawable.ic_custom_ai_4
+                    ToolbarKey.CUSTOM_AI_5 -> R.drawable.ic_custom_ai_5
+                    ToolbarKey.CUSTOM_AI_6 -> R.drawable.ic_custom_ai_6
+                    ToolbarKey.CUSTOM_AI_7 -> R.drawable.ic_custom_ai_7
+                    ToolbarKey.CUSTOM_AI_8 -> R.drawable.ic_custom_ai_8
+                    ToolbarKey.CUSTOM_AI_9 -> R.drawable.ic_custom_ai_9
+                    ToolbarKey.CUSTOM_AI_10 -> R.drawable.ic_custom_ai_10
                 })
             }
         } }

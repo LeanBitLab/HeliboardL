@@ -14,8 +14,8 @@ object Links {
     const val ORIGINAL_GITHUB = "https://github.com/Helium314/HeliBoard"
     const val LAYOUT_WIKI_URL = "$ORIGINAL_GITHUB/wiki/2.-Layouts"
     const val WIKI_URL = "$ORIGINAL_GITHUB/wiki"
-    const val CUSTOM_LAYOUTS = "$ORIGINAL_GITHUB/discussions/categories/custom-layout"
-    const val CUSTOM_COLORS = "$ORIGINAL_GITHUB/discussions/categories/custom-colors"
+    const val CUSTOM_LAYOUTS = "$GITHUB/discussions/categories/custom-layout"
+    const val CUSTOM_COLORS = "$GITHUB/discussions/categories/custom-colors"
 }
 
 val combiningRange = 0x300..0x35b

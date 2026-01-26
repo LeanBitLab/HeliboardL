@@ -105,9 +105,9 @@
     <string name="label_search_key">"Paieška"</string>
     <string name="label_pause_key">Pristabdyti</string>
     <string name="label_wait_key">"Lauk."</string>
-    <string name="spell_checker_service_name">HeliBoard rašybos tikrinimas</string>
-    <string name="ime_settings">HeliBoard nustatymai</string>
-    <string name="android_spell_checker_settings">HeliBoard rašybos tikrinimo nustatymai</string>
+    <string name="spell_checker_service_name">HeliboardL rašybos tikrinimas</string>
+    <string name="ime_settings">HeliboardL nustatymai</string>
+    <string name="android_spell_checker_settings">HeliboardL rašybos tikrinimo nustatymai</string>
     <string name="vibrate_in_dnd_mode">Vibruoti netrukdymo režime</string>
     <string name="suggest_emojis">Siūlyti jaustukus</string>
     <string name="suggest_emojis_summary">Naudoti jaustukų žodyną įprastuose pasiūlymuose</string>

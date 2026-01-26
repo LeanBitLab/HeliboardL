@@ -10,6 +10,7 @@ import androidx.core.content.edit
 import androidx.core.view.forEach
 import helium314.keyboard.keyboard.internal.KeyboardIconsSet
 import helium314.keyboard.keyboard.internal.keyboard_parser.floris.KeyCode
+import helium314.keyboard.latin.BuildConfig
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.common.Constants.Separators
 import helium314.keyboard.latin.settings.Defaults
@@ -57,6 +58,7 @@ private fun setToolbarButtonActivatedState(button: ImageButton) {
 fun getCodeForToolbarKey(key: ToolbarKey) = Settings.getInstance().getCustomToolbarKeyCode(key) ?: when (key) {
     VOICE -> KeyCode.VOICE_INPUT
     CLIPBOARD -> KeyCode.CLIPBOARD
+    CLIPBOARD_SEARCH -> KeyCode.CLIPBOARD_SEARCH
     NUMPAD -> KeyCode.NUMPAD
     UNDO -> KeyCode.UNDO
     REDO -> KeyCode.REDO
@@ -87,6 +89,16 @@ fun getCodeForToolbarKey(key: ToolbarKey) = Settings.getInstance().getCustomTool
     SPLIT -> KeyCode.SPLIT_LAYOUT
     PROOFREAD -> KeyCode.PROOFREAD
     TRANSLATE -> KeyCode.TRANSLATE
+    CUSTOM_AI_1 -> KeyCode.CUSTOM_AI_1
+    CUSTOM_AI_2 -> KeyCode.CUSTOM_AI_2
+    CUSTOM_AI_3 -> KeyCode.CUSTOM_AI_3
+    CUSTOM_AI_4 -> KeyCode.CUSTOM_AI_4
+    CUSTOM_AI_5 -> KeyCode.CUSTOM_AI_5
+    CUSTOM_AI_6 -> KeyCode.CUSTOM_AI_6
+    CUSTOM_AI_7 -> KeyCode.CUSTOM_AI_7
+    CUSTOM_AI_8 -> KeyCode.CUSTOM_AI_8
+    CUSTOM_AI_9 -> KeyCode.CUSTOM_AI_9
+    CUSTOM_AI_10 -> KeyCode.CUSTOM_AI_10
 }
 
 fun getCodeForToolbarKeyLongClick(key: ToolbarKey) = Settings.getInstance().getCustomToolbarLongpressCode(key) ?: when (key) {
@@ -110,9 +122,11 @@ fun getCodeForToolbarKeyLongClick(key: ToolbarKey) = Settings.getInstance().getC
 
 // names need to be aligned with resources strings (using lowercase of key.name)
 enum class ToolbarKey {
-    VOICE, CLIPBOARD, NUMPAD, UNDO, REDO, SETTINGS, SELECT_ALL, SELECT_WORD, COPY, CUT, PASTE, ONE_HANDED, SPLIT,
+    VOICE, CLIPBOARD, CLIPBOARD_SEARCH, NUMPAD, UNDO, REDO, SETTINGS, SELECT_ALL, SELECT_WORD, COPY, CUT, PASTE, ONE_HANDED, SPLIT,
     INCOGNITO, AUTOCORRECT, CLEAR_CLIPBOARD, CLOSE_HISTORY, EMOJI, LEFT, RIGHT, UP, DOWN, WORD_LEFT, WORD_RIGHT,
-    PAGE_UP, PAGE_DOWN, FULL_LEFT, FULL_RIGHT, PAGE_START, PAGE_END, PROOFREAD, TRANSLATE
+    PAGE_UP, PAGE_DOWN, FULL_LEFT, FULL_RIGHT, PAGE_START, PAGE_END, PROOFREAD, TRANSLATE,
+    CUSTOM_AI_1, CUSTOM_AI_2, CUSTOM_AI_3, CUSTOM_AI_4, CUSTOM_AI_5,
+    CUSTOM_AI_6, CUSTOM_AI_7, CUSTOM_AI_8, CUSTOM_AI_9, CUSTOM_AI_10
 }
 
 enum class ToolbarMode {
@@ -122,17 +136,21 @@ enum class ToolbarMode {
 val toolbarKeyStrings = entries.associateWithTo(EnumMap(ToolbarKey::class.java)) { it.toString().lowercase(Locale.US) }
 
 private val excludedKeys by lazy {
-    if (helium314.keyboard.latin.BuildConfig.FLAVOR == "offlinelite")
-        listOf(CLOSE_HISTORY, PROOFREAD, TRANSLATE)
+    val customAiKeys = if (BuildConfig.FLAVOR != "standard")
+        ToolbarKey.values().filter { it.name.startsWith("CUSTOM_AI_") }
+    else emptyList()
+    val otherKeys = if (BuildConfig.FLAVOR == "offlinelite")
+        listOf(CLOSE_HISTORY, PROOFREAD, TRANSLATE, CLIPBOARD_SEARCH)
     else
-        listOf(CLOSE_HISTORY)
+        listOf(CLOSE_HISTORY, CLIPBOARD_SEARCH)
+    customAiKeys + otherKeys
 }
 
 val defaultToolbarPref by lazy {
     val default = when (helium314.keyboard.latin.BuildConfig.FLAVOR) {
         "offline" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE, PROOFREAD, TRANSLATE)
         "offlinelite" -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, INCOGNITO, COPY, PASTE)
-        else -> listOf(SETTINGS, VOICE, CLIPBOARD, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
+        else -> listOf(SETTINGS, VOICE, CLIPBOARD, CUSTOM_AI_1, UNDO, PROOFREAD, TRANSLATE, INCOGNITO, COPY, PASTE)
     }
         
     val others = entries.filterNot { it in default || it in excludedKeys }
@@ -152,7 +170,7 @@ val defaultPinnedToolbarPref by lazy {
 }
 
 val defaultClipboardToolbarPref by lazy {
-    val default = listOf(CLEAR_CLIPBOARD, UP, DOWN, LEFT, RIGHT, UNDO, CUT, COPY, PASTE, SELECT_WORD, CLOSE_HISTORY)
+    val default = listOf(CLIPBOARD_SEARCH, CLEAR_CLIPBOARD, SELECT_ALL, SELECT_WORD, COPY, CUT, PASTE, UNDO, REDO, SETTINGS, CLOSE_HISTORY)
     val others = entries.filterNot { it in default }
     default.joinToString(Separators.ENTRY) { it.name + Separators.KV + true } + Separators.ENTRY +
             others.joinToString(Separators.ENTRY) { it.name + Separators.KV + false }
@@ -168,7 +186,7 @@ fun upgradeToolbarPrefs(prefs: SharedPreferences) {
 private fun upgradeToolbarPref(prefs: SharedPreferences, pref: String, default: String) {
     if (!prefs.contains(pref)) return
     val list = prefs.getString(pref, default)!!.split(Separators.ENTRY).toMutableList()
-    val splitDefault = defaultToolbarPref.split(Separators.ENTRY)
+    val splitDefault = default.split(Separators.ENTRY)
     splitDefault.forEach { entry ->
         val keyWithSeparator = entry.substringBefore(Separators.KV) + Separators.KV
         if (list.none { it.startsWith(keyWithSeparator) })

@@ -104,9 +104,9 @@
     <string name="label_search_key">"Carian"</string>
     <string name="label_pause_key">"Jeda"</string>
     <string name="label_wait_key">"Tggu"</string>
-    <string name="spell_checker_service_name">Pemeriksa Ejaan HeliBoard</string>
-    <string name="ime_settings">Tetapan HeliBoard</string>
-    <string name="android_spell_checker_settings">Tetapan Pemeriksa Ejaan HeliBoard</string>
+    <string name="spell_checker_service_name">Pemeriksa Ejaan HeliboardL</string>
+    <string name="ime_settings">Tetapan HeliboardL</string>
+    <string name="android_spell_checker_settings">Tetapan Pemeriksa Ejaan HeliboardL</string>
     <string name="vibrate_in_dnd_mode">Getar dalam mod Jangan Kacau</string>
     <string name="suggest_emojis">Cadangkan emoji</string>
     <string name="suggest_emojis_summary">Gunakan kamus emoji dalam cadangan normal</string>

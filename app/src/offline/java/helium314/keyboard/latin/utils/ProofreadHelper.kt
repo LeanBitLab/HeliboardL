@@ -188,4 +188,41 @@ object ProofreadHelper {
             onError = { callback.onError(it) }
         )
     }
+    @JvmStatic
+    fun customAsync(
+        context: Context,
+        text: String,
+        prompt: String,
+        hasSelection: Boolean,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        performAsyncOperation(
+            context = context,
+            text = text,
+            noTextErrorResId = R.string.proofread_no_text,
+            errorResId = R.string.proofread_error,
+            apiCall = { service -> service.proofread(text, overridePrompt = prompt) },
+            onSuccess = onSuccess,
+            onError = onError
+        )
+    }
+
+    @JvmStatic
+    fun customAsync(
+        context: Context,
+        text: String,
+        prompt: String,
+        hasSelection: Boolean,
+        callback: ProofreadCallback
+    ) {
+        customAsync(
+            context = context,
+            text = text,
+            prompt = prompt,
+            hasSelection = hasSelection,
+            onSuccess = { callback.onSuccess(it) },
+            onError = { callback.onError(it) }
+        )
+    }
 }

@@ -402,6 +402,9 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
             val proofreadKey = toolbar.findViewWithTag<ImageButton>(ToolbarKey.PROOFREAD)
                 ?: pinnedKeys.findViewWithTag<ImageButton>(ToolbarKey.PROOFREAD)
             proofreadKey?.setImageDrawable(closeIcon)
+            if (proofreadKey != null) {
+                Settings.getValues().mColors.setColor(proofreadKey, ColorType.TOOL_BAR_KEY)
+            }
         }
         
         // Get accent color from theme (GESTURE_TRAIL is the accent color)

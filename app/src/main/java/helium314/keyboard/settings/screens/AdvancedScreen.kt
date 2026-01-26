@@ -52,7 +52,7 @@ import helium314.keyboard.settings.dialogs.TextInputDialog
 import helium314.keyboard.settings.preferences.SliderPreference
 import helium314.keyboard.settings.preferences.SwitchPreference
 import helium314.keyboard.settings.Theme
-import helium314.keyboard.settings.dialogs.TextInputDialog
+
 import helium314.keyboard.settings.preferences.BackupRestorePreference
 import helium314.keyboard.settings.preferences.LoadGestureLibPreference
 import helium314.keyboard.settings.preferences.TextInputPreference
@@ -80,13 +80,9 @@ fun AdvancedSettingsScreen(
         Settings.PREF_ALWAYS_INCOGNITO_MODE,
         Settings.PREF_DISABLE_NETWORK,
         Settings.PREF_KEY_LONGPRESS_TIMEOUT,
-        Settings.PREF_SPACE_HORIZONTAL_SWIPE,
-        Settings.PREF_SPACE_VERTICAL_SWIPE,
-        Settings.PREF_TOUCHPAD_SENSITIVITY,
         if (Settings.readHorizontalSpaceSwipe(prefs) == KeyboardActionListener.SWIPE_SWITCH_LANGUAGE
             || Settings.readVerticalSpaceSwipe(prefs) == KeyboardActionListener.SWIPE_SWITCH_LANGUAGE)
             Settings.PREF_LANGUAGE_SWIPE_DISTANCE else null,
-        Settings.PREF_DELETE_SWIPE,
         Settings.PREF_SPACE_TO_CHANGE_LANG,
         Settings.PREFS_LONG_PRESS_SYMBOLS_FOR_NUMPAD,
         Settings.PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY,
@@ -129,35 +125,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             description = { stringResource(R.string.abbreviation_unit_milliseconds, it.toString()) }
         )
     },
-    Setting(context, Settings.PREF_SPACE_HORIZONTAL_SWIPE, R.string.show_horizontal_space_swipe) {
-        val items = listOf(
-            stringResource(R.string.space_swipe_move_cursor_entry) to "move_cursor",
-            stringResource(R.string.switch_language) to "switch_language",
-            stringResource(R.string.space_swipe_toggle_numpad_entry) to "toggle_numpad",
-            stringResource(R.string.action_none) to "none",
-        )
-        ListPreference(it, items, Defaults.PREF_SPACE_HORIZONTAL_SWIPE)
-    },
-    Setting(context, Settings.PREF_SPACE_VERTICAL_SWIPE, R.string.show_vertical_space_swipe) {
-        val items = listOf(
-            stringResource(R.string.space_swipe_move_cursor_entry) to "move_cursor",
-            stringResource(R.string.switch_language) to "switch_language",
-            stringResource(R.string.space_swipe_toggle_numpad_entry) to "toggle_numpad",
-            stringResource(R.string.space_swipe_hide_keyboard_entry) to "hide_keyboard",
-            stringResource(R.string.space_swipe_touchpad_mode_entry) to "touchpad_mode",
-            stringResource(R.string.action_none) to "none",
-        )
-        ListPreference(it, items, Defaults.PREF_SPACE_VERTICAL_SWIPE)
-    },
-    Setting(context, Settings.PREF_TOUCHPAD_SENSITIVITY, R.string.touchpad_sensitivity) {
-        SliderPreference(
-            name = it.title,
-            key = it.key,
-            default = Defaults.PREF_TOUCHPAD_SENSITIVITY,
-            range = 0f..100f,
-            description = { value -> value.toInt().toString() }
-        )
-    },
+
     Setting(context, Settings.PREF_LANGUAGE_SWIPE_DISTANCE, R.string.prefs_language_swipe_distance) { setting ->
         SliderPreference(
             name = setting.title,
@@ -167,9 +135,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             description = { it.toString() }
         )
     },
-    Setting(context, Settings.PREF_DELETE_SWIPE, R.string.delete_swipe, R.string.delete_swipe_summary) {
-        SwitchPreference(it, Defaults.PREF_DELETE_SWIPE)
-    },
+
     Setting(context, Settings.PREF_SPACE_TO_CHANGE_LANG,
         R.string.prefs_long_press_keyboard_to_change_lang,
         R.string.prefs_long_press_keyboard_to_change_lang_summary)
@@ -490,6 +456,16 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
             }
         )
     },
+    if (BuildConfig.FLAVOR == "standard") Setting(context, SettingsWithoutKey.CUSTOM_AI_KEYS, R.string.custom_ai_keys_title, R.string.custom_ai_keys_summary) {
+        Preference(
+            name = it.title,
+            description = it.description,
+            onClick = { SettingsDestination.navigateTo(SettingsDestination.CustomAIKeys) }
+        ) { NextScreenIcon() }
+    } else null,
+    if (BuildConfig.FLAVOR == "offline") Setting(context, SettingsWithoutKey.OFFLINE_KEEP_MODEL_LOADED, R.string.offline_keep_model_loaded_title, R.string.offline_keep_model_loaded_summary) {
+        SwitchPreference(it, Defaults.PREF_OFFLINE_KEEP_MODEL_LOADED)
+    } else null,
     if (BuildConfig.FLAVOR == "offline") Setting(context, SettingsWithoutKey.OFFLINE_MODEL_PATH, R.string.offline_model_title, R.string.offline_model_summary) { setting ->
         val context = LocalContext.current
         val service = remember { helium314.keyboard.latin.utils.ProofreadService(context) }
@@ -602,6 +578,8 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
                 description = service.getSystemPrompt().takeIf { it.isNotBlank() } ?: "Default",
                 onClick = { showSystemPromptDialog = true }
             )
+
+
 
             // Target Language for Translation
             val languageSetting = Setting(context, Settings.PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE, R.string.translate_target_language_title, R.string.translate_target_language_summary) { }
