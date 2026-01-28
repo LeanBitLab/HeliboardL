@@ -6,7 +6,7 @@
   <img alt="HeliboardL Banner" src="docs/images/heliboardl_banner_light.svg">
 </picture>
 
-[![Download](https://img.shields.io/github/v/release/LeanBitLab/HeliboardL?label=Download&style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/releases/latest) [![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total?style=for-the-badge&color=7C4DFF&label=Downloads)](https://github.com/LeanBitLab/HeliboardL/releases)
+[![Download](https://img.shields.io/github/v/release/LeanBitLab/HeliboardL?label=Download&style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/releases/latest) [![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total?style=for-the-badge&color=7C4DFF&label=Downloads)](https://github.com/LeanBitLab/HeliboardL/releases) [![Stars](https://img.shields.io/github/stars/LeanBitLab/HeliboardL?style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/stargazers)
 
 **HeliboardL** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
@@ -14,10 +14,10 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 
 ## What's New in HeliboardL
 
-- **🤖 Multi-Provider AI** - Proofread using **Gemini**, **Groq** (Llama 3, Mixtral), or **OpenAI-compatible** providers.
-- **🛡️ Offline AI** - Private, on-device proofreading and translation using ONNX models (Offline build only).
+- **[🤖 Multi-Provider AI](docs/FEATURES.md#supported-ai-providers)** - Proofread using **Gemini**, **Groq** (Llama 3, Mixtral), or **OpenAI-compatible** providers.
+- **[🛡️ Offline AI](docs/FEATURES.md#5-offline-proofreading-privacy-focused)** - Private, on-device proofreading and translation using ONNX models (Offline build only).
 - **🌐 AI Translation** - Translate selected text directly using your chosen AI provider.
-- **🧠 Custom AI Keys** - Assign custom prompts and personas (#editor, #proofread) to 10 customizable toolbar keys.
+- **[🧠 Custom AI Keys](docs/FEATURES.md#4-custom-ai-keys--keywords)** - Assign custom prompts and personas (#editor, #proofread) to 10 customizable toolbar keys.
 - **⌨️ Dual Toolbar / Split Suggestions** - Option to split suggestions and toolbar for easier access.
 - **🖱️ Touchpad Mode** - Swipe spacebar up to toggle touchpad; custom sensitivity controls.
 - **🎨 Modern UI** - "Squircle" key backgrounds, refined icons, and polished aesthetics.

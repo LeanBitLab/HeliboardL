@@ -3,13 +3,16 @@
 HeliboardL integrates with AI providers to offer advanced proofreading and translation capabilities directly within the keyboard. This guide explains how to set up the supported providers.
 
 ## Index
-1.  [Summary of New Features](#summary-of-new-features) - Quick overview of what's new.
-2.  [Supported AI Providers](#supported-ai-providers) - Start here to choose your AI backend.
-3.  [Groq](#1-groq) - Ultra-fast cloud inference.
-4.  [Google Gemini](#2-google-gemini) - Reliable general-purpose AI.
-5.  [HF/OpenAI-compatible](#3-hfopenai-compatible-generic-provider) - Use Mistral, DeepSeek, OpenRouter, or HuggingFace.
-6.  [Custom AI Keys & Keywords](#4-custom-ai-keys--keywords) - **New!** Configure custom prompts and personas.
-7.  [Offline Proofreading](#5-offline-proofreading-privacy-focused) - Privacy-first, on-device AI.
+
+| Section | Description |
+| :--- | :--- |
+| 🆕 **[Summary of New Features](#summary-of-new-features)** | Quick overview of what's new. |
+| 🤖 **[Supported AI Providers](#supported-ai-providers)** | Start here to choose your AI backend. |
+| ⚡ **[Groq](#1-groq)** | Ultra-fast cloud inference. |
+| 🌟 **[Google Gemini](#2-google-gemini)** | Reliable general-purpose AI. |
+| ⚙️ **[HF/OpenAI-compatible](#3-hfopenai-compatible-generic-provider)** | Use Mistral, DeepSeek, OpenRouter, etc. |
+| 🧠 **[Custom AI Keys](#4-custom-ai-keys--keywords)** | Configure custom prompts and personas. |
+| 🛡️ **[Offline Proofreading](#5-offline-proofreading-privacy-focused)** | Privacy-first, on-device AI. |
 
 ## Summary of New Features
 
