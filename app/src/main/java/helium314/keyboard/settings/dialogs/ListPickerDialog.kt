@@ -73,7 +73,7 @@ fun <T: Any> ListPickerDialog(
                                     selected = item
                                 }
                                 .padding(horizontal = if (showRadioButtons) 8.dp else 16.dp)
-                                .heightIn(min = 40.dp)
+                                .heightIn(min = 56.dp)
                         ) {
                             if (showRadioButtons)
                                 RadioButton(

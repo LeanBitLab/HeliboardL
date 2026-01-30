@@ -41,6 +41,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
+import helium314.keyboard.settings.FeedbackManager
 
 @Composable
 fun LayoutEditDialog(
@@ -109,7 +110,7 @@ fun LayoutEditDialog(
                         .lastOrNull { it.tag == "LayoutUtilsCustom" }?.message
                         ?.split("\n")?.take(2)?.joinToString("\n")
                     delay(3000)
-                    Toast.makeText(ctx, ctx.getString(R.string.layout_error, message), Toast.LENGTH_LONG).show()
+                    FeedbackManager.message(ctx, ctx.getString(R.string.layout_error, message))
                 }
             }
             valid && nameValid // don't allow saving with invalid name, but inform user about issues with layout content

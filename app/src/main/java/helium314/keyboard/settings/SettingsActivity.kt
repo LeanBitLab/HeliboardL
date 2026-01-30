@@ -90,8 +90,18 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                         !UncachedInputMethodManagerUtils.isThisImeCurrent(this, imm)
                                 || !UncachedInputMethodManagerUtils.isThisImeEnabled(this, imm)
                     ) }
+                    val snackbarHostState = androidx.compose.runtime.remember { androidx.compose.material3.SnackbarHostState() }
+                    androidx.compose.runtime.LaunchedEffect(Unit) {
+                        FeedbackManager.messages.collect { message ->
+                            snackbarHostState.showSnackbar(message)
+                        }
+                    }
+
                     if (spellchecker)
-                        Scaffold(contentWindowInsets = WindowInsets.safeDrawing) { innerPadding ->
+                        Scaffold(
+                            contentWindowInsets = WindowInsets.safeDrawing,
+                            snackbarHost = { androidx.compose.material3.SnackbarHost(snackbarHostState) }
+                        ) { innerPadding ->
                             Column(Modifier.padding(innerPadding)) {
                                 TopAppBar(
                                     title = { Text(stringResource(R.string.android_spell_checker_settings)) },
@@ -106,25 +116,49 @@ open class SettingsActivity : ComponentActivity(), SharedPreferences.OnSharedPre
                             }
                         }
                     else {
-                        SettingsNavHost(onClickBack = { this.finish() })
-                        if (showWelcomeWizard) {
-                            WelcomeWizard(close = { showWelcomeWizard = false }, finish = this::finish)
-                        } else if (crashReports.isNotEmpty()) {
-                            ConfirmationDialog(
-                                cancelButtonText = "ignore",
-                                onDismissRequest = { crashReportFiles.value = emptyList() },
-                                neutralButtonText = "delete",
-                                onNeutral = { crashReports.forEach { it.delete() }; crashReportFiles.value = emptyList() },
-                                confirmButtonText = "get",
-                                onConfirmed = {
-                                    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                                    intent.addCategory(Intent.CATEGORY_OPENABLE)
-                                    intent.putExtra(Intent.EXTRA_TITLE, "crash_reports.zip")
-                                    intent.type = "application/zip"
-                                    crashFilePicker.launch(intent)
-                                },
-                                content = { Text("Crash report files found") },
-                            )
+                        val startScreen = intent?.getStringExtra("screen")
+                        // Pass snackbarHostState to NavHost if needed, or just overlay it?
+                        // Actually SettingsNavHost doesn't have a Scaffold, screens do?
+                        // Wait, SearchScreen has a Scaffold. MainSettingsScreen has a Scaffold.
+                        // If we put the SnackbarHost here in the root Surface/Scaffold, it should display over everything.
+                        // But we need a Scaffold to hold the SnackbarHost slot properly.
+                        // Currently: Surface -> (conditional) -> Scaffold (spellchecker) OR (SettingsNavHost -> Screens -> Scaffold)
+                        // This structure means each screen has its own Scaffold.
+                        // We should wrap the SettingsNavHost in a Scaffold to hold the global Snackbar.
+                        
+                        Scaffold(
+                            contentWindowInsets = WindowInsets.safeDrawing,
+                            snackbarHost = { androidx.compose.material3.SnackbarHost(snackbarHostState) }
+                        ) { scaffoldPadding ->
+                            // We need to pass padding if we want to respect it, but SettingsNavHost handles its own screens.
+                            // However, we want the Snackbar to be visible.
+                            // If we wrap SettingsNavHost, the internal Scaffolds might conflict or stack.
+                            // Let's see. SettingsNavHost just switches Composables.
+                            // Most screens (SearchScreen) use Scaffold.
+                            // Android allows nested Scaffolds. The outer one can show the Snackbar.
+                            
+                            androidx.compose.foundation.layout.Box(Modifier.padding(scaffoldPadding)) { 
+                                SettingsNavHost(onClickBack = { this@SettingsActivity.finish() }, startDestination = startScreen)
+                                if (showWelcomeWizard) {
+                                    WelcomeWizard(close = { showWelcomeWizard = false }, finish = this@SettingsActivity::finish)
+                                } else if (crashReports.isNotEmpty()) {
+                                    ConfirmationDialog(
+                                        cancelButtonText = "ignore",
+                                        onDismissRequest = { crashReportFiles.value = emptyList() },
+                                        neutralButtonText = "delete",
+                                        onNeutral = { crashReports.forEach { it.delete() }; crashReportFiles.value = emptyList() },
+                                        confirmButtonText = "get",
+                                        onConfirmed = {
+                                            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+                                            intent.addCategory(Intent.CATEGORY_OPENABLE)
+                                            intent.putExtra(Intent.EXTRA_TITLE, "crash_reports.zip")
+                                            intent.type = "application/zip"
+                                            crashFilePicker.launch(intent)
+                                        },
+                                        content = { Text("Crash report files found") },
+                                    )
+                                }
+                            }
                         }
                     }
                     if (dictUri != null) {

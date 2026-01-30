@@ -47,7 +47,8 @@ fun TextInputDialog(
     properties: DialogProperties = DialogProperties(),
     reducePadding: Boolean = false,
     checkTextValid: (text: String) -> Boolean = { it.isNotBlank() },
-    extraContent: @Composable (() -> Unit)? = null
+    extraContent: @Composable (() -> Unit)? = null,
+    icon: @Composable (() -> Unit)? = null
 ) {
     var value by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(initialText, selection = TextRange(if (singleLine) initialText.length else 0)))
@@ -62,6 +63,7 @@ fun TextInputDialog(
         onNeutral = { onDismissRequest(); onNeutral() },
         modifier = modifier,
         title = title,
+        icon = icon,
         content = {
             val focusRequester = remember { FocusRequester() }
             Column {

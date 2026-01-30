@@ -92,11 +92,11 @@
     <string name="user_dict_settings_all_languages">"Bütün dillər üçün"</string>
     <string name="user_dict_settings_more_languages">"Digər dillər…"</string>
     <string name="settings_category_clipboard_history">Pano keçmişi</string>
-    <string name="spell_checker_service_name">HeliboardL Yazı Yoxlayıcısı</string>
-    <string name="android_spell_checker_settings">HeliboardL Yazı Yoxlayıcısı Parametrləri</string>
+    <string name="spell_checker_service_name">LeanType Yazı Yoxlayıcısı</string>
+    <string name="android_spell_checker_settings">LeanType Yazı Yoxlayıcısı Parametrləri</string>
     <string name="select_input_method">"Daxiletmə metodunu seçin"</string>
     <string name="settings_screen_appearance">"Görünüş"</string>
-    <string name="ime_settings">HeliboardL Tənzimləmələri</string>
+    <string name="ime_settings">LeanType Tənzimləmələri</string>
     <string name="settings_category_input">Giriş</string>
     <string name="settings_category_additional_keys">Əlavə Düymələr</string>
     <string name="undo">"Ləğv edin"</string>

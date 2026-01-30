@@ -113,8 +113,8 @@
     <string name="theme_colors">Litir</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Rúnnað</string>
     <string name="theme_style">Stíll</string>
-    <string name="spell_checker_service_name">Stafsetningarleiðrétting HeliboardL</string>
-    <string name="ime_settings">Stillingar HeliboardL</string>
+    <string name="spell_checker_service_name">Stafsetningarleiðrétting LeanType</string>
+    <string name="ime_settings">Stillingar LeanType</string>
     <string name="button_backup">Öryggisafrit</string>
     <string name="load_gesture_library_button_load">Hlaða inn orðasafni</string>
     <string name="load_gesture_library_button_delete">Eyða orðasafni</string>
@@ -124,7 +124,7 @@
     <string name="button_select_language">Veldu tungumál</string>
     <string name="replace_dictionary">Skipta út orðasafni</string>
     <string name="select_word" tools:keep="@string/select_word">Veldu orð</string>
-    <string name="android_spell_checker_settings">Stillingar stafsetningarleiðréttingar HeliboardL</string>
+    <string name="android_spell_checker_settings">Stillingar stafsetningarleiðréttingar LeanType</string>
     <string name="settings_category_input">Innsláttur</string>
     <string name="settings_category_additional_keys">Viðbótarlyklar</string>
     <string name="settings_category_clipboard_history">Ferilskrá klippispjalds</string>

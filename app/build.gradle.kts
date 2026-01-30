@@ -19,11 +19,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "helium314.keyboardl"
+        applicationId = "com.leanbitlab.leantype"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3701
-        versionName = "3.7.1"
+        versionCode = 3702
+        versionName = "3.7.2"
 
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
@@ -102,7 +102,7 @@ android {
             if (number.isNotEmpty()) {
                 outputs.all {
                     val output = this as? com.android.build.gradle.api.ApkVariantOutput
-                    output?.outputFileName = "$number-HeliboardL_${defaultConfig.versionName}-${flavor}-${buildType.name}.apk"
+                    output?.outputFileName = "$number-LeanType_${defaultConfig.versionName}-${flavor}-${buildType.name}.apk"
                 }
             }
         }

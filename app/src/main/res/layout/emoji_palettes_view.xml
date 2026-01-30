@@ -23,6 +23,91 @@
         android:id="@+id/emoji_category_page_id_view"
         android:layout_width="match_parent"
         android:layout_height="2dip" />
+
+    <LinearLayout
+        android:id="@+id/emoji_search_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:background="#1F1F1F">
+
+        <!-- Search Input Area (Left Side) - 40% width -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/sym_keyboard_search_rounded"
+                android:tint="?android:attr/textColorPrimary"
+                android:alpha="0.7"
+                android:layout_marginEnd="4dp"/>
+
+            <EditText
+                android:id="@+id/emoji_search_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Search"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textColorHint="?android:attr/textColorSecondary"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:imeOptions="actionDone|flagNoExtractUi"
+                android:padding="4dp"/>
+
+            <ImageButton
+                android:id="@+id/emoji_search_close_btn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_close_rounded"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:tint="?android:attr/textColorPrimary"
+                android:scaleType="centerInside" />
+        </LinearLayout>
+
+        <!-- Vertical Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#555555"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Search Results Area (Right Side) - 60% width -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/emoji_search_results"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/emoji_search_empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No results"
+                android:textColor="#FFFFFF"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+    </LinearLayout>
     <helium314.keyboard.keyboard.MainKeyboardView
         android:id="@+id/bottom_row_keyboard"
         android:layout_width="match_parent"

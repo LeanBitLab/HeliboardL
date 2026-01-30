@@ -11,6 +11,7 @@ import helium314.keyboard.keyboard.internal.KeyboardParams
 import helium314.keyboard.keyboard.internal.keyboard_parser.LayoutParser
 import helium314.keyboard.keyboard.internal.keyboard_parser.POPUP_KEYS_NORMAL
 import helium314.keyboard.keyboard.internal.keyboard_parser.addLocaleKeyTextsToParams
+import helium314.keyboard.settings.FeedbackManager
 import helium314.keyboard.latin.common.Constants.Separators
 import helium314.keyboard.latin.common.Constants.Subtype.ExtraValue.KEYBOARD_LAYOUT_SET
 import helium314.keyboard.latin.common.decodeBase36
@@ -157,7 +158,7 @@ object LayoutUtilsCustom {
         fun remove(type: LayoutType, name: String) {
             val message = "removing custom layout ${getDisplayName(name)} / $name without file"
             if (DebugFlags.DEBUG_ENABLED)
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                FeedbackManager.message(context, message)
             Log.w(TAG, message)
             SubtypeSettings.onRenameLayout(type, name, null, context)
         }

@@ -1,4 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2026 LeanBitLab
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
 package helium314.keyboard.latin.utils
 
 import android.content.Context
@@ -251,6 +254,7 @@ object ProofreadHelper {
         text: String,
         prompt: String,
         hasSelection: Boolean,
+        showThinking: Boolean,
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
@@ -259,7 +263,7 @@ object ProofreadHelper {
             text = text,
             noTextErrorResId = R.string.proofread_no_text,
             errorResId = R.string.proofread_error,
-            apiCall = { service -> service.proofread(text, overridePrompt = prompt) },
+            apiCall = { service -> service.proofread(text, overridePrompt = prompt, showThinking = showThinking) },
             onSuccess = onSuccess,
             onError = onError,
             allowEmptyInput = true
@@ -275,6 +279,7 @@ object ProofreadHelper {
         text: String,
         prompt: String,
         hasSelection: Boolean,
+        showThinking: Boolean = false,
         callback: ProofreadCallback
     ) {
         customAsync(
@@ -282,6 +287,7 @@ object ProofreadHelper {
             text = text,
             prompt = prompt,
             hasSelection = hasSelection,
+            showThinking = showThinking,
             onSuccess = { callback.onSuccess(it) },
             onError = { callback.onError(it) }
         )

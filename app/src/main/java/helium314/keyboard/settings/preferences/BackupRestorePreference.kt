@@ -48,6 +48,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import androidx.core.content.edit
+import helium314.keyboard.settings.FeedbackManager
 
 @Composable
 fun BackupRestorePreference(setting: Setting) {
@@ -211,7 +212,7 @@ private fun restoreLauncher(onError: (String) -> Unit): ManagedActivityResultLau
 
                 Database.copyFromDb(restoredDb, ctx)
                 Looper.prepare()
-                Toast.makeText(ctx, ctx.getString(R.string.backup_restored), Toast.LENGTH_LONG).show()
+                FeedbackManager.message(ctx, R.string.backup_restored)
             } catch (t: Throwable) {
                 onError("r" + t.message)
                 Log.w("AdvancedScreen", "error during restore", t)

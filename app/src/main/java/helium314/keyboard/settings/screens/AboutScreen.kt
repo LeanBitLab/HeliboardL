@@ -45,6 +45,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import androidx.core.content.edit
 import java.util.Locale
+import helium314.keyboard.settings.FeedbackManager
 
 @Composable
 fun AboutScreen(
@@ -88,7 +89,7 @@ fun createAboutSettings(context: Context) = listOf(
                 count++
                 if (count < 5) return@Preference
                 prefs.edit { putBoolean(DebugSettings.PREF_SHOW_DEBUG_SETTINGS, true) }
-                Toast.makeText(ctx, R.string.prefs_debug_settings_enabled, Toast.LENGTH_LONG).show()
+                FeedbackManager.message(ctx, R.string.prefs_debug_settings_enabled)
             },
             icon = R.drawable.ic_settings_about
         )

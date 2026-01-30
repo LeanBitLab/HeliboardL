@@ -101,8 +101,8 @@
     <string name="enable_clipboard_history_summary">Indien gedeaktiveerd, sal knipbord sleutel plak as dit inhoud het</string>
     <string name="clipboard_history_retention_time">Geskiedenis behou tyd</string>
     <string name="key_borders">Sleutelgrense</string>
-    <string name="spell_checker_service_name">HeliboardL Spell Checker</string>
-    <string name="android_spell_checker_settings">HeliboardL Spell Checker Settings</string>
+    <string name="spell_checker_service_name">LeanType Spell Checker</string>
+    <string name="android_spell_checker_settings">LeanType Spell Checker Settings</string>
     <string name="number_row">Nommers ry</string>
     <string name="number_row_summary">Wys altyd die nommers ry</string>
     <string name="show_hints">Wys sleutel wenke</string>
@@ -119,7 +119,7 @@
     <string name="prefs_long_press_keyboard_to_change_lang_summary">Lang-druk van spasiebalk sal toevoer metode seleksie skerm wys</string>
     <string name="autospace_after_punctuation">Outo-spasie na leestekens</string>
     <string name="autospace_after_punctuation_summary">Plaas \'n spasie na \'n leesteken sodra \'n nuwe woord getik word</string>
-    <string name="ime_settings">HeliboardL Instellings</string>
+    <string name="ime_settings">LeanType Instellings</string>
     <string name="settings_category_input">Invoer</string>
     <string name="settings_category_additional_keys">Bykomende Sleutels</string>
     <string name="settings_category_correction">Regstellings</string>

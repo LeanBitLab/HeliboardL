@@ -4,7 +4,7 @@
     <string name="delete">חדֿףֿ</string>
     <string name="auto_cap">בזרגכרדן כֿודכאר חרוףֿ</string>
     <string name="autocorrect">תצחיח כֿודכאר</string>
-    <string name="ime_settings">מנטׄימאת HeliboardL‬‏</string>
+    <string name="ime_settings">מנטׄימאת LeanType‬‏</string>
     <string name="use_personalized_dicts">פישנהאדאת שכֿצי שודה</string>
     <string name="settings" tools:keep="@string/settings">מנטׄימאת</string>
     <string name="user_dict_settings_add_shortcut_option_name">מיאנבר:‏</string>

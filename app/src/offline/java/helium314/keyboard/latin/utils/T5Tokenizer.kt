@@ -1,4 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2026 LeanBitLab
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
 package helium314.keyboard.latin.utils
 
 import android.content.Context

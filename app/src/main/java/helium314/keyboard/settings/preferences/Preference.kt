@@ -40,11 +40,11 @@ fun PreferenceCategory(
     modifier: Modifier = Modifier,
 ) {
     Column {
-        HorizontalDivider()
+        // Divider removed as cards provide separation
         Text(
             text = title,
-            modifier = modifier.padding(top = 12.dp, start = 16.dp, end = 8.dp, bottom = 8.dp),
-            color = MaterialTheme.colorScheme.secondary,
+            modifier = modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 4.dp),
+            color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleSmall
         )
     }

@@ -68,8 +68,8 @@
     <!-- Description for Hebrew 2 subtype. -->
     <string name="subtype_hebrew_1452_2" translatable="false">%s (1452-2)</string>
 
-    <string name="english_ime_name" translatable="false">HeliboardL</string>
+    <string name="english_ime_name" translatable="false">LeanType</string>
     <!-- App slogan-->
-    <string name="app_slogan" translatable="false">Privacy-focused keyboard with AI enhancements.</string>
+    <string name="app_slogan" translatable="false">Open-source keyboard with AI integration.</string>
 
 </resources>

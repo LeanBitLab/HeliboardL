@@ -95,10 +95,10 @@
     <string name="enable_clipboard_history">فعال‌کردن تاریخچهٔ تخته‌گیره</string>
     <string name="select_input_method">"انتخاب روش ورودی"</string>
     <string name="settings_category_clipboard_history">تاریخچهٔ تخته‌گیره</string>
-    <string name="spell_checker_service_name">غلط‌یاب املایی HeliboardL</string>
-    <string name="android_spell_checker_settings">تنظیمات غلط‌یاب املایی HeliboardL</string>
+    <string name="spell_checker_service_name">غلط‌یاب املایی LeanType</string>
+    <string name="android_spell_checker_settings">تنظیمات غلط‌یاب املایی LeanType</string>
     <string name="show_emoji_key">دکمهٔ شکلک</string>
-    <string name="ime_settings">تنظیمات HeliboardL</string>
+    <string name="ime_settings">تنظیمات LeanType</string>
     <string name="settings_category_additional_keys">کلیدهای افزوده</string>
     <string name="settings_category_experimental">آزمایشی</string>
     <string name="settings_category_miscellaneous">متفرقه</string>

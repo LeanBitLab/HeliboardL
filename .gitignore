@@ -25,3 +25,6 @@ signing.properties
 # Offline model files
 tokenizer.json
 node_modules
+
+# Private Docs
+Pdoc/

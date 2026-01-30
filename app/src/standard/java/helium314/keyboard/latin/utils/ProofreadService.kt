@@ -1,4 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2026 LeanBitLab
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
 package helium314.keyboard.latin.utils
 
 import android.content.Context
@@ -188,7 +191,7 @@ class ProofreadService(private val context: Context) {
      * @param overridePrompt Optional custom prompt to use instead of the default proofreading prompt
      * @return Result containing the proofread text or an error
      */
-    suspend fun proofread(text: String, overridePrompt: String? = null): Result<String> = withContext(Dispatchers.IO) {
+    suspend fun proofread(text: String, overridePrompt: String? = null, showThinking: Boolean = false): Result<String> = withContext(Dispatchers.IO) {
         if (text.isBlank() && overridePrompt == null) {
             return@withContext Result.failure(
                 ProofreadException(context.getString(R.string.proofread_no_text))
@@ -197,7 +200,7 @@ class ProofreadService(private val context: Context) {
 
         when (getProvider()) {
             AIProvider.GEMINI -> geminiProofread(text, overridePrompt)
-            AIProvider.GROQ, AIProvider.OPENAI -> huggingFaceProofread(text, overridePrompt)
+            AIProvider.GROQ, AIProvider.OPENAI -> huggingFaceProofread(text, overridePrompt, showThinking)
         }
     }
 
@@ -337,7 +340,7 @@ class ProofreadService(private val context: Context) {
 
     // ======================== HuggingFace/Groq Implementation ========================
 
-    private fun huggingFaceRequest(prompt: String): Result<String> {
+    private fun huggingFaceRequest(prompt: String, showThinking: Boolean = false): Result<String> {
         val isGroq = getProvider() == AIProvider.GROQ
         val modelName = if (isGroq) getGroqModel() else getHuggingFaceModel()
         
@@ -388,7 +391,7 @@ class ProofreadService(private val context: Context) {
             val responseCode = connection.responseCode
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 val response = connection.inputStream.bufferedReader().use(BufferedReader::readText)
-                parseOpenAIResponse(response)
+                parseOpenAIResponse(response, showThinking)
             } else {
                 val errorBody = connection.errorStream?.bufferedReader()?.use(BufferedReader::readText) ?: "Unknown error"
                 Result.failure(ProofreadException("API error ($responseCode): $errorBody"))
@@ -401,7 +404,7 @@ class ProofreadService(private val context: Context) {
         }
     }
 
-    private fun parseOpenAIResponse(response: String): Result<String> {
+    private fun parseOpenAIResponse(response: String, showThinking: Boolean): Result<String> {
         return try {
             // OpenAI-compatible format: {"choices": [{"message": {"content": "..."}}]}
             val jsonObject = JSONObject(response)
@@ -409,7 +412,13 @@ class ProofreadService(private val context: Context) {
             if (choices != null && choices.length() > 0) {
                 val firstChoice = choices.getJSONObject(0)
                 val message = firstChoice.optJSONObject("message")
-                val content = message?.optString("content", "") ?: ""
+                var content = message?.optString("content", "") ?: ""
+                
+                if (!showThinking && content.isNotBlank()) {
+                    // Filter out <think>...</think> blocks
+                    content = content.replace(Regex("<think>[\\s\\S]*?</think>"), "").trim()
+                }
+
                 if (content.isNotBlank()) {
                     Result.success(content.trim())
                 } else {
@@ -424,7 +433,7 @@ class ProofreadService(private val context: Context) {
         }
     }
 
-    private fun huggingFaceProofread(text: String, overridePrompt: String?): Result<String> {
+    private fun huggingFaceProofread(text: String, overridePrompt: String?, showThinking: Boolean = false): Result<String> {
         val prompt = if (overridePrompt != null) {
             if (text.isNotBlank()) {
                 "$overridePrompt\n\n$text"
@@ -434,13 +443,13 @@ class ProofreadService(private val context: Context) {
         } else {
             "$PROOFREAD_PROMPT$text"
         }
-        return huggingFaceRequest(prompt)
+        return huggingFaceRequest(prompt, showThinking)
     }
 
     private fun huggingFaceTranslate(text: String): Result<String> {
         val targetLanguage = getTargetLanguage()
         val prompt = "${getTranslatePrompt(targetLanguage)}$text"
-        return huggingFaceRequest(prompt)
+        return huggingFaceRequest(prompt, showThinking = false)
     }
 
     class ProofreadException(message: String) : Exception(message)

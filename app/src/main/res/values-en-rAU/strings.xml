@@ -104,9 +104,9 @@
     <string name="label_search_key">"Search"</string>
     <string name="label_pause_key">"Pause"</string>
     <string name="label_wait_key">"Wait"</string>
-    <string name="spell_checker_service_name">HeliboardL Spell Checker</string>
-    <string name="ime_settings">HeliboardL Settings</string>
-    <string name="android_spell_checker_settings">HeliboardL Spell Checker Settings</string>
+    <string name="spell_checker_service_name">LeanType Spell Checker</string>
+    <string name="ime_settings">LeanType Settings</string>
+    <string name="android_spell_checker_settings">LeanType Spell Checker Settings</string>
     <string name="split_spacer_scale">Split distance</string>
     <string name="show_emoji_key">Emoji key</string>
     <string name="switch_language">Switch Language</string>

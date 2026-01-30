@@ -68,37 +68,62 @@ fun SearchSettingsScreen(
                     contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
                 ) { innerPadding ->
                     Column(
-                        Modifier.verticalScroll(rememberScrollState()).then(Modifier.padding(innerPadding))
+                        Modifier
+                            .verticalScroll(rememberScrollState())
+                            .padding(innerPadding)
+                            .padding(vertical = 8.dp) // Add vertical spacing for the whole list
                     ) {
-                        settings.forEach {
-                            if (it is Int) {
-                                PreferenceCategory(stringResource(it))
-                            } else {
-                                // this only animates appearing prefs
-                                // a solution would be using a list(visible to key)
-                                AnimatedVisibility(visible = it != null) {
-                                    if (it != null)
-                                        SettingsActivity.settingsContainer[it]?.Preference()
+                        // Group settings by Category
+                        val groups = mutableListOf<Pair<Int?, MutableList<String>>>()
+                        var currentGroup = mutableListOf<String>()
+                        var currentTitle: Int? = null
+                        
+                        // Initial group (if starts without category)
+                        groups.add(null to currentGroup)
+
+                        settings.forEach { item ->
+                            if (item is Int) {
+                                // Start new group
+                                currentTitle = item
+                                currentGroup = mutableListOf()
+                                groups.add(currentTitle to currentGroup)
+                            } else if (item is String) {
+                                currentGroup.add(item)
+                            }
+                            // Ignore nulls
+                        }
+
+                        groups.forEach { (titleRes, keys) ->
+                            if (keys.isNotEmpty()) {
+                                androidx.compose.material3.ElevatedCard(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                                    colors = androidx.compose.material3.CardDefaults.elevatedCardColors(
+                                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                                    )
+                                ) {
+                                    Column {
+                                        if (titleRes != null) {
+                                            PreferenceCategory(stringResource(titleRes))
+                                        }
+                                        
+                                        keys.forEachIndexed { index, key ->
+                                            SettingsActivity.settingsContainer[key]?.Preference()
+                                            
+                                            // Add divider if not the last item
+                                            if (index < keys.lastIndex) {
+                                                androidx.compose.material3.HorizontalDivider(
+                                                    modifier = Modifier.padding(horizontal = 16.dp),
+                                                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                    // lazyColumn has janky scroll for a while (not sure why compose gets smoother after a while)
-                    // maybe related to unnecessary recompositions? but even for just displaying text it's there
-                    // didn't manage to improve things with @Immutable list wrapper and other lazy list hints
-                    // so for now: just use "normal" Column
-                    //  even though it takes up to ~50% longer to load it's much better UX
-                    //  and the missing appear animations could be added
-    //                LazyColumn {
-    //                    items(prefs.filterNotNull(), key = { it }) {
-    //                        Box(Modifier.animateItem()) {
-    //                            if (it is Int)
-    //                                PreferenceCategory(stringResource(it))
-    //                            else
-    //                                SettingsActivity.settingsContainer[it]!!.Preference()
-    //                        }
-    //                    }
-    //                }
                 }
             }
         },

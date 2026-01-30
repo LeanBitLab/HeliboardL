@@ -1,4 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2026 LeanBitLab
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
 package helium314.keyboard.settings.screens
 
 import android.annotation.SuppressLint
@@ -58,6 +61,7 @@ import helium314.keyboard.settings.preferences.LoadGestureLibPreference
 import helium314.keyboard.settings.preferences.TextInputPreference
 import helium314.keyboard.settings.previewDark
 import androidx.core.content.edit
+import helium314.keyboard.settings.FeedbackManager
 import helium314.keyboard.latin.utils.Log
 import helium314.keyboard.latin.utils.getActivity
 import androidx.compose.ui.unit.dp
@@ -485,7 +489,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
                 }
                 service.setModelPath(it.toString())
                 encoderPath = it.toString()
-                android.widget.Toast.makeText(context, "Encoder selected", android.widget.Toast.LENGTH_SHORT).show()
+                FeedbackManager.message(context, "Encoder selected")
             }
         }
         
@@ -501,7 +505,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
                 }
                 service.setDecoderPath(it.toString())
                 decoderPath = it.toString()
-                android.widget.Toast.makeText(context, "Decoder selected", android.widget.Toast.LENGTH_SHORT).show()
+                FeedbackManager.message(context, "Decoder selected")
             }
         }
         
@@ -517,7 +521,7 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
                 }
                 service.setTokenizerPath(it.toString())
                 tokenizerPath = it.toString()
-                android.widget.Toast.makeText(context, "Tokenizer selected", android.widget.Toast.LENGTH_SHORT).show()
+                FeedbackManager.message(context, "Tokenizer selected")
             }
         }
 

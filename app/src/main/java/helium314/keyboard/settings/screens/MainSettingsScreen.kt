@@ -4,11 +4,16 @@ package helium314.keyboard.settings.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -16,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.utils.JniUtils
 import helium314.keyboard.latin.utils.SubtypeLocaleUtils.displayName
@@ -50,67 +56,139 @@ fun MainSettingsScreen(
         val enabledSubtypes = SubtypeSettings.getEnabledSubtypes(true)
         Scaffold(contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)) { innerPadding ->
             Column(
-                Modifier.verticalScroll(rememberScrollState()).then(Modifier.padding(innerPadding))
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(innerPadding)
+                    .padding(vertical = 8.dp)
             ) {
-                if (helium314.keyboard.latin.BuildConfig.FLAVOR != "offlinelite") {
-                    Preference(
-                        name = stringResource(R.string.settings_screen_ai_integration),
-                        onClick = onClickAIIntegration,
-                        icon = R.drawable.ic_proofread
-                    ) { NextScreenIcon() }
+                // Group 1: General (AI, Languages, Preferences, Appearance, Toolbar)
+                ElevatedCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                ) {
+                    Column {
+                        if (helium314.keyboard.latin.BuildConfig.FLAVOR != "offlinelite") {
+                            Preference(
+                                name = stringResource(R.string.settings_screen_ai_integration),
+                                onClick = onClickAIIntegration,
+                                icon = R.drawable.ic_proofread
+                            ) { NextScreenIcon() }
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                            )
+                        }
+                        Preference(
+                            name = stringResource(R.string.language_and_layouts_title),
+                            description = enabledSubtypes.joinToString(", ") { it.displayName() },
+                            onClick = onClickLanguage,
+                            icon = R.drawable.ic_settings_languages
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.settings_screen_preferences),
+                            onClick = onClickPreferences,
+                            icon = R.drawable.ic_settings_preferences
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.settings_screen_appearance),
+                            onClick = onClickAppearance,
+                            icon = R.drawable.ic_settings_appearance
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.settings_screen_toolbar),
+                            onClick = onClickToolbar,
+                            icon = R.drawable.ic_settings_toolbar
+                        ) { NextScreenIcon() }
+                    }
                 }
-                Preference(
-                    name = stringResource(R.string.language_and_layouts_title),
-                    description = enabledSubtypes.joinToString(", ") { it.displayName() },
-                    onClick = onClickLanguage,
-                    icon = R.drawable.ic_settings_languages
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_preferences),
-                    onClick = onClickPreferences,
-                    icon = R.drawable.ic_settings_preferences
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_appearance),
-                    onClick = onClickAppearance,
-                    icon = R.drawable.ic_settings_appearance
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_toolbar),
-                    onClick = onClickToolbar,
-                    icon = R.drawable.ic_settings_toolbar
-                ) { NextScreenIcon() }
-                // Always show gesture typing section (options inside are greyed out until library loaded)
-                Preference(
-                    name = stringResource(R.string.settings_screen_gesture),
-                    onClick = onClickGestureTyping,
-                    icon = R.drawable.ic_settings_gesture
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_correction),
-                    onClick = onClickTextCorrection,
-                    icon = R.drawable.ic_settings_correction
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_secondary_layouts),
-                    onClick = onClickLayouts,
-                    icon = R.drawable.ic_ime_switcher
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.dictionary_settings_category),
-                    onClick = onClickDictionaries,
-                    icon = R.drawable.ic_dictionary
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_advanced),
-                    onClick = onClickAdvanced,
-                    icon = R.drawable.ic_settings_advanced
-                ) { NextScreenIcon() }
-                Preference(
-                    name = stringResource(R.string.settings_screen_about),
-                    onClick = onClickAbout,
-                    icon = R.drawable.ic_settings_about
-                ) { NextScreenIcon() }
+
+                // Group 2: Typing (Gesture, Correction, Secondary Layouts, Dictionaries)
+                ElevatedCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                ) {
+                    Column {
+                        Preference(
+                            name = stringResource(R.string.settings_screen_gesture),
+                            onClick = onClickGestureTyping,
+                            icon = R.drawable.ic_settings_gesture
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.settings_screen_correction),
+                            onClick = onClickTextCorrection,
+                            icon = R.drawable.ic_settings_correction
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.settings_screen_secondary_layouts),
+                            onClick = onClickLayouts,
+                            icon = R.drawable.ic_ime_switcher
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.dictionary_settings_category),
+                            onClick = onClickDictionaries,
+                            icon = R.drawable.ic_dictionary
+                        ) { NextScreenIcon() }
+                    }
+                }
+
+                // Group 3: Other (Advanced, About)
+                ElevatedCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                ) {
+                    Column {
+                        Preference(
+                            name = stringResource(R.string.settings_screen_advanced),
+                            onClick = onClickAdvanced,
+                            icon = R.drawable.ic_settings_advanced
+                        ) { NextScreenIcon() }
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+                        Preference(
+                            name = stringResource(R.string.settings_screen_about),
+                            onClick = onClickAbout,
+                            icon = R.drawable.ic_settings_about
+                        ) { NextScreenIcon() }
+                    }
+                }
             }
         }
     }

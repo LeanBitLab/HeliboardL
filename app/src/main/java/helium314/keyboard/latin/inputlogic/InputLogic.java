@@ -3377,6 +3377,12 @@ public final class InputLogic {
             prompt = prompt.replace("#append", "").trim();
         }
 
+        boolean showThinking = false;
+        if (prompt.contains("#showthought")) {
+            showThinking = true;
+            prompt = prompt.replace("#showthought", "").trim();
+        }
+
         if (android.text.TextUtils.isEmpty(prompt)) {
             // User has not set a prompt (or it's empty after stripping).
             KeyboardSwitcher.getInstance().showToast("Custom AI key is not set. Long-press to configure.", true);
@@ -3469,7 +3475,7 @@ public final class InputLogic {
         }
 
         helium314.keyboard.latin.utils.ProofreadHelper.INSTANCE.customAsync(mLatinIME,
-                textToProcess, prompt, hasSelection,
+                textToProcess, prompt, hasSelection, showThinking,
                 new helium314.keyboard.latin.utils.ProofreadHelper.ProofreadCallback() {
                     @Override
                     public void onSuccess(String resultText) {

@@ -3,10 +3,20 @@ package helium314.keyboard.settings.screens
 import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,13 +27,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.core.content.edit
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.utils.ToolbarKey
 import helium314.keyboard.latin.utils.prefs
 import helium314.keyboard.settings.SearchScreen
-import helium314.keyboard.settings.preferences.Preference
 import helium314.keyboard.settings.dialogs.TextInputDialog
 
 @Composable
@@ -36,18 +47,24 @@ fun CustomAIKeysScreen(onClickBack: () -> Unit) {
         filteredItems = { emptyList<Int>() },
         itemContent = { },
         content = {
-            Column(modifier = Modifier.padding(16.dp).verticalScroll(rememberScrollState())) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 Text(
                     text = stringResource(R.string.custom_ai_keys_summary),
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
-                
-                HorizontalDivider()
                 
                 (1..10).forEach { index ->
                     CustomAIKeySlot(index, context)
-                    HorizontalDivider()
                 }
+                
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     )
@@ -58,10 +75,8 @@ private fun CustomAIKeySlot(index: Int, context: Context) {
     val prefs = context.prefs()
     val prefKey = "pref_custom_ai_prompt_$index"
     
-    // User requested to remove all default prompts and examples.
-    val defaultPrompt = ""
-
     var currentPrompt by remember { mutableStateOf(prefs.getString(prefKey, "") ?: "") }
+    val isSet = currentPrompt.isNotBlank()
     var showDialog by remember { mutableStateOf(false) }
     
     val keyEnum = when(index) {
@@ -90,35 +105,93 @@ private fun CustomAIKeySlot(index: Int, context: Context) {
         else -> R.drawable.ic_custom_ai_10
     }
 
-    val displayPrompt = if (currentPrompt.isNotBlank()) currentPrompt else "Not set"
+    val cardModifier = Modifier.fillMaxWidth()
+    val cardColors = if (isSet) {
+        CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        )
+    } else {
+        CardDefaults.outlinedCardColors()
+    }
 
-    Preference(
-        name = "Key $index",
-        description = displayPrompt,
-        icon = iconRes,
-        onClick = { showDialog = true }
-    )
+    val CardContent = @Composable {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(
+                painter = painterResource(iconRes),
+                contentDescription = null,
+                modifier = Modifier.size(32.dp),
+                tint = if (isSet) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Key $index",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = if (isSet) currentPrompt else "Not configured",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (isSet) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.outline,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            
+            if (isSet) {
+               Icon(
+                   painter = painterResource(R.drawable.ic_setup_check),
+                   contentDescription = null, // decorative
+                   tint = MaterialTheme.colorScheme.primary
+               )
+            }
+        }
+    }
+
+    if (isSet) {
+        ElevatedCard(
+            onClick = { showDialog = true },
+            modifier = cardModifier,
+            colors = cardColors
+        ) { CardContent() }
+    } else {
+        OutlinedCard(
+            onClick = { showDialog = true },
+            modifier = cardModifier,
+            colors = cardColors
+        ) { CardContent() }
+    }
     
     if (showDialog) {
         TextInputDialog(
             onDismissRequest = { showDialog = false },
             onConfirmed = { newPrompt ->
                 val trimmed = newPrompt.trim()
-                // Save whatever the user entered
                 prefs.edit { putString(prefKey, trimmed) }
                 currentPrompt = trimmed
                 updateToolbarKeyStatus(context, keyEnum, trimmed.isNotEmpty())
-                android.util.Log.d("CustomAIKeysScreen", "Key $index updated to: $trimmed")
             },
-            title = { Text("Custom Prompt for Key $index") },
-            textInputLabel = { Text("Enter custom prompt (use #editor, #proofread, etc.)") },
+            title = { Text("Configure Key $index") },
+            textInputLabel = { Text("Prompt (e.g. \"rewrite in poetic style\")") },
             initialText = currentPrompt,
-            neutralButtonText = "Clear",
+            neutralButtonText = if (isSet) "Clear" else null,
             onNeutral = {
                 prefs.edit { remove(prefKey) }
                 currentPrompt = ""
                 updateToolbarKeyStatus(context, keyEnum, false)
-                android.util.Log.d("CustomAIKeysScreen", "Key $index cleared")
+            },
+            icon = {
+                Icon(
+                    painter = painterResource(iconRes),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
             }
         )
     }
@@ -134,18 +207,14 @@ private fun updateToolbarKeyStatus(context: Context, key: ToolbarKey, enable: Bo
     
     if (enable) {
         if (existingIndex != -1) {
-            // Already exists, just ensure it is true
             entries[existingIndex] = "${key.name},true"
         } else {
-            // Append to end
             entries.add("${key.name},true")
         }
     } else {
         if (existingIndex != -1) {
-            // Set to false
             entries[existingIndex] = "${key.name},false"
         }
-        // If not present, no need to do anything
     }
     
     prefs.edit { putString(Settings.PREF_TOOLBAR_KEYS, entries.joinToString(";")) }

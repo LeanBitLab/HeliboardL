@@ -1,4 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-only
+/*
+ * Copyright (C) 2026 LeanBitLab
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
 package helium314.keyboard.latin.utils
 
 import android.content.Context
@@ -77,6 +80,7 @@ object ProofreadHelper {
         text: String,
         prompt: String,
         hasSelection: Boolean,
+        showThinking: Boolean,
         onSuccess: (String) -> Unit,
         onError: (String) -> Unit
     ) {
@@ -89,6 +93,7 @@ object ProofreadHelper {
         text: String,
         prompt: String,
         hasSelection: Boolean,
+        showThinking: Boolean,
         callback: ProofreadCallback
     ) {
         showNotSupportedToast()

@@ -5,15 +5,15 @@
     android:viewportWidth="512"
     android:viewportHeight="512">
     
-    <group android:scaleX="0.8" android:scaleY="0.8" android:pivotX="256" android:pivotY="256" android:translateY="20">
+    <group android:scaleX="0.75" android:scaleY="0.75" android:pivotX="256" android:pivotY="256" android:translateX="-12" android:translateY="10">
         <!-- Row 1 -->
         
-        <!-- Key 1 (Top Left): H -->
+        <!-- Key 1 (Top Left): L (replaces H) -->
         <path android:fillColor="#424242" 
               android:pathData="M152,130 h38 a16,16 0,0 1,16 16 v38 a16,16 0,0 1,-16 16 h-38 a16,16 0,0 1,-16 -16 v-38 a16,16 0,0 1,16 -16 z"/>
-        <!-- Letter H (Block Style, 40x44, stroke 10) -->
+        <!-- Letter L (Block Style, moved from Key 6) -->
         <path android:fillColor="#FFFFFF"
-              android:pathData="M151,143 h10 v17 h20 v-17 h10 v44 h-10 v-17 h-20 v17 h-10 z"/>
+              android:pathData="M151,143 h10 v34 h30 v10 h-40 z"/>
 
         <!-- Key 2 (Top Center): Purple Key -->
         <path android:fillColor="#7C4DFF"
@@ -44,12 +44,15 @@
                     android:pathData="M12.87,15.07l-2.54,-2.51 0.03,-0.03c1.74,-1.94 2.98,-4.17 3.71,-6.53L17,6L17,4h-7L10,2L8,2v2L1,4v1.99h11.17C11.5,7.92 10.44,9.75 9,11.35 8.07,10.32 7.3,9.19 6.69,8h-2c0.73,1.63 1.73,3.17 2.98,4.56l-5.09,5.02L4,19l5,-5 3.11,3.11 0.76,-2.04zM18.5,10h-2L12,22h2l1.12,-3h4.75L21,22h2l-4.5,-12zM15.88,17l1.62,-4.33L19.12,17h-3.24z"/>
         </group>
         
-        <!-- Key 6 (Mid Right): L -->
+        <!-- Key 6 (Mid Right): B (replaces L) -->
         <path android:fillColor="#424242"
               android:pathData="M322,215 h38 a16,16 0,0 1,16 16 v38 a16,16 0,0 1,-16 16 h-38 a16,16 0,0 1,-16 -16 v-38 a16,16 0,0 1,16 -16 z"/>
-        <!-- Letter L (Block Style, 40x44, stroke 10) -->
-        <path android:fillColor="#FFFFFF"
-              android:pathData="M321,228 h10 v34 h30 v10 h-40 z"/>
+        <!-- Letter B (Material Design format_bold - Scaled approx 2.6x to fit 44x44 box) -->
+        <!-- Original: 24x24 box. Target center: 341, 237. Scale: 2.5 -->
+        <group android:translateX="319" android:translateY="215" android:scaleX="1.85" android:scaleY="1.85">
+            <path android:fillColor="#FFFFFF"
+                  android:pathData="M15.6,10.79c0.97,-0.67 1.65,-1.77 1.65,-2.79 0,-2.26 -1.75,-4 -4,-4H7v14h7.04c2.09,0 3.71,-1.7 3.71,-3.79 0,-1.52 -0.86,-2.82 -2.15,-3.42zM10,6.5h3c0.83,0 1.5,0.67 1.5,1.5s-0.67,1.5 -1.5,1.5h-3v-3zm3.5,9H10v-3h3.5c0.83,0 1.5,0.67 1.5,1.5s-0.67,1.5 -1.5,1.5z"/>
+        </group>
 
         <!-- Row 3 (Spacebar/Incognito) -->
         <path android:fillColor="#424242"

@@ -78,7 +78,7 @@
     <string name="setup_step3_instruction">Puoi usare %s per digitare in qualsiasi app.</string>
     <string name="setup_finish_action">Fine</string>
     <string name="show_setup_wizard_icon">Mostra l\'icona dell\'app</string>
-    <string name="show_setup_wizard_icon_summary">Mostra HeliboardL tra le app di Android</string>
+    <string name="show_setup_wizard_icon_summary">Mostra LeanType tra le app di Android</string>
     <string name="dictionary_category_title">Dizionari</string>
     <string name="dictionary_available">"Dizionario disponibile"</string>
     <string name="settings">"Impostazioni"</string>
@@ -101,8 +101,8 @@
     <string name="enable_clipboard_history">Attiva la cronologia appunti</string>
     <string name="enable_clipboard_history_summary">Se disattivata, il tasto \'Appunti\' incolla direttamente l\'ultimo contenuto</string>
     <string name="clipboard_history_retention_time">Durata dei contenuti nella cronologia</string>
-    <string name="spell_checker_service_name">Controllo ortografico HeliboardL</string>
-    <string name="android_spell_checker_settings">Impostazioni del controllo ortografico HeliboardL</string>
+    <string name="spell_checker_service_name">Controllo ortografico LeanType</string>
+    <string name="android_spell_checker_settings">Impostazioni del controllo ortografico LeanType</string>
     <string name="number_row">Riga dei numeri</string>
     <string name="delete_swipe">Scorri per cancellare</string>
     <string name="delete_swipe_summary">Scorri indietro partendo da \'Backspace\' per rimuovere più caratteri o parole in una sola volta</string>
@@ -121,7 +121,7 @@
     <string name="settings_category_experimental">Opzioni sperimentali</string>
     <string name="settings_category_miscellaneous">Varie</string>
     <string name="settings_category_input">Input</string>
-    <string name="ime_settings">Impostazioni di HeliboardL</string>
+    <string name="ime_settings">Impostazioni di LeanType</string>
     <string name="prefs_force_incognito_mode_summary">Disattiva l\'apprendimento di nuove parole</string>
     <string name="key_borders">Bordi dei tasti</string>
     <string name="day_night_mode">Tema chiaro/scuro automatico</string>
@@ -432,7 +432,7 @@
     <string name="toolbar_mode_suggestion_strip">Solo suggerimenti</string>
     <string name="toolbar_mode">Modalità</string>
     <string name="space_swipe_hide_keyboard_entry">Nascondi la tastiera</string>
-    <string name="about_wiki_link">HeliboardL Wiki</string>
+    <string name="about_wiki_link">LeanType Wiki</string>
     <string name="about_wiki_link_description">Il Wiki può essere integrato e migliorato da qualsiasi utente GutHub!</string>
     <string name="suggest_emojis">Suggerisci emoji</string>
     <string name="suggest_emojis_summary">Usa i dizionari emoji nei suggerimenti standard</string>

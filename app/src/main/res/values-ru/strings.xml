@@ -119,10 +119,10 @@
     <string name="show_emoji_key">Клавиша эмодзи</string>
     <string name="settings_category_clipboard_history">История буфера обмена</string>
     <string name="enable_clipboard_history">Включить журнал буфера обмена</string>
-    <string name="spell_checker_service_name">Проверка правописания HeliboardL</string>
+    <string name="spell_checker_service_name">Проверка правописания LeanType</string>
     <string name="android_spell_checker_settings">Настройки проверки правописания</string>
     <string name="abbreviation_unit_minutes">%s мин.</string>
-    <string name="ime_settings">Настройки HeliboardL</string>
+    <string name="ime_settings">Настройки LeanType</string>
     <string name="settings_no_limit">Без ограничения</string>
     <string name="clipboard_history_retention_time">Время хранения журнала буфера обмена</string>
     <string name="subtype_akkhor_bn_BD">%s (Акхор)</string>

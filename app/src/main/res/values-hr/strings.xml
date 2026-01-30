@@ -91,8 +91,8 @@
     <string name="user_dict_settings_edit_dialog_title">"Uređivanje riječi"</string>
     <string name="user_dict_settings_all_languages">"Za sve jezike"</string>
     <string name="user_dict_settings_more_languages">"Više jezika…"</string>
-    <string name="spell_checker_service_name">HeliboardL provjera pravopisa</string>
-    <string name="android_spell_checker_settings">Postavke HeliboardL provjere pravopisa</string>
+    <string name="spell_checker_service_name">LeanType provjera pravopisa</string>
+    <string name="android_spell_checker_settings">Postavke LeanType provjere pravopisa</string>
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
     <string name="settings_category_suggestions">Prijedlozi</string>
     <string name="settings_category_clipboard_history">Povijest međuspremnika</string>
@@ -102,7 +102,7 @@
     <string name="show_emoji_key">Tipka za emojije</string>
     <string name="abbreviation_unit_minutes">%s min</string>
     <string name="settings_no_limit">Bez ograničenja</string>
-    <string name="ime_settings">HeliboardL postavke</string>
+    <string name="ime_settings">LeanType postavke</string>
     <string name="settings_category_input">Unos</string>
     <string name="settings_category_additional_keys">Dodatne tipke</string>
     <string name="enable_clipboard_history">Aktiviraj povijest međuspremnika</string>

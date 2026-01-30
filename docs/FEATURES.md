@@ -1,6 +1,6 @@
-# HeliboardL Features Guide
+# LeanType Features Guide
 
-HeliboardL integrates with AI providers to offer advanced proofreading and translation capabilities directly within the keyboard. This guide explains how to set up the supported providers.
+LeanType integrates with AI providers to offer advanced proofreading and translation capabilities directly within the keyboard. This guide explains how to set up the supported providers.
 
 ## Index
 
@@ -29,6 +29,19 @@ HeliboardL integrates with AI providers to offer advanced proofreading and trans
 | **Clipboard Search** | Search through your clipboard history directly. | Clipboard Toolbar > Search Icon |
 | **Dictionary Import** | Import personal words from Google Gboard/other keyboards. | `Text correction > Dictionary > Import` |
 | **Force Auto-Caps** | Toggle to ensure automatic capitalization works reliably. | `Text correction > Auto-capitalization` |
+| **Emoji Search** | Search for emojis by name. | `Emoji Key > Search Icon` |
+
+---
+
+## Emoji Search
+
+*   **Functionality**: Search for emojis by keyword/name directly from the emoji palette.
+*   **Requirement**: You must load an **Emoji Main Dictionary**.
+*   **How to Setup**:
+    1.  Go to **Settings > Text correction > Dictionary**.
+    2.  Tap on your language (e.g., **English**).
+    3.  Ensure the **Emoji English** (or relevant emoji dict) is available/downloaded.
+    4.  *Note*: Basic emoji search requires this dictionary to map words to emoji characters.
 
 ---
 
@@ -63,7 +76,7 @@ Groq is a cloud API provider that uses custom LPUs (Language Processing Units) t
 
 ### Setup
 1.  **Get API Key**: Visit [Groq Console](https://console.groq.com/keys) and create a key (starts with `gsk_`).
-2.  **Configure in HeliboardL**:
+2.  **Configure in LeanType**:
     *   **Provider**: Select **Groq**.
     *   **API Token**: Paste your Groq API Key.
 
@@ -109,7 +122,7 @@ This provider supports any service using the standard OpenAI Chat Completion API
 #### Setup
 1.  **Get Token**: Go to [HuggingFace Settings](https://huggingface.co/settings/tokens) and create a 'Read' token.
     *   *Note*: HuggingFace may require you to add a valid payment method to your account to "unlock" the Inference API, even for the free tier (to prevent abuse).
-2.  **Configure in HeliboardL**:
+2.  **Configure in LeanType**:
     *   **Provider**: Select **HF/OpenAI-compatible**.
     *   **API Token**: Paste your HF Access Token.
     *   **API Endpoint**: `https://api-inference.huggingface.co/models/<USER>/<MODEL>/v1/chat/completions`
@@ -157,6 +170,7 @@ Control how the result is inserted.
 | :--- | :--- | :--- |
 | **(Default)** | **Replace**: The AI output replaces the selected text or the entire text field content. | Proofreading, rewriting, summarizing. |
 | `#append` | **Append**: The AI output is added to the **end** of the text field (or selection) instead of replacing it. | Generating replies, continuing a story, adding a sign-off. |
+| `#showthought` | **Show Thinking**: Preserves the "thinking" process (e.g., `<think>...</think>`) from reasoning models like Qwen. | Debugging reasoning, seeing the AI's thought process. |
 
 ### Examples
 
@@ -186,7 +200,7 @@ Control how the result is inserted.
 
 ## 5. Offline Proofreading (Privacy Focused)
 
-**Note**: This feature is only available in the "Offline" build flavor of HeliboardL.
+**Note**: This feature is only available in the "Offline" build flavor of LeanType.
 
 Offline proofreading runs entirely on your device using the ONNX Runtime engine. No data leaves your device.
 

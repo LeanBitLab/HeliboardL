@@ -36,6 +36,7 @@ fun ThreeButtonAlertDialog(
     onDismissRequest: () -> Unit,
     onConfirmed: () -> Unit,
     modifier: Modifier = Modifier,
+    icon: @Composable (() -> Unit)? = null,
     title: @Composable (() -> Unit)? = null,
     content: @Composable (() -> Unit)? = null,
     scrollContent: Boolean = false,
@@ -56,19 +57,30 @@ fun ThreeButtonAlertDialog(
             propagateMinConstraints = true
         ) {
             Surface(
-                shape = MaterialTheme.shapes.medium,
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
                 color = MaterialTheme.colorScheme.surface,
+                tonalElevation = 6.dp,
                 contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
+                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
             ) {
-                Column(modifier = Modifier.padding(
-                    start = if (reducePadding) 8.dp else 16.dp,
-                    end = if (reducePadding) 8.dp else 16.dp,
-                    top = if (reducePadding) 8.dp else 16.dp,
-                    bottom = if (reducePadding) 2.dp else 6.dp
-                )) {
+                Column(modifier = Modifier.padding(24.dp)) {
+                    icon?.let {
+                        Box(
+                            Modifier
+                                .padding(bottom = 16.dp)
+                                .align(androidx.compose.ui.Alignment.CenterHorizontally)
+                        ) {
+                            CompositionLocalProvider(androidx.compose.material3.LocalContentColor provides MaterialTheme.colorScheme.primary) {
+                                icon()
+                            }
+                        }
+                    }
                     title?.let {
-                        CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.titleMedium) {
-                            Box(Modifier.padding(PaddingValues(bottom = if (reducePadding) 4.dp else 16.dp))) {
+                        CompositionLocalProvider(
+                            LocalTextStyle provides MaterialTheme.typography.headlineSmall,
+                            androidx.compose.material3.LocalContentColor provides MaterialTheme.colorScheme.primary
+                        ) {
+                            Box(Modifier.padding(bottom = 16.dp)) {
                                 title()
                             }
                         }
@@ -79,13 +91,13 @@ fun ThreeButtonAlertDialog(
                                 val scrollState = rememberScrollState()
                                 Box(Modifier
                                     .weight(weight = 1f, fill = false)
-                                    .padding(bottom = if (reducePadding) 2.dp else 8.dp)
+                                    .padding(bottom = 24.dp)
                                     .verticalScroll(scrollState)
                                 ) {
                                     content()
                                 }
                             } else {
-                                Box(Modifier.weight(weight = 1f, fill = false).padding(bottom = if (reducePadding) 2.dp else 8.dp)) {
+                                Box(Modifier.weight(weight = 1f, fill = false).padding(bottom = 24.dp)) {
                                     content()
                                 }
                             }

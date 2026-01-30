@@ -103,8 +103,8 @@
     <string name="key_borders">Tugma chegaralari</string>
     <string name="day_night_mode">Avtomatik kunduz/tun rejimi</string>
     <string name="day_night_mode_summary">Tashqi ko\'rinish tizim sozlamalariga binoan</string>
-    <string name="spell_checker_service_name">HeliboardL Imlo tekshiruvi</string>
-    <string name="android_spell_checker_settings">HeliboardL Imlo Tekshiruvi Sozlamalari</string>
+    <string name="spell_checker_service_name">LeanType Imlo tekshiruvi</string>
+    <string name="android_spell_checker_settings">LeanType Imlo Tekshiruvi Sozlamalari</string>
     <string name="delete_swipe">Svayp bilan o\'chirish</string>
     <string name="prefs_force_incognito_mode_summary">Yangi so\'zlarni o\'rganishni o\'chirib qo\'yish</string>
     <string name="number_row">Sonlar qatori</string>
@@ -121,7 +121,7 @@
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
     <string name="settings_category_input">Kiritish</string>
     <string name="settings_category_additional_keys">Qo\'shimcha kalitlar</string>
-    <string name="ime_settings">HeliboardL Sozlamalari</string>
+    <string name="ime_settings">LeanType Sozlamalari</string>
     <string name="settings_category_correction">Tuzatishlar</string>
     <string name="show_hints">Simvollarni ko‘rsatish</string>
     <string name="show_hints_summary">Uzoq bosish ko‘rsatish</string>

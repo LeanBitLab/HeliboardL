@@ -38,6 +38,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import androidx.core.content.edit
+import helium314.keyboard.settings.FeedbackManager
 
 @SuppressLint("ApplySharedPref")
 @Composable
@@ -67,16 +68,13 @@ fun LoadGestureLibPreference(setting: Setting) {
             GestureLibraryDownloader.downloadLibrary(ctx).fold(
                 onSuccess = { downloadedFile ->
                     val checksum = ChecksumCalculator.checksum(downloadedFile) ?: ""
-                    Toast.makeText(ctx, R.string.load_gesture_library_download_success, Toast.LENGTH_SHORT).show()
+                    FeedbackManager.message(ctx, R.string.load_gesture_library_download_success)
                     renameToLibFileAndRestart(downloadedFile, checksum)
                 },
                 onFailure = { error ->
                     isDownloading = false
-                    Toast.makeText(
-                        ctx, 
-                        ctx.getString(R.string.load_gesture_library_download_failed, error.message ?: "Unknown error"),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val errorMsg = ctx.getString(R.string.load_gesture_library_download_failed, error.message ?: "Unknown error")
+                    FeedbackManager.message(ctx, errorMsg)
                 }
             )
         }

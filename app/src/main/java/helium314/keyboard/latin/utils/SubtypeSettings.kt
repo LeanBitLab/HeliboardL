@@ -12,6 +12,7 @@ import androidx.core.app.LocaleManagerCompat
 import androidx.core.content.edit
 import helium314.keyboard.compat.locale
 import helium314.keyboard.keyboard.KeyboardSwitcher
+import helium314.keyboard.settings.FeedbackManager
 import helium314.keyboard.latin.RichInputMethodManager
 import helium314.keyboard.latin.common.Constants.Separators
 import helium314.keyboard.latin.common.LocaleUtils
@@ -259,7 +260,7 @@ object SubtypeSettings {
                 val message = "no resource subtype for $settingsSubtype"
                 Log.w(TAG, message)
                 if (DebugFlags.DEBUG_ENABLED)
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    FeedbackManager.message(context, message)
                 else // don't remove in debug mode
                     removeEnabledSubtype(prefs, settingsSubtype)
                 continue
@@ -270,7 +271,7 @@ object SubtypeSettings {
                 val message = "subtype $settingsSubtype could not be loaded"
                 Log.w(TAG, message)
                 if (DebugFlags.DEBUG_ENABLED)
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                    FeedbackManager.message(context, message)
                 else // don't remove in debug mode
                     removeEnabledSubtype(prefs, settingsSubtype)
                 continue

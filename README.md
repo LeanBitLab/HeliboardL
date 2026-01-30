@@ -1,18 +1,18 @@
-# HeliboardL
+# LeanType
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/heliboardl_banner_dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/images/heliboardl_banner_light.svg">
-  <img alt="HeliboardL Banner" src="docs/images/heliboardl_banner_light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/leantype_banner_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/images/leantype_banner_light.svg">
+  <img alt="LeanType Banner" src="docs/images/leantype_banner_light.svg">
 </picture>
 
-[![Download](https://img.shields.io/github/v/release/LeanBitLab/HeliboardL?label=Download&style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/releases/latest) [![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total?style=for-the-badge&color=7C4DFF&label=Downloads)](https://github.com/LeanBitLab/HeliboardL/releases) [![Stars](https://img.shields.io/github/stars/LeanBitLab/HeliboardL?style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/stargazers)
+[![Download](https://img.shields.io/github/v/release/LeanBitLab/LeanType?label=Download&style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/LeanType/releases/latest) [![Downloads](https://img.shields.io/github/downloads/LeanBitLab/LeanType/total?style=for-the-badge&color=7C4DFF&label=Downloads)](https://github.com/LeanBitLab/LeanType/releases) [![Stars](https://img.shields.io/github/stars/LeanBitLab/LeanType?style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/LeanType/stargazers)
 
-**HeliboardL** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
+**LeanType** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
 This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-compatible APIs, offering a hybrid experience: a private, offline core with opt-in cloud intelligence.
 
-## What's New in HeliboardL
+## What's New in LeanType
 
 - **[🤖 Multi-Provider AI](docs/FEATURES.md#supported-ai-providers)** - Proofread using **Gemini**, **Groq** (Llama 3, Mixtral), or **OpenAI-compatible** providers.
 - **[🛡️ Offline AI](docs/FEATURES.md#5-offline-proofreading-privacy-focused)** - Private, on-device proofreading and translation using ONNX models (Offline build only).
@@ -25,6 +25,7 @@ This fork adds **optional AI-powered features** using Gemini, Groq, and OpenAI-c
 - **⚙️ Enhanced Customization** - Force auto-capitalization toggle, reorganized settings, and more.
 - **🕵️ Clear Incognito Mode** - Distinct "Hat & Glasses" icon for clear visibility.
 - **🔍 Clipboard Search** - Search through your clipboard history directly from the toolbar.
+- **🔎 Emoji Search** - Search for emojis by name. *Requires loading an Emoji Dictionary.*
 - **🔒 Privacy Choices** - Choose **Standard** (Opt-in AI), **Offline** (Hard-disabled network, offline model load), or **Offline Lite** (Minimalist, no AI) versions.
 
 ## Screenshots
@@ -90,7 +91,7 @@ For original feature documentation, visit the [HeliBoard Wiki](https://github.co
 
 ### AI Features Setup
 
-HeliboardL supports multiple AI providers: **Google Gemini**, **Groq**, and **OpenAI-compatible** (OpenRouter, HuggingFace, etc.).
+LeanType supports multiple AI providers: **Google Gemini**, **Groq**, and **OpenAI-compatible** (OpenRouter, HuggingFace, etc.).
 
 👉 **[Read the Full AI Setup & Features Guide](docs/FEATURES.md)**
 
@@ -107,13 +108,13 @@ HeliboardL supports multiple AI providers: **Google Gemini**, **Groq**, and **Op
 
 ## Contributing
 
-For issues specific to HeliboardL features, please open an issue in this repository.
+For issues specific to LeanType features, please open an issue in this repository.
 
 For issues with core HeliBoard functionality, please report to the [original HeliBoard repository](https://github.com/Helium314/HeliBoard/issues).
 
 ## License
 
-HeliboardL (as a fork of HeliBoard/OpenBoard) is licensed under **GNU General Public License v3.0**.
+LeanType (as a fork of HeliBoard/OpenBoard) is licensed under **GNU General Public License v3.0**.
 
 See [LICENSE](/LICENSE) file.
 
@@ -124,10 +125,23 @@ See [LICENSE](/LICENSE) file.
 - [OpenBoard](https://github.com/openboard-team/openboard)
 - [AOSP Keyboard](https://android.googlesource.com/platform/packages/inputmethods/LatinIME/)
 - Original icon by [Fabian OvrWrt](https://github.com/FabianOvrWrt)
+- All [HeliBoard Contributors](https://github.com/Helium314/HeliBoard/graphs/contributors)
 
-### HeliboardL
+### LeanType
 - Built with ❤️ by [LeanBitLab](https://github.com/LeanBitLab)
+
+## Support the Development
+
+Building and maintaining privacy-focused, offline AI apps takes time and resources (test devices, server costs, etc.).
+
+If you love LeanType, please consider supporting the project!
+
+<a href="https://github.com/sponsors/LeanBitLab">
+  <img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" width="150" alt="Sponsor on GitHub"/>
+</a>
+
+Your support keeps the code **100% Free and Open Source**.
 
 ---
 
-*HeliboardL • Privacy-focused keyboard with AI enhancements*
+*LeanType • Privacy-focused keyboard with AI enhancements*

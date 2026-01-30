@@ -17,7 +17,7 @@ import java.net.URL
  */
 object GestureLibraryDownloader {
     private const val TAG = "GestureLibraryDownloader"
-    private const val USER_AGENT = "HeliboardL/1.0"
+    private const val USER_AGENT = "LeanType/1.0"
     private const val CONNECT_TIMEOUT_MS = 30_000
     private const val READ_TIMEOUT_MS = 60_000
     
