@@ -1,2 +1,0 @@
-* add visual options for gesture typing, by @devycarol (#944)
-* update some icons, by @BlackyHawky (#977)
