@@ -1,3 +1,0 @@
-- Oprava pádů
-- Opraveny rozbité automatické opravy (rozbité od verze 3.4)
-- Vibrace u mezerníku a mazacího swipu, pokud jsou povoleny

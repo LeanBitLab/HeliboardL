@@ -1,2 +1,0 @@
-* Visuele opties toevoegen voor typen met gebaren, van @devycarol (#944)
-* Enkele pictogrammen bijgewerkt, door @BlackyHawky (#977)

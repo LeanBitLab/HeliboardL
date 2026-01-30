@@ -1,2 +1,0 @@
-* lisää visuaalisia vaihtoehtoja piirtokirjoitukseen, @devycarol (#944)
-* päivitä joitain kuvakkeita, @BlackyHawky (#977)
