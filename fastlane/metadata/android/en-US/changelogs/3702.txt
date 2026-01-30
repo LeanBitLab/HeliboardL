@@ -1,0 +1,6 @@
+v3.7.2 - Reborn as LeanType
+
+* Rebranding: Fresh new "LeanType" identity and icons.
+* Emoji Search: Find emojis by name (requires dictionary).
+* AI Additions: Qwen/DeepSeek support (strips <think> tags) and #showthought keyword.
+* UI Polish: Dual Toolbar, Touchpad Mode, and Refined Settings.

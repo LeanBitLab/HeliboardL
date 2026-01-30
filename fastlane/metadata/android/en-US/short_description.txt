@@ -1,1 +1,1 @@
-Customizable open-source keyboard
+Open-source keyboard with optional AI features
