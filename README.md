@@ -6,7 +6,7 @@
   <img alt="LeanType Banner" src="docs/images/leantype_banner_light.svg">
 </picture>
 
-[![Download](https://img.shields.io/github/v/release/LeanBitLab/LeanType?label=Download&style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/LeanType/releases/latest) [![Downloads](https://img.shields.io/github/downloads/LeanBitLab/LeanType/total?style=for-the-badge&color=7C4DFF&label=Downloads)](https://github.com/LeanBitLab/LeanType/releases) [![Stars](https://img.shields.io/github/stars/LeanBitLab/LeanType?style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/LeanType/stargazers)
+[![Download](https://img.shields.io/github/v/release/LeanBitLab/HeliboardL?label=Download&style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/releases/latest) [![Downloads](https://img.shields.io/github/downloads/LeanBitLab/HeliboardL/total?style=for-the-badge&color=7C4DFF&label=Downloads)](https://github.com/LeanBitLab/HeliboardL/releases) [![Stars](https://img.shields.io/github/stars/LeanBitLab/HeliboardL?style=for-the-badge&color=7C4DFF)](https://github.com/LeanBitLab/HeliboardL/stargazers)
 
 **LeanType** is a fork of [HeliBoard](https://github.com/Helium314/HeliBoard) - a privacy-conscious and customizable open-source keyboard based on AOSP/OpenBoard.
 
