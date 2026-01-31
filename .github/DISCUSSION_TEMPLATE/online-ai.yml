@@ -1,0 +1,27 @@
+title: "[Online AI] "
+labels: ["online-ai"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Discuss cloud-based AI features (Gemini, Groq, OpenAI).
+        **WARNING: NEVER share your API Keys!**
+  - type: dropdown
+    id: provider
+    attributes:
+      label: AI Provider
+      options:
+        - Google Gemini
+        - Groq (Mixtral/Llama)
+        - HuggingFace / OpenAI Compatible
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback / Question
+      description: Describe your issue or suggestion.
+      placeholder: I am getting a 401 Unauthorized error...
+    validations:
+      required: true

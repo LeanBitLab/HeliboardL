@@ -43,22 +43,29 @@ fun GestureTypingScreen(
     
     // Always show library loader first when no library
     val items = buildList {
+        add(R.string.settings_category_configuration)
         // Library loader is always first if allowed
         if (helium314.keyboard.latin.BuildConfig.BUILD_TYPE != "nouserlib") {
             add(SettingsWithoutKey.LOAD_GESTURE_LIB)
         }
         // Show all gesture settings (they will be disabled if no library)
         add(Settings.PREF_GESTURE_INPUT)
+
         if (hasGestureLib && gestureEnabled) {
+            add(R.string.settings_category_visuals)
             add(Settings.PREF_GESTURE_PREVIEW_TRAIL)
             add(Settings.PREF_GESTURE_FLOATING_PREVIEW_TEXT)
             if (gestureFloatingPreviewEnabled)
                 add(Settings.PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC)
-            add(Settings.PREF_GESTURE_SPACE_AWARE)
-            add(Settings.PREF_GESTURE_FAST_TYPING_COOLDOWN)
             if (prefs.getBoolean(Settings.PREF_GESTURE_PREVIEW_TRAIL, Defaults.PREF_GESTURE_PREVIEW_TRAIL) || gestureFloatingPreviewEnabled)
                 add(Settings.PREF_GESTURE_TRAIL_FADEOUT_DURATION)
+
+            add(R.string.settings_category_behavior)
+            add(Settings.PREF_GESTURE_SPACE_AWARE)
+            add(Settings.PREF_GESTURE_FAST_TYPING_COOLDOWN)
         }
+
+        add(R.string.settings_category_gestures_advanced)
         add(Settings.PREF_SPACE_HORIZONTAL_SWIPE)
         add(Settings.PREF_SPACE_VERTICAL_SWIPE)
         add(Settings.PREF_TOUCHPAD_SENSITIVITY)

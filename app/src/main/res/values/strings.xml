@@ -58,6 +58,14 @@
     <string name="settings_category_experimental">Experimental</string>
     <!-- Settings category title for Appearance & Layout/Misc -->
     <string name="settings_category_miscellaneous">Miscellaneous</string>
+    <!-- Settings category title for Gesture Typing/Configuration -->
+    <string name="settings_category_configuration">Configuration</string>
+    <!-- Settings category title for Gesture Typing/Visuals -->
+    <string name="settings_category_visuals">Visuals &amp; Preview</string>
+    <!-- Settings category title for Gesture Typing/Behavior -->
+    <string name="settings_category_behavior">Behavior</string>
+    <!-- Settings category title for Gesture Typing/Advanced -->
+    <string name="settings_category_gestures_advanced">Advanced Gestures</string>
     <!--  Option for enabling or disabling the split keyboard layout in portrait mode.-->
     <string name="enable_split_keyboard">Enable split keyboard</string>
     <!--  Option for enabling or disabling the split keyboard layout in landscape mode.-->
