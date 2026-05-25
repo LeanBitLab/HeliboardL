@@ -460,13 +460,10 @@ public class SettingsValues {
                 if (!mShowsLanguageSwitchKey) {
                         return false;
                 }
+                // The behavior preference (mLanguageSwitchKeyToOtherImes / mLanguageSwitchKeyToOtherSubtypes)
+                // only controls what tapping the key does — it must not gate visibility, otherwise the
+                // toggle silently has no effect for users with a single enabled subtype (the common case).
                 final RichInputMethodManager imm = RichInputMethodManager.getInstance();
-                if (!mLanguageSwitchKeyToOtherSubtypes) {
-                        return imm.hasMultipleEnabledIMEsOrSubtypes(false /* include aux subtypes */);
-                }
-                if (!mLanguageSwitchKeyToOtherImes) {
-                        return imm.hasMultipleEnabledSubtypesInThisIme(false /* include aux subtypes */);
-                }
                 return imm.hasMultipleEnabledSubtypesInThisIme(false /* include aux subtypes */)
                                 || imm.hasMultipleEnabledIMEsOrSubtypes(false /* include aux subtypes */);
         }
