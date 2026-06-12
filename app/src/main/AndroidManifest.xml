@@ -29,6 +29,7 @@ SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
             android:allowBackup="false"
             android:defaultToDeviceProtectedStorage="true"
             android:directBootAware="true"
+            android:usesCleartextTraffic="true"
             tools:remove="android:appComponentFactory"
             tools:targetApi="p">
 
