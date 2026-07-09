@@ -48,6 +48,7 @@ object Defaults {
     }
     
     const val PREF_SPLIT_TOOLBAR = false
+    const val PREF_SINGLE_WORD_SUGGESTIONS = false
     const val PREF_SHOW_DOWNLOAD_BUTTON_IN_TOOLBAR = true
 
 
