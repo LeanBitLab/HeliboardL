@@ -1,0 +1,39 @@
+name: Build LeanType Offline Lite Optimized
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - uses: gradle/actions/setup-gradle@v3
+
+    - name: Grant Execute Permission for Gradlew
+      run: chmod +x gradlew
+
+    - name: Build Fast Offline Lite APK
+      run: ./gradlew assembleOfflineliteRelease -Ptarget-architectures=arm64-v8a
+
+    - name: Sign Release APK with Persistent Key (updateable installs)
+      run: |
+        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+        sudo apt-get update && sudo apt-get install -y apksigner
+        APK_PATH=$(find app/build/outputs/apk/ -name "*offlinelite-release.apk" -o -name "*offlineLite-release.apk" | head -n 1)
+        apksigner sign --ks release.keystore --ks-pass pass:android --key-pass pass:android --out app/build/outputs/apk/LeanType-OfflineLite-Fast.apk "$APK_PATH"
+
+    - name: Upload Fast APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: LeanType-OfflineLite-Fast
+        path: app/build/outputs/apk/LeanType-OfflineLite-Fast.apk
