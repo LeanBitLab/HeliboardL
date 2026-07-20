@@ -65,4 +65,10 @@ public interface DrawingProxy {
      * Dismiss a gesture floating preview text without delay.
      */
     void dismissGestureFloatingPreviewTextWithoutDelay();
+
+    void setTapGesturePreviewEnabled(boolean enabled);
+
+    void recordTapGesturePoint(int x, int y, boolean gesture);
+
+    void clearTapGesturePreview();
 }

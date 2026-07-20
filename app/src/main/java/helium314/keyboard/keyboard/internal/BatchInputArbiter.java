@@ -61,11 +61,18 @@ public class BatchInputArbiter {
      */
     public void addDownEventPoint(final int x, final int y, final long downEventTime,
             final long lastLetterTypingTime, final int activePointerCount) {
+        addDownEventPoint(x, y, downEventTime, lastLetterTypingTime, activePointerCount, false);
+    }
+
+    public void addDownEventPoint(final int x, final int y, final long downEventTime,
+            final long lastLetterTypingTime, final int activePointerCount,
+            final boolean ignoreFastTypingCooldown) {
         if (activePointerCount == 1) {
             sGestureFirstDownTime = downEventTime;
         }
         final int elapsedTimeSinceFirstDown = getElapsedTimeSinceFirstDown(downEventTime);
-        final int elapsedTimeSinceLastTyping = (int)(downEventTime - lastLetterTypingTime);
+        final int elapsedTimeSinceLastTyping = ignoreFastTypingCooldown
+                ? Integer.MAX_VALUE : (int)(downEventTime - lastLetterTypingTime);
         mRecognitionPoints.addDownEventPoint(
                 x, y, elapsedTimeSinceFirstDown, elapsedTimeSinceLastTyping);
     }

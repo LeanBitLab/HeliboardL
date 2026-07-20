@@ -45,6 +45,7 @@ import helium314.keyboard.keyboard.internal.KeyPreviewView;
 import helium314.keyboard.keyboard.internal.PopupKeySpec;
 import helium314.keyboard.keyboard.internal.NonDistinctMultitouchHelper;
 import helium314.keyboard.keyboard.internal.SlidingKeyInputDrawingPreview;
+import helium314.keyboard.keyboard.internal.TapGestureDrawingPreview;
 import helium314.keyboard.keyboard.internal.TimerHandler;
 import helium314.keyboard.keyboard.internal.KeyboardIconsSet;
 import helium314.keyboard.keyboard.internal.keyboard_parser.floris.KeyCode;
@@ -124,6 +125,7 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
 
     // Gesture floating preview text
     private final int mGestureFloatingPreviewTextLingerTimeout;
+    private final TapGestureDrawingPreview mTapGestureDrawingPreview;
 
     private final KeyDetector mKeyDetector;
     private final NonDistinctMultitouchHelper mNonDistinctMultitouchHelper;
@@ -208,6 +210,9 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
 
         mSlidingKeyInputDrawingPreview = new SlidingKeyInputDrawingPreview(mainKeyboardViewAttr);
         mSlidingKeyInputDrawingPreview.setDrawingView(drawingPreviewPlacerView);
+
+        mTapGestureDrawingPreview = new TapGestureDrawingPreview();
+        mTapGestureDrawingPreview.setDrawingView(drawingPreviewPlacerView);
         mainKeyboardViewAttr.recycle();
 
         mDrawingPreviewPlacerView = drawingPreviewPlacerView;
@@ -452,6 +457,9 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
             final boolean isGestureFloatingPreviewTextEnabled) {
         mGestureFloatingTextDrawingPreview.setPreviewEnabled(isGestureFloatingPreviewTextEnabled);
         mGestureTrailsDrawingPreview.setPreviewEnabled(isGestureTrailEnabled);
+        mTapGestureDrawingPreview.setPreviewEnabled(
+                Settings.getValues().mGestureCombineTapsAndGestures
+                        && Settings.getValues().mGestureDrawTapsAndGestures);
     }
 
     public void showGestureFloatingPreviewText(@NonNull final SuggestedWords suggestedWords,
@@ -469,6 +477,25 @@ public final class MainKeyboardView extends KeyboardView implements DrawingProxy
     @Override
     public void dismissGestureFloatingPreviewTextWithoutDelay() {
         mGestureFloatingTextDrawingPreview.dismissGestureFloatingPreviewText();
+    }
+
+    @Override
+    public void setTapGesturePreviewEnabled(final boolean enabled) {
+        mTapGestureDrawingPreview.setPreviewEnabled(enabled);
+        if (!enabled) {
+            mTapGestureDrawingPreview.clear();
+        }
+    }
+
+    @Override
+    public void recordTapGesturePoint(final int x, final int y, final boolean gesture) {
+        locatePreviewPlacerView();
+        mTapGestureDrawingPreview.addPoint(x, y, gesture);
+    }
+
+    @Override
+    public void clearTapGesturePreview() {
+        mTapGestureDrawingPreview.clear();
     }
 
     @Override

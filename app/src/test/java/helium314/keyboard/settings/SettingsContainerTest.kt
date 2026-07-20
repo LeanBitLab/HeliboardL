@@ -31,6 +31,12 @@ class SettingsContainerTest {
     }
 
     @Test
+    fun tapGestureCombiningSettingsAreSearchable() {
+        assertTrue(container.filter("combine").any { it.title.contains("Combine simultaneous tapping") })
+        assertTrue(container.filter("draw").any { it.title.contains("Draw taps") })
+    }
+
+    @Test
     fun testFilterPerformance() {
         val searches = listOf("a", "b", "c", "theme", "color", "sound", "vib", "dictionary", "key", "layout")
 

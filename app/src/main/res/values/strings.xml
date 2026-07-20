@@ -65,6 +65,7 @@
     <!-- Settings category title for Gesture Typing/Behavior -->
     <string name="settings_category_behavior">Behavior</string>
     <!-- Settings category title for Gesture Typing/Advanced -->
+    <string name="settings_category_tap_gesture_combining">Tap + gesture combining</string>
     <string name="settings_category_gestures_advanced">Advanced Gestures</string>
     <!-- Settings category title for Touchpad options -->
     <string name="settings_category_touchpad">Touchpad</string>
@@ -245,6 +246,10 @@
     <string name="gesture_fast_typing_cooldown_instant">Always start instantly</string>
     <!-- Title of the setting to adjust the gesture trail fadeout duration-->
     <string name="gesture_trail_fadeout_duration">Gesture trail lifespan</string>
+    <string name="gesture_combine_taps_and_gestures">Combine simultaneous tapping and additional gestures</string>
+    <string name="gesture_combine_taps_and_gestures_summary">Allow gesture input to start immediately after tap typing within the current word</string>
+    <string name="gesture_draw_taps_and_gestures">Draw taps and gestures</string>
+    <string name="gesture_draw_taps_and_gestures_summary">Show diagnostic tap points and gesture paths while combining tap and gesture input</string>
     <!-- Preferences item for enabling clipboard history -->
     <string name="enable_clipboard_history">Enable clipboard history</string>
     <!-- Description for enabling/disabling clipboard history mentioning that if disabled, clipboard content is pasted -->

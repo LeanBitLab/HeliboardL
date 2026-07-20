@@ -119,6 +119,8 @@ public class SettingsValues {
         public final boolean mGestureFloatingPreviewDynamicEnabled;
         public final int mGestureFastTypingCooldown;
         public final int mGestureTrailFadeoutDuration;
+        public final boolean mGestureCombineTapsAndGestures;
+        public final boolean mGestureDrawTapsAndGestures;
         public final boolean mSlidingKeyInputPreviewEnabled;
         public final int mKeyLongpressTimeout;
         public final boolean mEnableEmojiAltPhysicalKey;
@@ -366,6 +368,12 @@ public class SettingsValues {
                                 Defaults.PREF_GESTURE_FAST_TYPING_COOLDOWN);
                 mGestureTrailFadeoutDuration = prefs.getInt(Settings.PREF_GESTURE_TRAIL_FADEOUT_DURATION,
                                 Defaults.PREF_GESTURE_TRAIL_FADEOUT_DURATION);
+                mGestureCombineTapsAndGestures = prefs.getBoolean(
+                                Settings.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES,
+                                Defaults.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES);
+                mGestureDrawTapsAndGestures = prefs.getBoolean(
+                                Settings.PREF_GESTURE_DRAW_TAPS_AND_GESTURES,
+                                Defaults.PREF_GESTURE_DRAW_TAPS_AND_GESTURES);
                 mSuggestionStripHiddenPerUserSettings = mToolbarMode == ToolbarMode.HIDDEN
                                 || mToolbarMode == ToolbarMode.TOOLBAR_KEYS;
                 mOverrideShowingSuggestions = mInputAttributes.mMayOverrideShowingSuggestions

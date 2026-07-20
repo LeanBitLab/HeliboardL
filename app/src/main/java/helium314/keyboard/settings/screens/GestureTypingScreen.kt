@@ -60,6 +60,11 @@ fun GestureTypingScreen(
             add(R.string.settings_category_behavior)
             add(Settings.PREF_GESTURE_SPACE_AWARE)
             add(Settings.PREF_GESTURE_FAST_TYPING_COOLDOWN)
+
+            add(R.string.settings_category_tap_gesture_combining)
+            add(Settings.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES)
+            if (prefs.getBoolean(Settings.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES, Defaults.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES))
+                add(Settings.PREF_GESTURE_DRAW_TAPS_AND_GESTURES)
         }
 
         add(R.string.settings_category_gestures_advanced)
@@ -135,6 +140,16 @@ fun createGestureTypingSettings(context: Context) = listOf(
             description = { stringResource(R.string.abbreviation_unit_milliseconds, (it + 100).toString()) },
             stepSize = 10,
         ) { KeyboardSwitcher.getInstance().setThemeNeedsReload() }
+    },
+    Setting(context, Settings.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES,
+        R.string.gesture_combine_taps_and_gestures, R.string.gesture_combine_taps_and_gestures_summary)
+    {
+        SwitchPreference(it, Defaults.PREF_GESTURE_COMBINE_TAPS_AND_GESTURES)
+    },
+    Setting(context, Settings.PREF_GESTURE_DRAW_TAPS_AND_GESTURES,
+        R.string.gesture_draw_taps_and_gestures, R.string.gesture_draw_taps_and_gestures_summary)
+    {
+        SwitchPreference(it, Defaults.PREF_GESTURE_DRAW_TAPS_AND_GESTURES)
     },
     Setting(context, SettingsWithoutKey.LOAD_GESTURE_LIB, R.string.load_gesture_library, R.string.load_gesture_library_summary) {
         LoadGestureLibPreference(it.title)

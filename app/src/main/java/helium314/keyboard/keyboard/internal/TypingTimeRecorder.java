@@ -12,6 +12,7 @@ public final class TypingTimeRecorder {
     private long mLastTypingTime;
     private long mLastLetterTypingTime;
     private long mLastBatchInputTime;
+    private boolean mLastCodeInputWasLetter;
 
     public TypingTimeRecorder(final int staticTimeThresholdAfterFastTyping,
             final int suppressKeyPreviewAfterBatchInputDuration) {
@@ -29,6 +30,7 @@ public final class TypingTimeRecorder {
     }
 
     public void onCodeInput(final int code, final long eventTime) {
+        mLastCodeInputWasLetter = Character.isLetter(code);
         // Record the letter typing time when
         // 1. Letter keys are typed successively without any batch input in between.
         // 2. A letter key is typed within the threshold time since the last any key typing.
@@ -53,6 +55,10 @@ public final class TypingTimeRecorder {
 
     public long getLastLetterTypingTime() {
         return mLastLetterTypingTime;
+    }
+
+    public boolean wasLastCodeInputLetter() {
+        return mLastCodeInputWasLetter;
     }
 
     public boolean needsToSuppressKeyPreviewPopup(final long eventTime) {

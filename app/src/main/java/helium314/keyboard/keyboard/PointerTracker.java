@@ -660,6 +660,7 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
         if (DEBUG_LISTENER) {
             Log.d(TAG, String.format(Locale.US, "[%d] onCancelBatchInput", mPointerId));
         }
+        sDrawingProxy.clearTapGesturePreview();
         sListener.onCancelBatchInput();
     }
 
@@ -727,6 +728,11 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
             }
         }
         sPointerTrackerQueue.add(this);
+        if (Settings.getValues().mGestureCombineTapsAndGestures
+                && Settings.getValues().mGestureDrawTapsAndGestures
+                && getActivePointerTrackerCount() == 1) {
+            sDrawingProxy.clearTapGesturePreview();
+        }
         onDownEventInternal(x, y, eventTime);
         if (!sGestureEnabler.shouldHandleGesture()) {
             return;
@@ -737,10 +743,19 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
         mIsDetectingGesture = (mKeyboard != null) && mKeyboard.mId.isAlphabetKeyboard()
                 && key != null && !key.isModifier() && !mKeySwipeAllowed && !sInKeySwipe;
         if (mIsDetectingGesture) {
+            final SettingsValues settingsValues = Settings.getValues();
+            final boolean combineTapsAndGestures = settingsValues.mGestureCombineTapsAndGestures
+                    && getActivePointerTrackerCount() >= 2
+                    && sTypingTimeRecorder.wasLastCodeInputLetter();
             mBatchInputArbiter.addDownEventPoint(x, y, eventTime,
-                    sTypingTimeRecorder.getLastLetterTypingTime(), getActivePointerTrackerCount());
+                    sTypingTimeRecorder.getLastLetterTypingTime(), getActivePointerTrackerCount(),
+                    combineTapsAndGestures);
             mGestureStrokeDrawingPoints.onDownEvent(
                     x, y, mBatchInputArbiter.getElapsedTimeSinceFirstDown(eventTime));
+            if (settingsValues.mGestureCombineTapsAndGestures
+                    && settingsValues.mGestureDrawTapsAndGestures) {
+                sDrawingProxy.recordTapGesturePoint(x, y, true);
+            }
         }
     }
 
@@ -1264,6 +1279,11 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
         if (currentKey != null && currentKey.isRepeatable()
                 && (currentKey.getCode() == currentRepeatingKeyCode) && !isInDraggingFinger) {
             return;
+        }
+        if (Settings.getValues().mGestureCombineTapsAndGestures
+                && Settings.getValues().mGestureDrawTapsAndGestures && currentKey != null
+                && !currentKey.isModifier()) {
+            sDrawingProxy.recordTapGesturePoint(x, y, false);
         }
         detectAndSendKey(currentKey, mKeyX, mKeyY, eventTime);
         if (isInSlidingKeyInput) {
