@@ -68,6 +68,7 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
     private var mContext: Context? = null
     private var mEnabledDictionariesState: Map<String, Boolean> = emptyMap()
     private var mLoadedDownloadPrefs: Map<String, Any?> = emptyMap()
+    private var mLoadedAINextWord: Boolean? = null
     private var dictionaryGroups = listOf(DictionaryGroup())
 
     @Volatile
@@ -157,6 +158,10 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
             if (currentPrefs != mEnabledDictionariesState || currentDownloadPrefs != mLoadedDownloadPrefs) {
                 return false
             }
+            val aiNextWord = prefs.getBoolean(Settings.PREF_AI_NEXT_WORD, false)
+            if (aiNextWord != mLoadedAINextWord) {
+                return false
+            }
         }
         val ctx = mContext ?: return false
         val currentSuggestEmojis = Settings.getValues().mSuggestEmojis
@@ -191,6 +196,9 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         mEnabledDictionariesState = prefs.all.filterKeys { it.startsWith("pref_dict_enabled_") }
             .mapValues { it.value as? Boolean ?: true }
         mLoadedDownloadPrefs = prefs.all.filterKeys { it.startsWith("pref_dict_download_link_") }
+
+        // Track the AI next-word pref so the dictionary group is rebuilt when it is toggled.
+        mLoadedAINextWord = prefs.getBoolean(Settings.PREF_AI_NEXT_WORD, false)
 
         // Initialize session word boost with context if not yet done
         if (sessionWordBoost == null) {
