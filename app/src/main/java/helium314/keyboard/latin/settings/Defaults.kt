@@ -198,6 +198,7 @@ object Defaults {
     const val PREF_OFFLINE_TRANSLATE_TARGET_LANGUAGE = "French"
     const val PREF_OFFLINE_KEEP_MODEL_LOADED = false
     const val PREF_AI_ALLOW_INSECURE_CONNECTIONS = false
+    const val PREF_AI_NEXT_WORD = false
     const val PREF_ENABLE_CLIPBOARD_HISTORY = true
     const val PREF_CLIPBOARD_HISTORY_RETENTION_TIME = 15 // minutes
     const val PREF_CLIPBOARD_HISTORY_PINNED_FIRST = true

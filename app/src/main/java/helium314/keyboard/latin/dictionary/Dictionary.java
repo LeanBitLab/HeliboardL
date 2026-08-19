@@ -55,6 +55,9 @@ public abstract class Dictionary {
     public static final String TYPE_USER = "user";
     // User history dictionary internal to LatinIME.
     public static final String TYPE_USER_HISTORY = "history";
+    // AI next-word prediction dictionary (LeanType). Only contributes suggestions in
+    // prediction/next-word mode and is a no-op when the feature is disabled.
+    public static final String TYPE_AI_NEXT_WORD = "ai_next_word";
     public static final String TYPE_EMOJI = "emoji";
     public final String mDictType;
     // The locale for this dictionary. May be null if unknown (phony dictionary for example).

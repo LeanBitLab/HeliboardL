@@ -21,6 +21,7 @@ import helium314.keyboard.latin.common.StringUtils
 import helium314.keyboard.latin.common.decapitalize
 import helium314.keyboard.latin.common.mightBeEmoji
 import helium314.keyboard.latin.common.splitOnWhitespace
+import helium314.keyboard.latin.dictionary.AINextWordDictionary
 import helium314.keyboard.latin.dictionary.AppsBinaryDictionary
 import helium314.keyboard.latin.dictionary.ContactsBinaryDictionary
 import helium314.keyboard.latin.dictionary.Dictionary
@@ -33,6 +34,7 @@ import helium314.keyboard.latin.personalization.SessionWordBoost
 import helium314.keyboard.latin.personalization.UserHistoryDictionary
 import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.settings.SettingsValuesForSuggestion
+import helium314.keyboard.latin.utils.AINextWordEngineFactory
 import helium314.keyboard.latin.utils.Log
 import helium314.keyboard.latin.utils.SubtypeSettings
 import helium314.keyboard.latin.utils.SuggestionResults
@@ -98,6 +100,10 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
 
     // Limit parallelism to prevent excessive CPU usage during dictionary operations
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default.limitedParallelism(2))
+
+    // Optional AI next-word dictionary (LeanType). Null when the feature is off or the engine
+    // cannot be built (factory gates on the pref / model availability).
+    private var aiNextWordDict: AINextWordDictionary? = null
 
     override fun setValidSpellingWordReadCache(cache: LruCache<String, Boolean>) {
         mValidSpellingWordReadCache = cache
@@ -228,6 +234,10 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
 
         mValidSpellingWordWriteCache?.evictAll()
         mValidSpellingWordReadCache?.evictAll()
+
+        // AI next-word dictionary: rebuilt on every dictionary reset. Factory returns null when
+        // the feature is disabled or the engine cannot be built, making this a no-op by default.
+        aiNextWordDict = AINextWordEngineFactory.create(context)?.let { AINextWordDictionary(it, scope) }
     }
 
     /** creates dictionaryGroups for [newLocales] with given [newSubDictTypes], trying to re-use existing dictionaries.
@@ -713,6 +723,15 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
                     suggestions.add(info)
                 }
             }
+        }
+        // AI next-word candidates, only in prediction/next-word mode. The dictionary returns
+        // null (or filtered-away empties) unless it has cached LLM candidates, so it never
+        // blocks this pass. AOSP suggestions always come first (added above).
+        if (composedData.mTypedWord.isEmpty()) {
+            aiNextWordDict?.getSuggestions(
+                composedData, ngramContext, proximityInfoHandle, settingsValuesForSuggestion,
+                sessionId, weightForLocale, weightOfLangModelVsSpatialModel
+            )?.let { suggestions.addAll(it.filter { info -> info.word.isNotEmpty() }) }
         }
         return suggestions
     }

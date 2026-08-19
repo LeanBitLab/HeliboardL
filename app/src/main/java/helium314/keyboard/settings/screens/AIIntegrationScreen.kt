@@ -59,6 +59,7 @@ private fun StandardAIIntegrationScreen(onClickBack: () -> Unit) {
         // Always show provider selection
         add(SettingsWithoutKey.AI_PROVIDER)
         add(SettingsWithoutKey.TRANSLATION_ENGINE)
+        add(SettingsWithoutKey.AI_NEXT_WORD)
         // Custom AI Keys are only shown in the standard flavor (guaranteed by caller)
         add(SettingsWithoutKey.CUSTOM_AI_KEYS)
 
@@ -99,7 +100,8 @@ private fun OfflineAIIntegrationScreen(onClickBack: () -> Unit) {
     val items = listOf(
         SettingsWithoutKey.CUSTOM_AI_KEYS,
         SettingsWithoutKey.OFFLINE_MODEL_PATH,
-        SettingsWithoutKey.OFFLINE_KEEP_MODEL_LOADED
+        SettingsWithoutKey.OFFLINE_KEEP_MODEL_LOADED,
+        SettingsWithoutKey.AI_NEXT_WORD
     )
     
     SearchSettingsScreen(

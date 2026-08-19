@@ -482,6 +482,9 @@ fun createAdvancedSettings(context: Context) = listOfNotNull(
     Setting(context, SettingsWithoutKey.AI_ALLOW_INSECURE_CONNECTIONS, R.string.ai_allow_insecure_connections_title, R.string.ai_allow_insecure_connections_summary) { setting ->
         SwitchPreference(setting, Defaults.PREF_AI_ALLOW_INSECURE_CONNECTIONS)
     },
+    Setting(context, SettingsWithoutKey.AI_NEXT_WORD, R.string.ai_next_word_title, R.string.ai_next_word_summary) { setting ->
+        SwitchPreference(setting, Defaults.PREF_AI_NEXT_WORD)
+    },
     Setting(context, SettingsWithoutKey.TRANSLATION_ENGINE, R.string.translation_engine_title, R.string.translation_engine_summary) { setting ->
         ListPreference(
             setting = setting,

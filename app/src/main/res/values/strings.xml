@@ -543,6 +543,8 @@
     <string name="insecure_connection_blocked">Insecure HTTP connection blocked. Enable \'Allow Insecure Connections\' in AI settings.</string>
     <string name="ai_allow_insecure_connections_title">Allow insecure connections</string>
     <string name="ai_allow_insecure_connections_summary">Allow HTTP connections and ignore SSL certificate errors. Warning: exposes input to local network eavesdropping.</string>
+    <string name="ai_next_word_title">AI next-word suggestions</string>
+    <string name="ai_next_word_summary">Add AI-generated next-word candidates after an online or on-device model is configured. Default off; AOSP suggestions always come first.</string>
     <string name="backup_category_layouts">Layouts</string>
     <string name="backup_category_theme">Theme &amp; Custom Backgrounds</string>
     <string name="backup_category_dictionary">Dictionaries &amp; Typing History</string>
