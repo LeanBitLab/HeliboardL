@@ -586,6 +586,17 @@ public class LatinIME extends InputMethodService implements
         mClipboardHistoryManager.onCreate();
         mHandler.onCreate();
 
+        // When the AI next-word dictionary caches fresh candidates, ask the suggestion strip to
+        // redraw so they surface without another keystroke (see AINextWordDictionary.onCandidatesReady).
+        // Also evict the next-word suggestions cache first: it may hold the AOSP-only list built
+        // before the async AI response landed, so getNextWordSuggestions() would otherwise return
+        // that stale list and the fresh AI words would never reach the strip.
+        mDictionaryFacilitator.setNextWordRefreshListener(
+                () -> {
+                    mInputLogic.getSuggest().clearNextWordSuggestionsCache();
+                    mHandler.postUpdateSuggestionStrip(SuggestedWords.INPUT_STYLE_TYPING);
+                });
+
         // Register to receive ringer mode change.
         final IntentFilter filter = new IntentFilter();
         filter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
@@ -1205,6 +1216,23 @@ public class LatinIME extends InputMethodService implements
     void onFinishInputInternal() {
         super.onFinishInput();
         Log.i(TAG, "onFinishInput");
+
+        // Persist per-app context for the AI next-word feature. NEVER records in private/incognito
+        // or anonymous fields (noLearning / no-suggestions), covering password and incognito input.
+        try {
+            final InputAttributes attrs = mSettings.getCurrent().mInputAttributes;
+            if (attrs.mShouldShowSuggestions && !attrs.mNoLearning) {
+                final String pkg = attrs.mTargetApplicationPackageName;
+                if (pkg != null) {
+                    final android.view.inputmethod.InputConnection ic = getCurrentInputConnection();
+                    if (ic != null) {
+                        final CharSequence text = ic.getTextBeforeCursor(200, 0);
+                        mSettings.appendAppContext(pkg, text);
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
 
         mDictionaryFacilitator.onFinishInput();
         final MainKeyboardView mainKeyboardView = mKeyboardSwitcher.getMainKeyboardView();

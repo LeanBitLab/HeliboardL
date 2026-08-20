@@ -170,4 +170,30 @@ public interface DictionaryFacilitator {
 
     default void forEachMainDictionaryWord(java.util.function.BiConsumer<String, Integer> consumer) {
     }
+
+    /**
+     * Registers a callback that should be run when the AI next-word dictionary has produced new
+     * LLM candidates in the background. The implementer should trigger a suggestion-strip refresh
+     * (e.g. LatinIME handler {@code postUpdateSuggestionStrip}) so the freshly cached candidates
+     * surface without an extra keystroke. Default no-op; only next-word-capable locales override.
+     */
+    default void setNextWordRefreshListener(@Nullable Runnable listener) {
+    }
+
+    /**
+     * Supplies the latest bounded text before the cursor, captured by the IME just before a
+     * next-word suggestion fetch. Used by the AI next-word dictionary to build a richer prompt
+     * (the actual sentence/message context) than the last few n-gram words alone. Default no-op.
+     */
+    default void setAINextWordContextText(@Nullable String text) {
+    }
+
+    /**
+     * Supplies per-app metadata for the AI next-word dictionary: the current app package name
+     * (context buffer key), the app's preferred keyboard language code (e.g. "en", "pl"), whether
+     * the current field is private/incognito (noLearning), and the persisted per-app context text.
+     */
+    default void setAINextWordAppInfo(@Nullable String packageName, @Nullable String language,
+                                      boolean noLearning, @Nullable String persistedContext) {
+    }
 }

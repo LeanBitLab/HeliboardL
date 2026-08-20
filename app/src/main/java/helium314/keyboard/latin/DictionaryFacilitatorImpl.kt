@@ -106,6 +106,10 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
     // cannot be built (factory gates on the pref / model availability).
     private var aiNextWordDict: AINextWordDictionary? = null
 
+    // Runnable that LatinIME registers so we can ask it to redraw the suggestion strip once the
+    // AI next-word dictionary has cached fresh candidates (see setNextWordRefreshListener).
+    private var nextWordRefreshListener: (() -> Unit)? = null
+
     override fun setValidSpellingWordReadCache(cache: LruCache<String, Boolean>) {
         mValidSpellingWordReadCache = cache
     }
@@ -245,7 +249,39 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
 
         // AI next-word dictionary: rebuilt on every dictionary reset. Factory returns null when
         // the feature is disabled or the engine cannot be built, making this a no-op by default.
-        aiNextWordDict = AINextWordEngineFactory.create(context)?.let { AINextWordDictionary(it, scope) }
+        aiNextWordDict = AINextWordEngineFactory.create(context)?.let {
+            AINextWordDictionary(it, scope).also { dict ->
+                // Fresh LLM candidates cached -> ask LatinIME to redraw the suggestion strip so
+                // they surface without another keystroke.
+                dict.onCandidatesReady = { nextWordRefreshListener?.invoke() }
+            }
+        }
+        Log.i(TAG, "resetDictionaries: AINextWord dict ${if (aiNextWordDict == null) "NOT created" else "created"} (pref=${prefs.getBoolean(Settings.PREF_AI_NEXT_WORD, false)})")
+    }
+
+    override fun setNextWordRefreshListener(listener: Runnable?) {
+        nextWordRefreshListener = listener?.let { { it.run() } }
+    }
+
+    @Volatile
+    private var aiNextWordContextText: String? = null
+
+    override fun setAINextWordContextText(text: String?) {
+        aiNextWordContextText = text
+    }
+
+    @Volatile private var aiNextWordAppPackage: String? = null
+    @Volatile private var aiNextWordAppLanguage: String? = null
+    @Volatile private var aiNextWordNoLearning: Boolean = false
+    @Volatile private var aiNextWordPersistedContext: String? = null
+
+    override fun setAINextWordAppInfo(
+        packageName: String?, language: String?, noLearning: Boolean, persistedContext: String?
+    ) {
+        aiNextWordAppPackage = packageName
+        aiNextWordAppLanguage = language
+        aiNextWordNoLearning = noLearning
+        aiNextWordPersistedContext = persistedContext
     }
 
     /** creates dictionaryGroups for [newLocales] with given [newSubDictTypes], trying to re-use existing dictionaries.
@@ -736,10 +772,37 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
         // null (or filtered-away empties) unless it has cached LLM candidates, so it never
         // blocks this pass. AOSP suggestions always come first (added above).
         if (composedData.mTypedWord.isEmpty()) {
-            aiNextWordDict?.getSuggestions(
-                composedData, ngramContext, proximityInfoHandle, settingsValuesForSuggestion,
-                sessionId, weightForLocale, weightOfLangModelVsSpatialModel
-            )?.let { suggestions.addAll(it.filter { info -> info.word.isNotEmpty() }) }
+            aiNextWordDict?.let { dict ->
+                dict.prevTextForPrompt = aiNextWordContextText
+                dict.appPackageName = aiNextWordAppPackage
+                dict.appLanguageHint = aiNextWordAppLanguage
+                dict.noLearning = aiNextWordNoLearning
+                dict.appContext = if (aiNextWordNoLearning) null else aiNextWordPersistedContext
+                val aiInfos = dict.getSuggestions(
+                    composedData, ngramContext, proximityInfoHandle, settingsValuesForSuggestion,
+                    sessionId, weightForLocale, weightOfLangModelVsSpatialModel
+                )?.filter { it.word.isNotEmpty() }
+                if (!aiInfos.isNullOrEmpty()) {
+                    // Rank AI words BELOW every AOSP suggestion in this list. AOSP next-word scores
+                    // vary wildly (history ~700-800, user dict can be millions), so a fixed base is
+                    // unreliable — instead key off the actual AOSP scores present so AI words ALWAYS
+                    // append as extra choices and can never displace or reorder the AOSP suggestions
+                    // the user is about to tap. mScore is final, so rebuild the infos with lower
+                    // (strictly decreasing, hence unique within the TreeSet) scores.
+                    val floor = ((suggestions.minOfOrNull { it.mScore } ?: AI_NEXT_WORD_BASE_SCORE) - 1)
+                    aiInfos.forEachIndexed { i, info ->
+                        val score = floor - i
+                        suggestions.add(
+                            if (info.mScore == score) info
+                            else SuggestedWordInfo(
+                                info.mWord, info.mPrevWordsContext, score, info.mKindAndFlags,
+                                info.mSourceDict, info.mIndexOfTouchPointOfSecondWord,
+                                info.mAutoCommitFirstWordConfidence
+                            )
+                        )
+                    }
+                }
+            }
         }
         return suggestions
     }
@@ -839,6 +902,8 @@ class DictionaryFacilitatorImpl : DictionaryFacilitator {
 
     companion object {
         private val TAG = DictionaryFacilitatorImpl::class.java.simpleName
+        // Fallback base when there are no AOSP suggestions to rank AI words below.
+        private const val AI_NEXT_WORD_BASE_SCORE = 1000
 
         // HACK: This threshold is being used when adding a capitalized entry in the User History dictionary.
         private const val CAPITALIZED_FORM_MAX_PROBABILITY_FOR_INSERT = 140

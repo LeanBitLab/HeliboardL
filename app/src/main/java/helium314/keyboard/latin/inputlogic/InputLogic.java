@@ -51,6 +51,7 @@ import helium314.keyboard.latin.common.StringUtils;
 import helium314.keyboard.latin.common.StringUtilsKt;
 import helium314.keyboard.latin.common.SuggestionSpanUtilsKt;
 import helium314.keyboard.latin.define.DebugFlags;
+import helium314.keyboard.latin.InputAttributes;
 import helium314.keyboard.latin.settings.Settings;
 import helium314.keyboard.latin.settings.SettingsValues;
 import helium314.keyboard.latin.settings.SpacingAndPunctuations;
@@ -3367,6 +3368,28 @@ public final class InputLogic {
         mWordComposer.adviseCapitalizedModeBeforeFetchingSuggestions(
                 getActualCapsMode(settingsValues, KeyboardSwitcher.getInstance().getKeyboardShiftMode()));
         try {
+            // Snapshot the current text before the cursor so the AI next-word dictionary can build
+            // its prompt from real sentence/message context (bounded) rather than only the last few
+            // n-gram words. ~1000 chars covers the current sentence + a buffer on any practical edit.
+            final CharSequence aiContext = mConnection.getTextBeforeCursor(1000, 0);
+            mDictionaryFacilitator.setAINextWordContextText(
+                    aiContext == null ? null : aiContext.toString());
+            // Per-app metadata for the AI dict: package (context key), language, private gate, and
+            // the persisted per-app context buffer. Skip enrichment entirely on private fields.
+            final InputAttributes attrs = settingsValues.mInputAttributes;
+            final String pkg = attrs.mTargetApplicationPackageName;
+            final boolean noLearning = attrs.mNoLearning || !attrs.mShouldShowSuggestions;
+            String language = null;
+            String persistedContext = null;
+            if (pkg != null && !noLearning) {
+                try {
+                    final Locale loc = mDictionaryFacilitator.getMainLocale();
+                    if (loc != null) language = loc.getLanguage();
+                    persistedContext = Settings.getInstance().getAppContext(pkg);
+                } catch (Exception ignored) {
+                }
+            }
+            mDictionaryFacilitator.setAINextWordAppInfo(pkg, language, noLearning, persistedContext);
             final SuggestedWords suggestedWords = mSuggest.getSuggestedWords(mWordComposer,
                     getNgramContextFromNthPreviousWordForSuggestion(
                             settingsValues.mSpacingAndPunctuations,

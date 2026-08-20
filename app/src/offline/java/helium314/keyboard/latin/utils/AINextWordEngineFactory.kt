@@ -15,6 +15,8 @@ import org.nehuatl.llamacpp.LlamaHelper
 import helium314.keyboard.latin.settings.Defaults
 import helium314.keyboard.latin.settings.Settings
 
+private const val TAG = "AINextWord"
+
 /**
  * Offline-flavor AI next-word engine factory. Produces causal next-word continuations using the
  * same on-device GGUF LlamaHelper runtime that [ProofreadService.ModelHolder] manages for
@@ -26,29 +28,53 @@ object AINextWordEngineFactory {
         if (!context.prefs().getBoolean(Settings.PREF_AI_NEXT_WORD, Defaults.PREF_AI_NEXT_WORD)) {
             return null
         }
-        // Engine is usable only once a GGUF model is loaded (offline flavor).
-        if (!ProofreadService.ModelHolder.isModelLoaded) {
-            return null
-        }
+        // Engine is created whenever the pref is on. Readiness is gated dynamically via
+        // isReady() (which reflects ModelHolder.isModelLoaded), so the AI dictionary exists from
+        // the toggle and becomes live the moment a GGUF model is loaded for proofreading — no
+        // dependency on model being loaded at dict-build time.
         return OfflineNextWordEngine(context.applicationContext)
     }
 }
 
 private class OfflineNextWordEngine(private val context: Context) : AINextWordEngine {
 
+    // Guards against launching two llama completions on the same native context at once (which
+    // crashes the process). Only one next-word completion runs at a time; concurrent ones are
+    // dropped, not queued.
+    private val completionInFlight = java.util.concurrent.atomic.AtomicBoolean(false)
+
     override fun isReady(): Boolean = ProofreadService.ModelHolder.isModelLoaded
 
     override suspend fun suggestNextWords(prompt: String): List<String> = withContext(Dispatchers.IO) {
-        val helper = ProofreadService.ModelHolder.llamaHelper ?: return@withContext emptyList()
-        val result = try {
-            val completionText = completeWithParams(helper, prompt)
-            splitCandidates(completionText)
-        } catch (e: Exception) {
-            emptyList()
+        Log.i(TAG, "AINextWord: suggestNextWords prompt='$prompt' modelLoaded=${ProofreadService.ModelHolder.isModelLoaded} path=${ProofreadService.ModelHolder.currentModelPath}")
+        // Serialize completions: two launchCompletion calls on the SAME native LlamaHelper context
+        // concurrently crash the process. If a previous next-word completion is still running, drop
+        // this request instead of colliding with it.
+        if (!completionInFlight.compareAndSet(false, true)) {
+            Log.w(TAG, "AINextWord: previous completion still running, dropping request")
+            return@withContext emptyList()
         }
-        // Keep the model warm/per policy just like proofreading does.
-        ProofreadService.ModelHolder.scheduleUnload(context)
-        result
+        try {
+            val helper = ProofreadService.ModelHolder.llamaHelper ?: run {
+                Log.w(TAG, "AINextWord: llamaHelper is null, returning empty")
+                return@withContext emptyList()
+            }
+            val result = try {
+                val completionText = completeWithParams(helper, prompt)
+                val words = splitCandidates(completionText)
+                Log.i(TAG, "AINextWord: completion='$completionText' -> candidates=$words")
+                words
+            } catch (e: Exception) {
+                Log.e(TAG, "AINextWord: completion failed", e)
+                emptyList()
+            }
+            Log.i(TAG, "AINextWord: returning ${result.size} candidates")
+            // Keep the model warm/per policy just like proofreading does.
+            ProofreadService.ModelHolder.scheduleUnload(context)
+            result
+        } finally {
+            completionInFlight.set(false)
+        }
     }
 
     /** Mirrors ProofreadService.predictWithParams + flow collection for proofreading. */
@@ -59,7 +85,10 @@ private class OfflineNextWordEngine(private val context: Context) : AINextWordEn
 
         val llamaField =
             LlamaHelper::class.java.getDeclaredField("llama\$delegate").apply { isAccessible = true }
-        val llama = llamaField.get(helper) as Lazy<org.nehuatl.llamacpp.LlamaAndroid>
+        // Initialise the native wrapper on THIS (calling) thread, mirroring ProofreadService
+        // predictWithParams. Touching .value lazily on a worker coroutine thread can mis-init
+        // the native llama context and crash.
+        val llama = (llamaField.get(helper) as Lazy<org.nehuatl.llamacpp.LlamaAndroid>).value
 
         val tokenCountField =
             LlamaHelper::class.java.getDeclaredField("tokenCount").apply { isAccessible = true }
@@ -88,7 +117,12 @@ private class OfflineNextWordEngine(private val context: Context) : AINextWordEn
         val job = helper.scope.launch {
             val startTime = System.currentTimeMillis()
             try {
-                llama.value.launchCompletion(currentContext, params)
+                // Serialize against every other native completion (proofreading + next-word
+                // share this one LlamaHelper context). Concurrent generation on the same
+                // context corrupts the native heap / null-derefs inside doCompletion.
+                synchronized(ProofreadService.ModelHolder.completionLock) {
+                    llama.launchCompletion(currentContext, params)
+                }
             } catch (e: Throwable) {
                 helper.sharedFlow.tryEmit(
                     LlamaHelper.LLMEvent.Error("Next word completion failed: ${e.message}")
@@ -104,9 +138,8 @@ private class OfflineNextWordEngine(private val context: Context) : AINextWordEn
         completionJobField.set(helper, job)
 
         val generated = StringBuilder()
-        // Collect from ModelHolder.llmFlow (the same buffered flow proofreading trusts). A timeout
-        // guards against a missing terminal event so this can never stall the suggestion pipeline.
-        withTimeoutOrNull(NEXT_WORD_TIMEOUT_MS) {
+        val start = System.currentTimeMillis()
+        val finished = withTimeoutOrNull(NEXT_WORD_TIMEOUT_MS) {
             ProofreadService.ModelHolder.llmFlow.takeWhile { event ->
                 when (event) {
                     is LlamaHelper.LLMEvent.Ongoing -> {
@@ -118,6 +151,12 @@ private class OfflineNextWordEngine(private val context: Context) : AINextWordEn
                     else -> true
                 }
             }.collect { }
+        } != null
+        val elapsed = System.currentTimeMillis() - start
+        if (!finished) {
+            Log.w(TAG, "AINextWord: completion TIMED OUT after ${elapsed}ms (max $NEXT_WORD_TIMEOUT_MS), partial='$generated'")
+        } else {
+            Log.i(TAG, "AINextWord: completion finished in ${elapsed}ms, text='$generated'")
         }
         return generated.toString()
     }
@@ -133,4 +172,4 @@ private class OfflineNextWordEngine(private val context: Context) : AINextWordEn
     }
 }
 
-private const val NEXT_WORD_TIMEOUT_MS = 8000L
+private const val NEXT_WORD_TIMEOUT_MS = 30000L

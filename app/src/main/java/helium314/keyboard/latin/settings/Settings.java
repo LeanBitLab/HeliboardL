@@ -692,6 +692,32 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         return subtype != null ? RichInputMethodSubtype.Companion.get(subtype) : null;
     }
 
+    private static final String PREF_APP_CONTEXT_PREFIX = "ai_app_context_";
+    private static final int MAX_APP_CONTEXT_SEGMENT_CHARS = 200;
+    private static final int MAX_APP_CONTEXT_TOTAL_CHARS = 600;
+
+    /** Appends [text] (e.g. the last field the user left in [packageName]) to that app's AI
+     * next-word context buffer. Persisted to prefs so it survives process and device restarts.
+     * Callers MUST gate this on the field not being private (noLearning). */
+    public void appendAppContext(String packageName, CharSequence text) {
+        if (packageName == null || text == null) return;
+        String segment = text.toString().trim();
+        if (segment.length() < 4) return; // too trivial to be useful context
+        if (segment.length() > MAX_APP_CONTEXT_SEGMENT_CHARS)
+            segment = segment.substring(segment.length() - MAX_APP_CONTEXT_SEGMENT_CHARS);
+        String prev = mPrefs.getString(PREF_APP_CONTEXT_PREFIX + packageName, "");
+        String combined = prev.isEmpty() ? segment : prev + " " + segment;
+        if (combined.length() > MAX_APP_CONTEXT_TOTAL_CHARS)
+            combined = combined.substring(combined.length() - MAX_APP_CONTEXT_TOTAL_CHARS);
+        mPrefs.edit().putString(PREF_APP_CONTEXT_PREFIX + packageName, combined).apply();
+    }
+
+    /** Returns the persisted AI next-word context buffer for [packageName], or empty string. */
+    public String getAppContext(String packageName) {
+        if (packageName == null) return "";
+        return mPrefs.getString(PREF_APP_CONTEXT_PREFIX + packageName, "");
+    }
+
     private boolean isSubtypePerApp() {
         return mPrefs.getBoolean(PREF_SAVE_SUBTYPE_PER_APP, Defaults.PREF_SAVE_SUBTYPE_PER_APP);
     }

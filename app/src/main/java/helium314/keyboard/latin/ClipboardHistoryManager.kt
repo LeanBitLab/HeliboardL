@@ -521,6 +521,11 @@ class ClipboardHistoryManager(
     fun getClipboardSuggestionView(editorInfo: EditorInfo?, parent: ViewGroup?): View? {
         clipboardSuggestionView = null
 
+        // Keyboard (and its icons set) may not be initialised yet (e.g. right after app start),
+        // and both the clipboard-content and screenshot views dereference it. Bail early to avoid
+        // an NPE instead of showing the suggestion.
+        if (latinIME.mKeyboardSwitcher.keyboard?.mIconsSet == null) return null
+
         // check for screenshot first if enabled
         if (latinIME.mSettings.current.mSuggestScreenshots) {
             val screenshotView = getScreenshotSuggestionView(parent)
@@ -583,6 +588,9 @@ class ClipboardHistoryManager(
 
     private fun getScreenshotSuggestionView(parent: ViewGroup?): View? {
         if (parent == null || dontShowCurrentSuggestion) return null
+        // Keyboard may not be initialised yet (e.g. right after app start); the view's close/paste
+        // icons come from its icons set, so bail out early rather than NPE.
+        if (latinIME.mKeyboardSwitcher.keyboard?.mIconsSet == null) return null
         
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             android.Manifest.permission.READ_MEDIA_IMAGES

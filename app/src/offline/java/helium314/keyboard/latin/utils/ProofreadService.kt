@@ -56,6 +56,14 @@ class ProofreadService(private val context: Context) {
         private const val UNLOAD_DELAY_MS = 10 * 60 * 1000L // 10 minutes
         private val loadMutex = Mutex()
 
+        // Guards ALL native llama completions (proofreading + AI next-word) so two can never
+        // run concurrently on the single shared LlamaHelper context, and unload can never run
+        // while a completion is mid-flight. llama.cpp is NOT thread-safe for simultaneous
+        // generation on the same context: concurrent access corrupts the native heap
+        // ("Scudo invalid chunk state" SIGABRT) and null-derefs (SIGSEGV) inside
+        // doCompletion — exactly the crashes seen on the AI next-word path.
+        val completionLock = Any()
+
         // Flow for LLM events
         val llmFlow = MutableSharedFlow<LlamaHelper.LLMEvent>(
             extraBufferCapacity = 64,
@@ -90,7 +98,10 @@ class ProofreadService(private val context: Context) {
         @Synchronized
         fun unloadModel() {
             try {
-                llamaHelper?.release()
+                // Don't release the native context while a completion is running on it.
+                synchronized(completionLock) {
+                    llamaHelper?.release()
+                }
             } catch (e: Exception) {
                 Log.w(TAG, "Error unloading llama model", e)
             }
@@ -572,7 +583,11 @@ class ProofreadService(private val context: Context) {
             val job = helper.scope.launch {
                 val startTime = System.currentTimeMillis()
                 try {
-                    llama.launchCompletion(currentContext, params)
+                    // Serialize the native generation against every other completion
+                    // (proofreading + next-word share this one context).
+                    synchronized(ModelHolder.completionLock) {
+                        llama.launchCompletion(currentContext, params)
+                    }
                 } catch (e: Throwable) {
                     Log.e(TAG, "Completion failed", e)
                     helper.sharedFlow.tryEmit(LlamaHelper.LLMEvent.Error("Completion failed: ${e.message}"))
