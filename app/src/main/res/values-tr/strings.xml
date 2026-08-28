@@ -1,524 +1,559 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:ns0="http://schemas.android.com/tools">
-    <string name="use_contacts_dict">"Kişi adlarını denetle"</string>
-    <string name="vibrate_on_keypress">"Tuşa basıldığında titret"</string>
-    <string name="sound_on_keypress">"Tuşa basıldığında ses çıkar"</string>
-    <string name="popup_on_keypress">Tuşa basıldığında açılır pencere aç</string>
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2008 The Android Open Source Project
+    modified
+    SPDX-License-Identifier: Apache-2.0 AND GPL-3.0-only
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="use_contacts_dict">Kişi adlarını ara</string>
+    <string name="vibrate_on_keypress">Tuşa basıldığında titreşim</string>
+    <string name="sound_on_keypress">Tuşa basıldığında ses</string>
+    <string name="popup_on_keypress">Tuşa basıldığında açılır pencere</string>
     <string name="settings_screen_preferences">Tercihler</string>
-    <string name="settings_screen_gesture">Hareketle yazma</string>
-    <string name="settings_screen_correction">"Metin düzeltme"</string>
-    <string name="settings_screen_advanced">"Gelişmiş"</string>
-    <string name="settings_screen_theme">"Tema"</string>
-    <string name="enable_split_keyboard">"Bölünmüş klavyeyi etkinleştir"</string>
-    <string name="language_switch_key_switch_input_method">"Diğer giriş yöntemine geç"</string>
-    <string name="show_language_switch_key">"Dil değiştirme tuşu"</string>
-    <string name="abbreviation_unit_milliseconds">"%s ms"</string>
-    <string name="settings_system_default">"Sistem varsayılanı"</string>
-    <string name="use_contacts_dict_summary">"Öneri ve düzeltmeler için Kişiler\'deki adları kullan"</string>
-    <string name="use_personalized_dicts">"Kişisel öneriler"</string>
-    <string name="use_double_space_period">"Çift boşlukla nokta ekle"</string>
-    <string name="use_double_space_period_summary">"Boşluk çubuğuna iki kez dokunmak nokta ve ardından bir boşluk ekler"</string>
-    <string name="auto_cap">"Otomatik büyük harf yap"</string>
-    <string name="auto_cap_summary">"Her cümlenin ilk harfini büyük harf yapar"</string>
-    <string name="edit_personal_dictionary">"Kişisel sözlük"</string>
-    <string name="main_dictionary">"Ana sözlük"</string>
-    <string name="prefs_show_suggestions">"Düzeltme önerilerini göster"</string>
-    <string name="prefs_show_suggestions_summary">"Yazarken, önerilen kelimeleri görüntüle"</string>
-    <string name="prefs_block_potentially_offensive_title">"Rahatsız edici kelimeleri engelle"</string>
-    <string name="prefs_block_potentially_offensive_summary">"Rahatsız edici olabilecek kelimeleri önermez"</string>
-    <string name="autocorrect">"Otomatik düzelt"</string>
-    <string name="auto_correction_summary">Boşluk tuşu ve noktalama işaretleri yanlış yazılan kelimeleri otomatik düzeltir</string>
-    <string name="auto_correction_threshold_mode_off">"Kapalı"</string>
-    <string name="auto_correction_threshold_mode_modest">"Ölçülü"</string>
-    <string name="auto_correction_threshold_mode_aggressive">"Geniş ölçekte"</string>
-    <string name="auto_correction_threshold_mode_very_aggressive">"Çok geniş ölçekte"</string>
-    <string name="bigram_prediction">"Sonraki kelime önerileri"</string>
-    <string name="bigram_prediction_summary">"Öneride bulunurken önceki kelimeyi kullanır"</string>
-    <string name="gesture_input">"Hareketle yazmayı etkinleştir"</string>
-    <string name="gesture_input_summary">"Kelime girmek için parmağınızı harflerin üzerinde kaydırın"</string>
-    <string name="gesture_preview_trail">"Hareket izini göster"</string>
-    <string name="gesture_floating_preview_text">"Dinamik kayan önizleme"</string>
-    <string name="gesture_space_aware">"Kelime öbeği hareketi"</string>
-    <string name="gesture_space_aware_summary">"Hareketle girişte boşlukları, boşluk tuşuna kaydırarak girin"</string>
-    <string name="subtype_en_GB">"İngilizce (BK)"</string>
-    <string name="subtype_en_US">"İngilizce (ABD)"</string>
-    <string name="subtype_es_US">"İspanyolca (ABD)"</string>
-    <string name="subtype_hi_Latn">"Hingilizce"</string>
-    <string name="subtype_sr_Latn">"Sırpça (Latin alfabesi)"</string>
+    <string name="settings_screen_gesture">Kaydırarak yazma</string>
+    <string name="settings_screen_correction">Metin düzeltme</string>
+    <string name="settings_screen_advanced">Gelişmiş</string>
+    <string name="settings_screen_theme">Tema</string>
+    <string name="enable_split_keyboard">Bölünmüş klavyeyi etkinleştir</string>
+    <string name="language_switch_key_switch_input_method">Diğer giriş yöntemlerine geç</string>
+    <string name="show_language_switch_key">Dil değiştirme tuşu</string>
+    <string name="abbreviation_unit_milliseconds">%s ms</string>
+    <string name="settings_system_default">Sistem varsayılanı</string>
+    <string name="use_contacts_dict_summary">Öneriler ve düzeltmeler için Kişilerdeki adları kullan</string>
+    <string name="use_personalized_dicts">Kişiselleştirilmiş öneriler</string>
+    <string name="use_double_space_period">Çift boşlukla nokta</string>
+    <string name="use_double_space_period_summary">Boşluk tuşuna iki kez dokunmak nokta ve ardından bir boşluk ekler</string>
+    <string name="auto_cap">Otomatik büyük harf</string>
+    <string name="auto_cap_summary">Her cümlenin ilk kelimesini büyük harf yap</string>
+    <string name="edit_personal_dictionary">Kişisel sözlük</string>
+    <string name="main_dictionary">Ana sözlük</string>
+    <string name="prefs_show_suggestions">Düzeltme önerilerini göster</string>
+    <string name="prefs_show_suggestions_summary">Yazarken önerilen kelimeleri göster</string>
+    <string name="prefs_block_potentially_offensive_title">Potansiyel olarak saldırgan kelimeleri engelle</string>
+    <string name="prefs_block_potentially_offensive_summary">Potansiyel olarak saldırgan kelimeleri önermeyin</string>
+    <string name="autocorrect">Otomatik düzeltme</string>
+    <string name="auto_correction_summary">Boşluk çubuğu ve noktalama işaretleri yanlış yazılmış kelimeleri otomatik düzeltir</string>
+    <string name="auto_correction_threshold_mode_off">Kapalı</string>
+    <string name="auto_correction_threshold_mode_modest">Ilımlı</string>
+    <string name="auto_correction_threshold_mode_aggressive">Agresif</string>
+    <string name="auto_correction_threshold_mode_very_aggressive">Çok agresif</string>
+    <string name="bigram_prediction">Sonraki kelime önerileri</string>
+    <string name="bigram_prediction_summary">Öneri oluştururken önceki kelimeyi kullan</string>
+    <string name="gesture_input">Kaydırarak yazmayı etkinleştir</string>
+    <string name="gesture_input_summary">Harflerin üzerinde kaydırarak bir kelime girin</string>
+    <string name="gesture_preview_trail">Kaydırma izini göster</string>
+    <string name="gesture_floating_preview_text">Dinamik kayan önizleme</string>
+    <string name="gesture_space_aware">İfade kaydırma</string>
+    <string name="gesture_space_aware_summary">Kaydırarak yazma sırasında boşluk tuşuna kaydırarak boşluk girin</string>
+    <string name="subtype_en_GB">İngilizce (UK)</string>
+    <string name="subtype_en_US">İngilizce (US)</string>
+    <string name="subtype_es_US">İspanyolca (US)</string>
+    <string name="subtype_hi_Latn">Hinglish</string>
+    <string name="subtype_sr_Latn">Sırpça (Latin)</string>
     <string name="subtype_generic_traditional">%s (Geleneksel)</string>
     <string name="subtype_generic_compact">%s (Kompakt)</string>
-    <string name="subtype_no_language">"Dil yok"</string>
-    <string name="subtype_emoji">"Emoji"</string>
-    <string name="add">"Ekle"</string>
-    <string name="remove">"Kaldır"</string>
-    <string name="save">"Kaydet"</string>
-    <string name="subtype_locale">"Dil"</string>
-    <string name="keyboard_layout_set">"Düzen"</string>
-    <string name="prefs_keypress_vibration_duration_settings">"Tuşa basma titreşim süresi"</string>
-    <string name="prefs_keypress_sound_volume_settings">"Tuşa basma ses seviyesi"</string>
-    <string name="prefs_key_longpress_timeout_settings">"Tuşa uzun basma gecikmesi"</string>
-    <string name="prefs_enable_emoji_alt_physical_key">"Fiziksel klavye için emoji"</string>
-    <string name="prefs_enable_emoji_alt_physical_key_summary">"Fiziksel Alt tuşu, emoji paletini gösterir"</string>
-    <string name="button_default">"Varsayılan"</string>
-    <string name="setup_welcome_title">%s uygulamasına hoş geldiniz</string>
-    <string name="setup_welcome_additional_description">"Hareketle Yazmayı içerir"</string>
-    <string name="setup_start_action">"Başlayın"</string>
-    <string name="setup_steps_title">%s uygulamasını kurma</string>
-    <string name="setup_step1_title">%s uygulamasını etkinleştirin</string>
-    <string name="setup_step1_instruction">Lütfen \"%s\" uygulamasını Dil ve giriş ayarlarınızda işaretleyin. Bu, uygulamaya cihazınızda çalışma yetkisi verecektir.</string>
-    <string name="setup_step1_action">"Ayarlarda etkinleştir"</string>
-    <string name="setup_step2_title">%s uygulamasına geçin</string>
-    <string name="setup_step2_instruction">Sonra, \"%s\" uygulamasını etkin metin giriş yönteminiz olarak seçin.</string>
-    <string name="setup_step2_action">"Giriş yöntemini değiştir"</string>
-    <string name="setup_step3_title">Tebrikler, artık hazırsın!</string>
-    <string name="setup_step3_instruction">Artık %s ile tüm favori uygulamalarınızda yazabilirsiniz.</string>
-    <string name="setup_finish_action">"Tamamlandı"</string>
-    <string name="show_setup_wizard_icon">"Uygulama simgesini göster"</string>
-    <string name="show_setup_wizard_icon_summary">"Uygulama simgesini başlatıcıda gösterir"</string>
-    <string name="dictionary_category_title">"Ek sözlükler"</string>
-    <string name="dictionary_available">"Sözlük mevcut"</string>
-    <string name="settings">"Ayarlar"</string>
-    <string name="delete">"Sil"</string>
-    <string name="version_text">Sürüm %1$s</string>
-    <string name="user_dict_settings_add_shortcut_option_name">"Kısayol:"</string>
-    <string name="user_dict_settings_add_locale_option_name">"Dil:"</string>
-    <string name="user_dict_settings_add_word_hint">Bir kelime yaz</string>
-    <string name="user_dict_settings_add_shortcut_hint">"İsteğe bağlı kısayol"</string>
-    <string name="user_dict_settings_edit_dialog_title">"Kelimeyi düzenle"</string>
-    <string name="user_dict_settings_all_languages">"Tüm diller için"</string>
-    <string name="user_dict_settings_more_languages">"Diğer diller…"</string>
+    <string name="subtype_no_language">Dil yok</string>
+    <string name="subtype_emoji">Emoji</string>
+    <string name="add">Ekle</string>
+    <string name="remove">Kaldır</string>
+    <string name="save">Kaydet</string>
+    <string name="subtype_locale">Dil</string>
+    <string name="keyboard_layout_set">Düzen</string>
+    <string name="prefs_keypress_vibration_duration_settings">Tuş basma titreşim süresi</string>
+    <string name="prefs_keypress_sound_volume_settings">Tuş basma ses düzeyi</string>
+    <string name="prefs_key_longpress_timeout_settings">Tuş uzun basma gecikmesi</string>
+    <string name="prefs_enable_emoji_alt_physical_key">Fiziksel klavye için Emoji</string>
+    <string name="prefs_enable_emoji_alt_physical_key_summary">Fiziksel Alt tuşu emoji paletini gösterir</string>
+    <string name="button_default">Varsayılan</string>
+    <string name="setup_welcome_title">"Hoş geldiniz, %s"</string>
+    <string name="setup_welcome_additional_description">Kaydırarak yazma ile</string>
+    <string name="setup_start_action">Başla</string>
+    <string name="setup_steps_title">"%s\'yi ayarlama"</string>
+    <string name="setup_step1_title">"%s\'i etkinleştir"</string>
+    <string name="setup_step1_instruction">"Lütfen Diller &amp; giriş ayarlarınızda \"%s\" öğesini işaretleyin. Bu, cihazınızda çalışmasına izin verecektir."</string>
+    <string name="setup_step1_action">Ayarlar\'da etkinleştir</string>
+    <string name="setup_step2_title">"%s\'e geç"</string>
+    <string name="setup_step2_instruction">"Sonra, aktif metin girişi yöntemi olarak \"%s\" öğesini seçin."</string>
+    <string name="setup_step2_action">Giriş yöntemlerini değiştir</string>
+    <string name="setup_step3_title">"Tebrikler, her şey hazır!"</string>
+    <string name="setup_step3_instruction">Artık tüm favori uygulamalarınızda %s ile yazabilirsiniz.</string>
+    <string name="setup_finish_action">Tamamlandı</string>
+    <string name="show_setup_wizard_icon">Uygulama simgesini göster</string>
+    <string name="show_setup_wizard_icon_summary">Başlatıcıda uygulama simgesini göster</string>
+    <string name="dictionary_category_title">Ek sözlükler</string>
+    <string name="dictionary_available">Sözlük indirilebilir</string>
+    <string name="settings" tools:keep="@string/settings">Settings</string>
+    <string name="delete">Sil</string>
+    <string name="version_text">Sürüm %s</string>
+    <string name="user_dict_settings_add_shortcut_option_name">Kısayol:</string>
+    <string name="user_dict_settings_add_locale_option_name">Dil:</string>
+    <string name="user_dict_settings_add_word_hint">Bir kelime yazın</string>
+    <string name="user_dict_settings_add_shortcut_hint">İsteğe bağlı kısayol</string>
+    <string name="user_dict_settings_edit_dialog_title">Kelimeyi düzenle</string>
+    <string name="user_dict_settings_all_languages">Tüm diller için</string>
+    <string name="user_dict_settings_more_languages">Daha fazla dil…</string>
     <string name="settings_category_clipboard_history">Pano geçmişi</string>
     <string name="settings_category_correction">Düzeltmeler</string>
     <string name="settings_category_experimental">Deneysel</string>
     <string name="settings_category_miscellaneous">Çeşitli</string>
-    <string name="settings_no_limit">Sınır yok</string>
-    <string name="incognito">Gizli modu zorla</string>
-    <string name="prefs_force_incognito_mode_summary">Yeni sözcüklerin öğrenilmesini devre dışı bırak</string>
+    <string name="settings_no_limit">Sınırsız</string>
+    <string name="incognito">Gizli modu zorunlu kıl</string>
+    <string name="prefs_force_incognito_mode_summary">Yeni kelimelerin öğrenilmesini devre dışı bırak</string>
     <string name="number_row">Sayı satırı</string>
-    <string name="prefs_long_press_keyboard_to_change_lang_summary">Boşluk tuşuna uzun süre basmak, giriş yöntemi seçim menüsünü gösterecektir</string>
-    <string name="android_spell_checker_settings">LeanType yazım denetleyicisi ayarları</string>
-    <string name="prefs_keyboard_height_scale">Klavye yükseklik ölçeği</string>
-    <string name="delete_swipe">Kadırarak silme</string>
+    <string name="prefs_long_press_keyboard_to_change_lang_summary">Boşluk tuşuna uzun basmak giriş yöntemi seçim menüsünü açar</string>
+    <string name="android_spell_checker_settings">LeanType Yazım Denetleyici Ayarları</string>
+    <string name="prefs_keyboard_height_scale">Klavye yüksekliği ölçeği</string>
+    <string name="delete_swipe">Kaydırarak silme</string>
     <string name="key_borders">Tuş kenarlıkları</string>
     <string name="day_night_mode">Otomatik gündüz/gece modu</string>
-    <string name="spell_checker_service_name">LeanType yazım denetleyicisi</string>
-    <string name="abbreviation_unit_minutes">%sdak.</string>
+    <string name="spell_checker_service_name">LeanType Yazım Denetleyici</string>
+    <string name="abbreviation_unit_minutes">%s min</string>
     <string name="settings_category_suggestions">Öneriler</string>
     <string name="show_emoji_key">Emoji tuşu</string>
     <string name="enable_clipboard_history">Pano geçmişini etkinleştir</string>
-    <string name="enable_clipboard_history_summary">Devre dışı bırakılırsa, pano tuşu varsa pano içeriğini yapıştıracaktır</string>
+    <string name="enable_clipboard_history_summary">Devre dışıysa, pano tuşu varsa panodaki içeriği yapıştırır</string>
     <string name="clipboard_history_retention_time">Geçmiş saklama süresi</string>
-    <string name="number_row_summary">Her zaman sayı satırını göster</string>
-    <string name="more_keys_strip_description">Diğer tuşlar</string>
+    <string name="number_row_summary">Sayı satırını her zaman göster</string>
+    <string name="more_keys_strip_description">Daha fazla tuş</string>
     <string name="show_hints">Tuş ipuçlarını göster</string>
     <string name="show_hints_summary">Uzun basma ipuçlarını göster</string>
     <string name="prefs_long_press_keyboard_to_change_lang">Boşluk tuşuyla giriş yöntemini değiştir</string>
     <string name="subtype_akkhor_bn_BD">%s (Akkhor)</string>
-    <string name="delete_swipe_summary">Bir kerede metnin daha büyük bölümlerini seçmek ve silmek için silme tuşundan hızlıca kaydırın</string>
-    <string name="day_night_mode_summary">Görünüm sistem ayarlarını takip edecektir</string>
-    <string name="ime_settings">LeanType ayarları</string>
-    <string name="settings_category_input">Giriş</string>
+    <string name="delete_swipe_summary">Silme tuşundan kaydırma yaparak aynı anda daha büyük metin parçalarını seçip silebilirsiniz.</string>
+    <string name="day_night_mode_summary">Görünüm sistem ayarlarını takip edecek</string>
+    <string name="ime_settings">LeanType Ayarları</string>
+    <string name="settings_category_input">Girdi</string>
     <string name="settings_category_additional_keys">Ek tuşlar</string>
-    <string name="autospace_after_punctuation">Noktalama işaretlerinden sonra otomatik boşluk</string>
-    <string name="autospace_after_punctuation_summary">Yeni bir sözcük yazarken noktalama işaretlerinden sonra otomatik olarak boşluk ekle</string>
-    <string name="auto_correction_confidence">Otomatik düzeltme güveni</string>
-    <string name="select_input_method">"Giriş yöntemini seçin"</string>
-    <string name="undo">"Geri al"</string>
-    <string name="redo">"Yeniden yap"</string>
-    <string name="use_personalized_dicts_summary">Önerileri geliştirmek için kişilerden ve yazdığın verilerden bilgi edin</string>
-    <string name="label_go_key">"Git"</string>
-    <string name="label_next_key">"İleri"</string>
-    <string name="label_previous_key">"Geri"</string>
-    <string name="label_done_key">"Bitti"</string>
-    <string name="label_send_key">"Gönder"</string>
-    <string name="label_search_key">"Arama"</string>
-    <string name="label_pause_key">"Dur"</string>
-    <string name="label_wait_key">"Bekle"</string>
-    <string name="disable_personalized_dicts_message">Uyarı: Bu ayarı devre dışı bırakmak öğrenilmiş verileri temizler</string>
+    <string name="autospace_after_punctuation">Noktalama sonrası otomatik boşluk</string>
+    <string name="autospace_after_punctuation_summary">Yeni bir kelime yazarken noktalama işaretlerinden sonra otomatik boşluk ekler.</string>
+    <string name="auto_correction_confidence">Otomatik düzeltme güven düzeyi</string>
+    <string name="select_input_method">Giriş yöntemini seçin</string>
+    <string name="undo" tools:keep="@string/undo">Undo</string>
+    <string name="redo" tools:keep="@string/redo">Redo</string>
+    <string name="use_personalized_dicts_summary">Önerileri iyileştirmek için iletişimlerinizden ve yazdığınız verilerden öğrenin</string>
+    <string name="label_go_key">Git</string>
+    <string name="label_next_key">İleri</string>
+    <string name="label_previous_key">Önceki</string>
+    <string name="label_done_key">Bitti</string>
+    <string name="label_send_key">Gönder</string>
+    <string name="label_search_key">Ara</string>
+    <string name="label_pause_key" tools:keep="@string/label_pause_key">Dur</string>
+    <string name="label_wait_key" tools:keep="@string/label_wait_key">Bekle</string>
+    <string name="disable_personalized_dicts_message">Uyarı: Bu ayarı devre dışı bırakmak öğrenilen verileri temizleyecektir</string>
     <string name="add_to_personal_dictionary">Kişisel sözlüğe kelime ekle</string>
     <string name="prefs_always_show_suggestions">Her zaman önerileri göster</string>
-    <string name="language_switch_key_switch_both">İkisini de değiştir</string>
-    <string name="button_backup">Yedekle</string>
-    <string name="backup_restore_title">Yedekle ve geri yükle</string>
+    <string name="language_switch_key_switch_both">Her ikisini de değiştir</string>
+    <string name="button_backup">Yedek</string>
+    <string name="backup_restore_title">Yedekleme ve geri yükleme</string>
     <string name="backup_error">Yedekleme hatası: %s</string>
-    <string name="restore_error">Yedeklemeyi yüklerken hata: %s</string>
+    <string name="restore_error">Yedeği geri yüklerken hata: %s</string>
     <string name="switch_language">Dili değiştir</string>
     <string name="button_restore">Geri yükle</string>
     <string name="secondary_locale">Çok dilli yazma</string>
-    <string name="load_gesture_library_button_load">Kitaplığı yükle</string>
-    <string name="load_gesture_library_button_delete">Kitaplığı sil</string>
-    <string name="language_and_layouts_title">Diller ve Düzenler</string>
+    <string name="load_gesture_library_button_load">Kütüphaneyi yükle</string>
+    <string name="load_gesture_library_button_delete">Kütüphaneyi sil</string>
+    <string name="language_and_layouts_title">Diller &amp; Düzenler</string>
     <string name="more_autocorrect">Daha fazla otomatik düzeltme</string>
-    <string name="add_to_personal_dictionary_summary">Öğrenilmiş kelimeleri depolamak için cihaz kişisel sözlüğünü kullan</string>
+    <string name="add_to_personal_dictionary_summary">Öğrenilen kelimeleri saklamak için cihazın kişisel sözlüğünü kullan</string>
     <string name="localized_number_row">Sayı satırını yerelleştir</string>
-    <string name="theme_name_cloudy" ns0:keep="@string/theme_name_cloudy">Gölgeli</string>
+    <string name="theme_name_cloudy" tools:keep="@string/theme_name_cloudy">Cloudy</string>
     <string name="toast_msg_clipboard_copy">İçerik kopyalandı</string>
-    <string name="checksum_mismatch_message">Bilinmeyen kitaplık dosyası. Bunun güvenilir bir kaynaktan geldiğine ve \'%s\' için olduğuna emin misin?</string>
+    <string name="checksum_mismatch_message">Bilinmeyen kütüphane dosyası. Bunu güvendiğiniz bir kaynaktan aldığınızdan ve \'%s\' için olduğundan emin misiniz?</string>
     <string name="gesture_floating_preview_static">Kayan önizleme</string>
-    <string name="gesture_floating_preview_static_summary">Kaydırırken önerilen kelimeyi gör</string>
+    <string name="gesture_floating_preview_static_summary">Kaydırırken önerilen kelimeyi göster</string>
     <string name="gesture_fast_typing_cooldown">Hızlı yazma bekleme süresi</string>
-    <string name="gesture_floating_preview_dynamic_summary">Bir hareket sırasında önizlemeyi taşı</string>
-    <string name="gesture_trail_fadeout_duration">Hareket izi ömrü</string>
-    <string name="url_detection_summary">Bağlantı vb. tek kelime olarak tespit etmeye çalış</string>
-    <string name="popup_keys_number" ns0:keep="@string/popup_keys_number">Sayı satırı</string>
-    <string name="popup_keys_language_priority" ns0:keep="@string/popup_keys_language_priority">Dil (öncelikli)</string>
-    <string name="popup_keys_layout" ns0:keep="@string/popup_keys_layout">Düzen</string>
-    <string name="popup_keys_symbols" ns0:keep="@string/popup_keys_symbols">Semboller</string>
+    <string name="gesture_floating_preview_dynamic_summary">Kaydırma sırasında önizlemeyi hareket ettir</string>
+    <string name="gesture_trail_fadeout_duration">Kaydırma izi görünme süresi</string>
+    <string name="url_detection_summary">URL\'leri ve benzerlerini tek bir kelime olarak algılamaya çalış</string>
+    <string name="popup_keys_number" tools:keep="@string/popup_keys_number">Number row</string>
+    <string name="popup_keys_language_priority" tools:keep="@string/popup_keys_language_priority">Language (priority)</string>
+    <string name="popup_keys_layout" tools:keep="@string/popup_keys_layout">Layout</string>
+    <string name="popup_keys_symbols" tools:keep="@string/popup_keys_symbols">Symbols</string>
     <string name="toolbar_keys">Araç çubuğu tuşlarını seç</string>
-    <string name="clipboard" ns0:keep="@string/clipboard">Pano</string>
-    <string name="clear_clipboard" ns0:keep="@string/clear_clipboard">Panoyu temizle</string>
-    <string name="layout_functional_keys" ns0:keep="@string/layout_functional_keys">İşlevsel tuşlar</string>
-    <string name="layout_functional_keys_symbols" ns0:keep="@string/layout_functional_keys_symbols">İşlevsel tuşlar (Semboller)</string>
-    <string name="layout_functional_keys_symbols_shifted" ns0:keep="@string/layout_functional_keys_symbols_shifted">İşlevsel tuşlar (Daha fazla sembol)</string>
-    <string name="layout_symbols_arabic" ns0:keep="@string/layout_symbols_arabic">Semboller (Arapça)</string>
-    <string name="layout_symbols_shifted" ns0:keep="@string/layout_symbols_shifted">Daha fazla sembol</string>
-    <string name="layout_phone" ns0:keep="@string/layout_phone">Telefon</string>
-    <string name="layout_phone_symbols" ns0:keep="@string/layout_phone_symbols">Telefon sembolleri</string>
-    <string name="layout_number" ns0:keep="@string/layout_number">Sayılar</string>
-    <string name="layout_numpad" ns0:keep="@string/layout_numpad">Sayısal tuş takımı</string>
-    <string name="customize_background_image">Arka plan görseli ayarla</string>
-    <string name="layout_numpad_landscape" ns0:keep="@string/layout_numpad_landscape">Sayısal tuş takımı (yatay)</string>
-    <string name="no_dictionary_dont_show_again_button">Bir daha gösterme</string>
-    <string name="available_dictionary_experimental">%s (deneysel)</string>
-    <string name="theme_name_black" ns0:keep="@string/theme_name_black">Siyah</string>
-    <string name="auto_show_toolbar_summary">Giriş başlarsa veya metin seçilirse araç çubuğunu göster</string>
+    <string name="clipboard" tools:keep="@string/clipboard">Clipboard</string>
+    <string name="clear_clipboard" tools:keep="@string/clear_clipboard">Clear clipboard</string>
+    <string name="layout_functional_keys" tools:keep="@string/layout_functional_keys">Functional keys</string>
+    <string name="layout_functional_keys_symbols" tools:keep="@string/layout_functional_keys_symbols">Functional keys (Symbols)</string>
+    <string name="layout_functional_keys_symbols_shifted" tools:keep="@string/layout_functional_keys_symbols_shifted">Functional keys (More symbols)</string>
+    <string name="layout_symbols_arabic" tools:keep="@string/layout_symbols_arabic">Symbols (Arabic)</string>
+    <string name="layout_symbols_shifted" tools:keep="@string/layout_symbols_shifted">More symbols</string>
+    <string name="layout_phone" tools:keep="@string/layout_phone">Phone</string>
+    <string name="layout_phone_symbols" tools:keep="@string/layout_phone_symbols">Phone symbols</string>
+    <string name="layout_number" tools:keep="@string/layout_number">Numbers</string>
+    <string name="layout_numpad" tools:keep="@string/layout_numpad">Numpad</string>
+    <string name="customize_background_image">Arka plan görüntüsünü ayarla</string>
+    <string name="layout_numpad_landscape" tools:keep="@string/layout_numpad_landscape">Numpad (landscape)</string>
+    <string name="no_dictionary_dont_show_again_button">"Bir daha gösterme"</string>
+    <string name="available_dictionary_experimental">"%s (deneysel)"</string>
+    <string name="theme_name_black" tools:keep="@string/theme_name_black">Black</string>
+    <string name="auto_show_toolbar_summary">Klavye açıldığında araç çubuğunu göster</string>
     <string name="auto_hide_toolbar">Araç çubuğunu otomatik gizle</string>
-    <string name="auto_hide_toolbar_summary">Öneriler mevcut olduğunda araç çubuğunu gizle</string>
+    <string name="auto_hide_toolbar_summary">Öneriler kullanılabilir olduğunda araç çubuğunu gizle</string>
     <string name="auto_show_toolbar">Araç çubuğunu otomatik göster</string>
     <string name="customize_currencies">Para birimlerini özelleştir</string>
-    <string name="main_colors">Yalnızca ana renkleri göster</string>
+    <string name="main_colors">Sadece ana renkleri göster</string>
     <string name="all_colors">Tüm renkleri göster</string>
-    <string name="customize_currencies_detail">Ana ve en fazla 6 ikincil para birimi sembolünü boşlukla ayırarak ayarla</string>
-    <string name="prefs_narrow_key_gaps">Anahtar boşluklarını daralt</string>
-    <string name="prefs_long_press_symbol_for_numpad">Sayısal tuş takımı için sembol tuşuna uzun bas</string>
+    <string name="customize_currencies_detail">Ana ve en fazla 6 ikincil para birimi simgesini boşlukla ayrılmış olarak ayarlayın</string>
+    <string name="prefs_narrow_key_gaps">Tuş aralıklarını daralt</string>
+    <string name="prefs_long_press_symbol_for_numpad">Simgeler tuşuna uzun basıldığında sayısal tuş takımına geç</string>
     <string name="prefs_bottom_padding_scale">Alt dolgu ölçeği</string>
-    <string name="dictionary_link_text">burada</string>
+    <string name="dictionary_link_text">"buradan"</string>
     <string name="language_switch_key_behavior">Dil değiştirme tuşu davranışı</string>
     <string name="show_popup_keys_more">Yaygın varyantları ekle</string>
-    <string name="show_popup_keys_all">Mevcut tüm varyantları ekle</string>
-    <string name="delete_layout">%s düzeni silinsin mi?</string>
+    <string name="show_popup_keys_all">Tüm kullanılabilir varyantları ekle</string>
+    <string name="delete_layout">Özel düzen %s gerçekten silinsin mi?</string>
     <string name="layout_error">Düzen hatası: %s</string>
     <string name="day_or_night_night">Gece</string>
     <string name="edit_layout">Ham düzeni düzenlemek için dokun</string>
-    <string name="day_or_night_image">Görsel gündüz veya gece modu için ayarlansın mı?</string>
-    <string name="day_or_night_day">Gündüz</string>
-    <string name="remove_dictionary_message">Kullanıcı tarafından eklenen \"%s\" sözlüğü kaldırılsın mı?</string>
-    <string name="theme_name_holo_white" ns0:keep="@string/theme_name_holo_white">Holo Beyaz</string>
-    <string name="theme_navbar">Renkli gezinme çubuğu</string>
-    <string name="theme_name_user" ns0:keep="@string/theme_name_user">Kullanıcı tanımlı</string>
+    <string name="day_or_night_image">Gün veya gece modu için görüntü ayarlansın mı?</string>
+    <string name="day_or_night_day">Gün</string>
+    <string name="remove_dictionary_message">"Kullanıcı tarafından eklenen sözlük \"%s\" gerçekten silinsin mi?"</string>
+    <string name="theme_name_holo_white" tools:keep="@string/theme_name_holo_white">Holo White</string>
+    <string name="theme_navbar">Gezinme çubuğu rengini ayarla</string>
+    <string name="theme_name_user" tools:keep="@string/theme_name_user">User-Defined</string>
     <string name="select_color_spacebar_background">Boşluk çubuğu arka planı</string>
     <string name="select_color_spacebar_text">Boşluk çubuğu metni</string>
-    <string name="select_color_gesture">Hareketli giriş</string>
-    <string name="replace_dictionary_message">Kullanıcı tarafından eklenen \"%1$s\" sözlüğü değiştirilsin mi?
-\n
-\nMevcut sözlük:
-\n %2$s
-\n
-\nYeni sözlük:
-\n%3$s</string>
-    <string name="split_spacer_scale">Bölünmüş mesafe</string>
-    <string name="more_autocorrect_summary">Giriş alanı tarafından açıkça talep edilmese bile otomatik düzeltme</string>
-    <string name="center_suggestion_text_to_enter">Her zaman orta öneriyi kullan</string>
-    <string name="center_suggestion_text_to_enter_summary">Boşluk veya noktalama işaretine basıldığında ortadaki öneri girilecektir</string>
-    <string name="show_popup_keys_title">Açılır pencerede aksanlı daha fazla harf göster</string>
-    <string name="show_popup_keys_normal">Klavye dillerinde tanımlanan varyantları göster</string>
-    <string name="localized_number_row_summary">Latin sayıları yerine yerel olanı tercih et</string>
-    <string name="user_dict_word_already_present">Bu kelime zaten %s kullanıcı sözlüğünde mevcut. Lütfen başka bir tane yaz.</string>
-    <string name="hidden_features_summary">Fark edilmeyebilecek özellikleri göster</string>
+    <string name="select_color_gesture">Kaydırarak yazma</string>
+    <string name="replace_dictionary_message">"Kullanıcı tarafından eklenen \"%1$s\" sözlüğü gerçekten değiştirilsin mi?\n
+Geçerli sözlük:
+%2$s\n
+Yeni sözlük:
+%3$s"</string>
+    <string name="split_spacer_scale">Bölünme mesafesi</string>
+    <string name="more_autocorrect_summary">Girdi alanı tarafından açıkça istenmese bile otomatik düzeltme yapar</string>
+    <string name="center_suggestion_text_to_enter">Ortadaki öneriyi her zaman kullan</string>
+    <string name="center_suggestion_text_to_enter_summary">Boşluk veya noktalama tuşuna basıldığında, ortadaki öneri girilecektir.</string>
+    <string name="show_popup_keys_title">Açılır pencerede diakritik işaretli daha fazla harf göster</string>
+    <string name="show_popup_keys_normal">Klavye dillerinde tanımlı varyantları göster</string>
+    <string name="localized_number_row_summary">Yerel rakamları Latin rakamlara tercih et</string>
+    <string name="user_dict_word_already_present">Bu kelime zaten %s kullanıcı sözlüğünde mevcut. Lütfen başka bir kelime girin.</string>
+    <string name="hidden_features_summary">Gözden kaçabilecek özellikleri göster</string>
     <string name="hidden_features_text">cihaz korumalı depolama</string>
-    <string name="close_history" ns0:keep="@string/close_history">Pano geçmişini kapat</string>
+    <string name="close_history" tools:keep="@string/close_history">Close clipboard history</string>
     <string name="clipboard_toolbar_keys">Pano araç çubuğu tuşlarını seç</string>
-    <string name="show_popup_hints_summary">Bir tuşa uzun süre basmak ek işlevleri tetikliyorsa ipuçlarını göster</string>
+    <string name="show_popup_hints_summary">Bir tuşa uzun basmak ek işlevsellik tetikliyorsa ipuçlarını göster</string>
     <string name="button_title_add_custom_layout">Özel düzen ekle</string>
-    <string name="layout_symbols" ns0:keep="@string/layout_symbols">Semboller</string>
-    <string name="button_select_language">Dil seç</string>
+    <string name="layout_symbols" tools:keep="@string/layout_symbols">Symbols</string>
+    <string name="button_select_language">"Dil seç"</string>
     <string name="subtype_generic_extended">%s (Genişletilmiş)</string>
-    <string name="message_add_custom_layout">Uyumlu formatta bir dosya seç. Formatlarla ilgili bilgi %s mevcuttur.</string>
-    <string name="button_load_custom">Dosyayı yükle</string>
+    <string name="message_add_custom_layout">Uyumlu bir formatta dosya seçin. Formatlar hakkında bilgi %s adresinde mevcuttur.</string>
+    <string name="button_load_custom">Dosya yükle</string>
     <string name="copy_to_clipboard">Panoya kopyala</string>
     <string name="load">Yükle</string>
     <string name="button_save_file">Dosyaya kaydet</string>
     <string name="dictionary_settings_category">Sözlükler</string>
-    <string name="setup_step3_action">Klavyeyi yapılandır</string>
-    <string name="add_new_dictionary_title">Dosyadan sözlük ekle</string>
-    <string name="user_dict_settings_add_weight_value">Sıklık:</string>
+    <string name="setup_step3_action">Klavveyi yapılandır</string>
+    <string name="add_new_dictionary_title">"Dosyadan sözlük ekle"</string>
+    <string name="user_dict_settings_add_weight_value">Ağırlık:</string>
     <string name="theme_colors">Renkler</string>
-    <string name="theme_name_chocolate" ns0:keep="@string/theme_name_chocolate">Çikolata</string>
-    <string name="theme_name_forest" ns0:keep="@string/theme_name_forest">Orman</string>
-    <string name="theme_name_indigo" ns0:keep="@string/theme_name_indigo">Açık Mavi</string>
-    <string name="theme_name_dynamic" ns0:keep="@string/theme_name_dynamic">Dinamik renkler</string>
-    <string name="theme_name_blue_gray" ns0:keep="@string/theme_name_blue_gray">Mavi Gri</string>
-    <string name="theme_name_brown" ns0:keep="@string/theme_name_brown">Kahverengi</string>
-    <string name="theme_name_violette" ns0:keep="@string/theme_name_violette">Menekşe</string>
+    <string name="theme_name_chocolate" tools:keep="@string/theme_name_chocolate">Chocolate</string>
+    <string name="theme_name_forest" tools:keep="@string/theme_name_forest">Forest</string>
+    <string name="theme_name_indigo" tools:keep="@string/theme_name_indigo">Indigo</string>
+    <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">Dynamic colors</string>
+    <string name="theme_name_blue_gray" tools:keep="@string/theme_name_blue_gray">Blue Gray</string>
+    <string name="theme_name_brown" tools:keep="@string/theme_name_brown">Brown</string>
+    <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violette</string>
     <string name="select_color_accent">Vurgu</string>
     <string name="hidden_features_title">Gizli özelliklerin açıklaması</string>
-    <string name="hidden_features_message">► Sabitlenmiş araç çubuğu tuşlarına uzun basmak ek işlevsellik sağlar: &lt;br&gt; \n\t• panoya kopyala &amp;#65515; yapıştır &lt;br&gt; \n\t• sola/sağa hareket et &amp;#65515; kelime sola/sağa &lt;br&gt; \n\t• yukarı/aşağı hareket et &amp;#65515; sayfa yukarı/aşağı &lt;br&gt; \n\t• kelime sola/sağa &amp;#65515; satır başı/sonu &lt;br&gt; \n\t• sayfa yukarı/aşağı &amp;#65515; sayfa başı/sonu &lt;br&gt; \n\t• kopyala &amp;#65515; kes &lt;br&gt; \n\t• kelime seç &amp;#8596; tümünü seç &lt;br&gt; \n\t• geri al &amp;#8596; yinele &lt;br&gt; &lt;br&gt; \n► Öneri şeridi araç çubuğundaki tuşlara uzun basmak, onları öneri şeridine sabitler. &lt;br&gt; &lt;br&gt; \n► Virgül tuşuna uzun basarak Pano Görünümü, Emoji Görünümü, Tek El Modu, Ayarlar veya Dil Değiştir\'e erişebilirsin: &lt;br&gt; \n\t• Emoji Görünümü ve Dil Değiştir, ilgili tuşu etkinleştirdiysen kaybolur; &lt;br&gt; \n\t• Bazı düzenler için bu, Virgül tuşu değil, aynı konumdaki başka bir tuş olabilir (örneğin, Dvorak düzeninde bu tuş \'q\'dur). &lt;br&gt; &lt;br&gt; \n► Gizli mod etkinleştirildiğinde, hiçbir kelime öğrenilmeyecek ve son eklenen emojilere yeni bir emoji eklenmeyecektir. &lt;br&gt; &lt;br&gt; \n► Gizli mod simgesine basarak araç çubuğuna erişebilirsin. &lt;br&gt; &lt;br&gt; \n► Kaydırmalı tuş girişi: Shift tuşundan başka bir tuşa kaydırarak tek bir büyük harf yazabilirsin: &lt;br&gt; \n\t• Bu, ayrıca \'123\' tuşu için semboller klavyesinden tek bir sembol yazmak ve ilgili tuşlar için de çalışır. &lt;br&gt; &lt;br&gt; \n► Shift veya sembol tuşunu basılı tut, bir veya daha fazla tuşa bas ve ardından önceki klavyeye dönmek için Shift veya sembol tuşunu bırak. &lt;br&gt; &lt;br&gt; \n► Öneri şeridindeki bir öneriye uzun basarak daha fazla öneriyi ve bu öneriyi kaldırmak için bir silme düğmesini gösterir. &lt;br&gt; &lt;br&gt; \n► Bir öneriye yukarı kaydırarak daha fazla öneriyi aç ve seçmek için öneri üzerinde bırak. &lt;br&gt; &lt;br&gt; \n► Pano geçmişindeki bir girdiye uzun basarak onu sabitleyebilirsin (sabitlediğin sürece panoda kalır). &lt;br&gt; &lt;br&gt; \n► Pano görünümünde bir girdiyi kaldırmak için sola kaydır (sabitlediğin sürece hariç). &lt;br&gt; &lt;br&gt; \n► Metni seç ve büyük/küçük harflerini değiştirmek için Shift tuşuna bas. &lt;br&gt; &lt;br&gt; \n► Sözlükleri bir dosya gezgini ile açarak ekleyebilirsin: &lt;br&gt; \n\t• Bu yalnızca &lt;i&gt;content-uris&lt;/i&gt; ile çalışır, &lt;i&gt;file-uris&lt;/i&gt; ile çalışmaz, yani bazı dosya gezginlerinde çalışmayabilir. &lt;br&gt; &lt;br&gt; \n► Kök erişimiyle manuel yedekleme yapan kullanıcılar için: &lt;br&gt; \n\t• Android 7\'den başlayarak, paylaşılan tercih dosyası varsayılan konumda değildir, çünkü uygulama %s kullanmaktadır. Bu, cihaz kilitlenmeden önce, örneğin açılışta, ayarların okunabilmesi için gereklidir; &lt;br&gt; \n\t• Dosya /data/user_de/0/package_id/shared_prefs/ konumunda bulunur, ancak bu cihaz ve Android sürümüne bağlı olarak değişebilir. &lt;br&gt; &lt;br&gt; \n&lt;i&gt;&lt;b&gt;Hata ayıklama modu / hata ayıklama APK\'sı&lt;/b&gt;&lt;/i&gt; &lt;br&gt; &lt;br&gt; \n► Bir öneriye uzun basarak kaynak sözlüğü göster. &lt;br&gt; &lt;br&gt; \n► Hata ayıklama APK\'sı kullanırken, Gelişmiş Tercihler içinde Hata Ayıklama Ayarlarını bulabilirsin, ancak bu yalnızca sözlükleri günlüğe dökmek için sınırlı fayda sağlar. &lt;br&gt; \n\t• Yayın APK\'sı için, &lt;i&gt;Hakkında&lt;/i&gt; kısmındaki sürüme birkaç kez dokunman gerekir, ardından Gelişmiş Tercihler içinde hata ayıklama ayarlarını bulabilirsin. &lt;br&gt; \n\t• &lt;i&gt;Öneri bilgilerini göster&lt;/i&gt; etkinleştirildiğinde, önerilerin üzerinde bazı iç puan ve kaynak sözlük gösteren küçük sayılar olacaktır. &lt;br&gt; &lt;br&gt; \n► Bir uygulama çökmesi durumunda, Ayarları açtığında çökme günlüklerini isteyip istemediğin sorulacaktır. &lt;br&gt; &lt;br&gt; \n► Çok dilli yazım kullanırken, boşluk tuşu şu anda kullanılan dili belirlemek için kullanılan bir güven değerini gösterir. &lt;br&gt; &lt;br&gt; \n► Önerilerin üzerinde bazı iç puan ve kaynak sözlük gösteren küçük sayılar olacaktır (devre dışı bırakılabilir).</string>
-    <string name="show_vertical_space_swipe">Dikey boşluk çubuğu kaydırma hareketi</string>
-    <string name="action_none">Yok</string>
+    <string name="hidden_features_message"><![CDATA[► Sabitlenmiş araç çubuğu tuşlarına uzun basmak ek işlevler sağlar: <br>
+\n\t• pano ￫ yapıştır <br>
+\n\t• sola/sağa taşı ￫ sözcük sola/sağa <br>
+\n\t• yukarı/aşağı taşı ￫ sayfa yukarı/aşağı <br>
+\n\t• sözcük sola/sağa ￫ satır başı/sonu <br>
+\n\t• sayfa yukarı/aşağı ￫ sayfa başı/sonu <br>
+\n\t• kopyala ￫ kes <br>
+\n\t• sözcük seç ↔ tümünü seç <br>
+\n\t• geri al ↔ yinele <br> <br>
+\n► Öneri şeridi araç çubuğundaki tuşlara uzun basmak, bunları öneri şeridine sabitler. <br> <br>
+\n► Pano Görünümü, Emoji Görünümü, Tek Elle Mod, Ayarlar veya Dil Değiştirme\'ye erişmek için Virgül tuşuna uzun basın: <br>
+\n\t• İlgili tuş etkinse Emoji Görünümü ve Dil Değiştirme kaybolur; <br>
+\n\t• Bazı düzenlerde bu, Virgül\'ün tuşu değil, aynı konumdaki tuştur (ör. Dvorak\'ta \'q\' kullanılır). <br> <br>
+\n► Gizli mod etkinleştirildiğinde hiçbir sözcük öğrenilmez ve son kullanılanlara emoji eklenmez. <br> <br>
+\n► Araç çubuğuna erişmek için Gizli mod simgesine basın. <br> <br>
+\n► Kaydırmalı tuş girişi: Tek bir büyük harf yazmak için Shift tuşundan başka bir tuşa kaydırın: <br>
+\n\t• Bu, semboller klavyesinden tek bir sembol yazmak üzere \'?123\' tuşu ve ilgili tuşlar için de geçerlidir. <br> <br>
+\n► Önceki klavyeye dönmek için Shift veya sembol tuşunu basılı tutun, bir ya da daha fazla tuşa basın ve ardından Shift veya sembol tuşunu bırakın. <br> <br>
+\n► Daha fazla öneriyi ve bu öneriyi kaldırmak için silme düğmesini göstermek üzere öneri şeridindeki bir öneriye uzun basın. <br> <br>
+\n► Daha fazla öneriyi açmak için bir öneriden yukarı kaydırın ve onu seçmek için önerinin üzerinde bırakın. <br> <br>
+\n► Pano geçmişindeki bir girişi sabitlemek için ona uzun basın (sabitlemeyi kaldırana kadar panoda tutulur). <br> <br>
+\n► Pano\'da bir girdiyi kaldırmak için sola kaydırın (sabitlenmiş değilse). <br> <br>
+\n► Metni seçin ve sözcükleri BÜYÜK HARF, küçük harf ve Baş Harfleri Büyük arasında değiştirmek için Shift tuşuna basın. <br> <br>
+\n► Bir dosya gezgininde açarak sözlük ekleyebilirsiniz: <br>
+\n\t• Bu yalnızca <i>content-uris</i> ile çalışır; <i>file-uris</i> ile çalışmaz. Bu nedenle bazı dosya gezginlerinde çalışmayabilir. <br> <br>
+\n► Kök erişimiyle elle yedekleme yapan kullanıcılar için: <br>
+\n\t• Android 7\'den itibaren uygulama %s kullandığından, paylaşılan tercihler dosyası varsayılan konumda değildir. Bu, ayarların cihaz kilidi açılmadan önce, örneğin açılışta, okunabilmesi için gereklidir; <br>
+\n\t• Dosya /data/user_de/0/package_id/shared_prefs/ konumundadır; ancak bu, cihaza ve Android sürümüne bağlı olabilir. <br> <br>
+\n<i><b>Hata ayıklama modu / hata ayıklama APK\'sı</b></i> <br> <br>
+\n► Kaynak sözlüğü göstermek için bir öneriye uzun basın. <br> <br>
+\n► Hata ayıklama APK\'sı kullanırken, Gelişmiş Tercihler içinde Hata Ayıklama Ayarlarını bulabilirsiniz; ancak günlük dosyasına sözlük dökme dışında faydası sınırlıdır. <br>
+\n\t• Yayın APK\'sında, <i>Hakkında</i> bölümündeki sürüme birkaç kez dokunmanız gerekir; ardından <i>Gelişmiş Tercihler</i> içindeki hata ayıklama ayarlarını bulabilirsiniz. <br>
+\n\t• <i>Öneri bilgilerini göster</i> etkinleştirildiğinde, önerilerin üzerinde bazı iç puanları ve kaynak sözlüğü gösteren küçük sayılar görünür. <br> <br>
+\n► Uygulama çökerse, Ayarlar uygulamasını açtığınızda çökme günlüklerini isteyip istemediğiniz sorulur. <br> <br>
+\n► Çok dilli yazma kullanılırken boşluk çubuğunda, geçerli kullanılan dili belirlemek için kullanılan bir güven değeri gösterilir. <br> <br>
+\n► Önerilerin üzerinde bazı iç puanları ve kaynak sözlüğü gösteren küçük sayılar görünür (devre dışı bırakılabilir).]]></string>
+    <string name="show_vertical_space_swipe">Dikey boşluk tuşu kaydırma hareketi</string>
+    <string name="action_none">Hiçbiri</string>
     <string name="space_swipe_move_cursor_entry">İmleci taşı</string>
-    <string name="page_start" ns0:keep="@string/page_start">Sayfa başlangıcı</string>
-    <string name="page_end" ns0:keep="@string/page_end">Sayfa sonu</string>
-    <string name="right" ns0:keep="@string/right">Sağ</string>
-    <string name="up" ns0:keep="@string/up">Yukarı</string>
-    <string name="down" ns0:keep="@string/down">Aşağı</string>
+    <string name="page_start" tools:keep="@string/page_start">Page start</string>
+    <string name="page_end" tools:keep="@string/page_end">Page end</string>
+    <string name="right" tools:keep="@string/right">Right</string>
+    <string name="up" tools:keep="@string/up">Up</string>
+    <string name="down" tools:keep="@string/down">Down</string>
     <string name="subtype_xdq">Kaitag</string>
     <string name="internal_dictionary_summary">Dahili ana sözlük</string>
-    <string name="dictionary_load_error">Sözlük dosyası yüklenirken hata oluştu</string>
-    <string name="user_dict_add_word_button">Bir kelime ekle</string>
+    <string name="dictionary_load_error">"Sözlük dosyası yüklenirken hata oluştu"</string>
+    <string name="user_dict_add_word_button">Kelime ekle</string>
     <string name="theme_colors_night">Renkler (gece)</string>
-    <string name="theme_name_pink" ns0:keep="@string/theme_name_pink">Pembe</string>
-    <string name="theme_name_sand" ns0:keep="@string/theme_name_sand">Kum</string>
-    <string name="auto_user_color">Rengi otomatik olarak seç</string>
+    <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Pink</string>
+    <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sand</string>
+    <string name="auto_user_color">Rengi otomatik seç</string>
     <string name="dialog_close">Kapat</string>
-    <string name="text_tap_languages">Ayarları açmak için dile dokun</string>
-    <string name="load_gesture_library">Hareketle yazma kitaplığını yükle</string>
-    <string name="load_gesture_library_summary">Hareketle yazmayı etkinleştirmek için yerel bir kitaplık sağla</string>
-    <string name="load_gesture_library_message">\'%s\' için kütüphaneye ihtiyacın olacak. Hareketle yazma kullanılırken uyumsuz kitaplıklar çökebilir.
-\n
-\nUyarı: Harici kodun yüklenmesi güvenlik riski oluşturabilir. Yalnızca güvenilir bir kaynaktan gelen kitaplığı kullan.</string>
+    <string name="text_tap_languages">Ayarları açmak için dile dokunun</string>
+    <string name="load_gesture_library">Kaydırarak yazma kütüphanesini yükle</string>
+    <string name="load_gesture_library_summary">Kaydırarak yazmayı etkinleştirmek için yerel bir kütüphane sağlayın</string>
+    <string name="load_gesture_library_message">Bu kütüphaneye \'%s\' için ihtiyacınız olacak. Uyumsuz kütüphaneler Kaydırarak yazma kullanılırken çökme yapabilir.
+        \n\nUyarı: dış kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendiğiniz bir kaynaktan gelen kütüphaneyi kullanın.</string>
     <string name="popup_order">Açılır tuş sırasını seç</string>
     <string name="hint_source">İpucu kaynağını seç</string>
-    <string name="emoji" ns0:keep="@string/emoji">Emoji</string>
-    <string name="replace_dictionary">Sözlüğü değiştir</string>
+    <string name="emoji" tools:keep="@string/emoji">Emoji</string>
+    <string name="replace_dictionary">"Sözlüğü değiştir"</string>
     <string name="version">Sürüm</string>
-    <string name="about_github_link">GitHub\'da görüntüle</string>
+    <string name="about_github_link">GitHub\'da Görüntüle</string>
     <string name="select_color_suggestion">Öneri şeridi metni</string>
     <string name="settings_screen_about">Hakkında</string>
     <string name="save_log">Günlüğü kaydet</string>
     <string name="license">Açık kaynak lisansı</string>
-    <string name="gnu_gpl">GNU Genel Kamu Lisansı v3.0</string>
+    <string name="gnu_gpl">GNU General Public License v3.0</string>
     <string name="select_color_key_background">Tuş arka planı</string>
-    <string name="suggest_clipboard_content_summary">Yakın zamanda kopyalanan pano içeriğini öneri olarak göster</string>
+    <string name="suggest_clipboard_content_summary">Son kopyalanan pano içeriğini öneri olarak göster</string>
     <string name="suggest_clipboard_content">Pano içeriğini öner</string>
-    <string name="voice" ns0:keep="@string/voice">Ses girişi</string>
-    <string name="show_horizontal_space_swipe">Yatay boşluk çubuğu kaydırma hareketi</string>
-    <string name="var_toolbar_direction_summary">Sağdan sola klavye alt türü seçildiğinde yönü ters çevir</string>
+    <string name="voice" tools:keep="@string/voice">Voice input</string>
+    <string name="show_horizontal_space_swipe">Yatay boşluk tuşu kaydırma hareketi</string>
+    <string name="var_toolbar_direction_summary">Sağdan sola yazan bir klavye alt türü seçildiğinde yönü ters çevir</string>
     <string name="var_toolbar_direction">Değişken araç çubuğu yönü</string>
     <string name="file_read_error">Dosya okunamıyor</string>
-    <string name="theme_name_light" ns0:keep="@string/theme_name_light">Açık</string>
-    <string name="style_name_Rounded" ns0:keep="@string/style_name_Rounded">Yuvarlatılmış</string>
+    <string name="theme_name_light" tools:keep="@string/theme_name_light">Light</string>
+    <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Rounded</string>
     <string name="subtype_probhat_bn_BD">%s (Probhat)</string>
-    <string name="left" ns0:keep="@string/left">Sol</string>
-    <string name="page_up" ns0:keep="@string/page_up">Sayfa yukarı</string>
-    <string name="word_left" ns0:keep="@string/word_left">Kelime sola</string>
-    <string name="word_right" ns0:keep="@string/word_right">Kelime sağa</string>
-    <string name="select_word" ns0:keep="@string/select_word">Kelime seç</string>
-    <string name="one_handed" ns0:keep="@string/one_handed">Tek el modu</string>
-    <string name="full_left" ns0:keep="@string/full_left">Tam sol</string>
-    <string name="full_right" ns0:keep="@string/full_right">Tam sağ</string>
-    <string name="page_down" ns0:keep="@string/page_down">Sayfa aşağı</string>
-    <string name="quick_pin_toolbar_keys_summary">Bu, sabitlenmemiş araç çubuğu tuşları için diğer uzun basma işlemlerini devre dışı bırakacaktır</string>
+    <string name="left" tools:keep="@string/left">Left</string>
+    <string name="page_up" tools:keep="@string/page_up">Page up</string>
+    <string name="word_left" tools:keep="@string/word_left">Word left</string>
+    <string name="word_right" tools:keep="@string/word_right">Word right</string>
+    <string name="select_word" tools:keep="@string/select_word">Select word</string>
+    <string name="one_handed" tools:keep="@string/one_handed">One-handed mode</string>
+    <string name="full_left" tools:keep="@string/full_left">Full left</string>
+    <string name="full_right" tools:keep="@string/full_right">Full right</string>
+    <string name="page_down" tools:keep="@string/page_down">Page down</string>
+    <string name="quick_pin_toolbar_keys_summary">Bu, sabitlenmemiş araç çubuğu tuşları için diğer uzun basma eylemlerini devre dışı bırakacaktır</string>
     <string name="show_popup_hints">İşlevsel ipuçlarını göster</string>
-    <string name="pinned_toolbar_keys">Sabitlenmiş araç çubuğu tuşlarını seç</string>
-    <string name="quick_pin_toolbar_keys">Uzun basıldığında araç çubuğu tuşunu sabitle</string>
+    <string name="pinned_toolbar_keys">Sabitlenmiş araç çubuğu tuşlarını seçin</string>
+    <string name="quick_pin_toolbar_keys">Uzun basmada araç çubuğu tuşunu sabitleyin</string>
     <string name="subtype_generic_sebeolsik_390">%s (Sebeolsik 390)</string>
     <string name="subtype_generic_sebeolsik_final">%s (Sebeolsik Final)</string>
     <string name="theme_style">Stil</string>
-    <string name="theme_name_dark" ns0:keep="@string/theme_name_dark">Koyu</string>
-    <string name="switch_keyboard_after">Sonrasında ana klavyeye geç…</string>
-    <string name="after_symbol_and_space">Sembol görünümünde diğer tuşlardan sonra enter veya boşluk tuşuna basma</string>
-    <string name="after_emoji">Emoji görünümünde emojiyi seçme</string>
-    <string name="after_clip">Pano geçmişi girişini seçme</string>
-    <string name="theme_name_darker" ns0:keep="@string/theme_name_darker">Daha koyu</string>
-    <string name="show_popup_keys_main">Yaygın varyantları ekle (varsayılan)</string>
-    <string name="remove_redundant_popups_summary">Temel düzende zaten bulunan açılır tuşları gizle</string>
+    <string name="theme_name_dark" tools:keep="@string/theme_name_dark">Dark</string>
+    <string name="switch_keyboard_after">Ana klavyeye şu işlemden sonra geç…</string>
+    <string name="after_symbol_and_space">Semboller görünümünde diğer tuşlardan sonra enter veya boşluk basıldığında</string>
+    <string name="after_emoji">Emoji görünümünde emoji seçme</string>
+    <string name="after_clip">Pano geçmişi öğesi seçme</string>
+    <string name="theme_name_darker" tools:keep="@string/theme_name_darker">Darker</string>
+    <string name="show_popup_keys_main">Çok yaygın varyantları ekle (varsayılan)</string>
+    <string name="remove_redundant_popups_summary">Temel düzen üzerinde zaten bulunan açılır tuşları gizle</string>
     <string name="settings_screen_toolbar">Araç çubuğu</string>
-    <string name="remove_redundant_popups">Gereksiz açılır pencereleri kaldır</string>
-    <string name="space_swipe_toggle_numpad_entry">Sayısal tuş takımını aç kapa</string>
+    <string name="remove_redundant_popups">Yinelenen açılırları kaldır</string>
+    <string name="space_swipe_toggle_numpad_entry">Sayısal tuş takımını aç/kapat</string>
     <string name="subtype_generic_student">%s (Öğrenci)</string>
-    <string name="add_dictionary">Eklemek için bir sözlük seç .dict biçimindeki sözlükler %s indirilebilir.</string>
-    <string name="dictionary_file_error">Hata: Seçilen dosya geçerli bir sözlük dosyası değil</string>
-    <string name="dictionary_file_wrong_script">Hata: komut dosyası bu klavyeyle uyumlu değil</string>
+    <string name="add_dictionary">"Eklemek için bir sözlük seçin. .dict formatındaki sözlükleri %s üzerinden indirebilirsiniz."</string>
+    <string name="dictionary_file_error">"Hata: Seçilen dosya geçerli bir sözlük dosyası değil"</string>
+    <string name="dictionary_file_wrong_script">"Hata: yazı sistemi bu klavye ile uyumlu değil"</string>
     <string name="more_colors">Daha fazla renk göster</string>
-    <string name="all_colors_warning">Bu ayar dahili olarak kullanılan tüm renkleri ortaya çıkarır. Renk listesi herhangi bir zamanda değişebilir. Varsayılan renk rastgeledir ve adlar çevrilmeyecektir.</string>
+    <string name="all_colors_warning">Bu ayar, dahili olarak kullanılan tüm renkleri açığa çıkarır. Renk listesi her an değişebilir. Varsayılan, normal renklerden türetilir ve adlar çevrilmeyecektir.</string>
     <string name="select_color_background">Klavye arka planı</string>
-    <string name="select_color_functional_key_background">İşlevsel tuş arka planı</string>
+    <string name="select_color_functional_key_background">İşlev tuşu arka planı</string>
     <string name="select_color_key">Tuş metni</string>
     <string name="select_color_key_hint">Tuş ipucu metni</string>
     <string name="gesture_fast_typing_cooldown_instant">Her zaman anında başla</string>
     <string name="subtype_mns">Mansi</string>
-    <string name="url_detection_title">Bağlantı tespiti</string>
-    <string name="prefs_always_show_suggestions_summary">Diğer uygulamaların önerileri devre dışı bırakma isteklerini göz ardı et (sorunlara neden olabilir)</string>
+    <string name="url_detection_title">URL algılama</string>
+    <string name="prefs_always_show_suggestions_summary">Diğer uygulamaların önerileri devre dışı bırakma isteğini yok say (sorunlara yol açabilir)</string>
     <string name="settings_screen_appearance">Görünüm</string>
-    <string name="backup_restore_message">Kaydet yada dosyadan yükle. Uyarı: geri yükleme mevcut verilerin üzerine yazacaktır</string>
-    <string name="no_dictionary_message">"Sözlük olmadan yalnızca daha önce girdiğin metin için öneriler alırsın.&lt;br&gt;
-\n        %1$s sözlüklerini indirebilir veya \"%2$s\" için bir sözlüğün doğrudan %3$s indirilip indirilemeyeceğini kontrol edebilirsin."</string>
-    <string name="layout_number_row" ns0:keep="@string/layout_number_row">Sayı satırı</string>
+    <string name="backup_restore_message">Dosyaya kaydet veya dosyadan yükle. Uyarı: geri yükleme mevcut verilerin üzerine yazacaktır</string>
+    <string name="no_dictionary_message"><![CDATA["Bir sözlük olmadan yalnızca daha önce girdiğiniz metinler için öneriler alırsınız.<br>
+        Sözlükleri %1$s indirebilirsiniz."]]></string>
+    <string name="layout_number_row" tools:keep="@string/layout_number_row">Number row</string>
     <string name="icon_style">Simge stili</string>
-    <string name="prefs_space_bar_text">Boşluk çubuğu özel metni</string>
-    <string name="layout_emoji_bottom_row" ns0:keep="@string/layout_emoji_bottom_row">Emoji alt satırı</string>
-    <string name="layout_clip_bottom_row" ns0:keep="@string/layout_clip_bottom_row">Pano alt satırı</string>
-    <string name="label_enter_key" ns0:keep="@string/label_enter_key">Giriș</string>
-    <string name="label_tab_key" ns0:keep="@string/label_tab_key">Sekme</string>
-    <string name="label_delete_key" ns0:keep="@string/label_delete_key">Sil</string>
+    <string name="prefs_space_bar_text">Boşluk çubuğundaki özel metin</string>
+    <string name="layout_emoji_bottom_row" tools:keep="@string/layout_emoji_bottom_row">Emoji bottom row</string>
+    <string name="layout_clip_bottom_row" tools:keep="@string/layout_clip_bottom_row">Clipboard bottom row</string>
+    <string name="label_enter_key" tools:keep="@string/label_enter_key">Enter</string>
+    <string name="label_tab_key" tools:keep="@string/label_tab_key">Tab</string>
+    <string name="label_delete_key" tools:keep="@string/label_delete_key">Delete</string>
     <string name="settings_category_space">Boşluk</string>
     <string name="name_invalid">Geçersiz ad</string>
-    <string name="layout_number_row_basic" ns0:keep="@string/layout_number_row_basic">Sayı satırı (temel)</string>
-    <string name="prefs_emoji_font_scale">Emoji görüntüleme boyutu</string>
-    <string name="label_toolbar_key" ns0:keep="@string/label_toolbar_key">Araç çubuğunu göster/gizle</string>
-    <string name="vibrate_in_dnd_mode">Rahatsız etme kipinde titret</string>
-    <string name="prefs_emoji_key_fit">Emoji boyutunu yazı tipi boyutuna göre ölçeklendir</string>
+    <string name="layout_number_row_basic" tools:keep="@string/layout_number_row_basic">Number row (basic)</string>
+    <string name="prefs_emoji_font_scale">Emoji görünümü yazı tipi ölçeği</string>
+    <string name="label_toolbar_key" tools:keep="@string/label_toolbar_key">Araç çubuğunu göster/gizle</string>
+    <string name="vibrate_in_dnd_mode">Rahatsız etme modunda titreşim</string>
+    <string name="prefs_emoji_key_fit">Emoji tuş boyutunu yazı tipi boyutuna göre ölçeklendir</string>
     <string name="settings_screen_secondary_layouts">İkincil düzenler</string>
-    <string name="label_shift_key_locked" ns0:keep="@string/label_shift_key_locked">Caps lock</string>
-    <string name="autospace_before_gesture_typing">Hareketle sözcük yazmadan önce otomatik boşluk ekle</string>
-    <string name="label_shift_key" ns0:keep="@string/label_shift_key">Shift</string>
-    <string name="use_apps_dict">Uygulama adlarında ara</string>
-    <string name="use_apps_dict_summary">Öneriler ve düzeltmeler için yüklü uygulamaların adlarını kullan</string>
-    <string name="toolbar_mode">Araç çubuğu kipi</string>
+    <string name="label_shift_key_locked" tools:keep="@string/label_shift_key_locked">Caps lock</string>
+    <string name="autospace_before_gesture_typing">Kaydırarak yazmadan önce otomatik boşluk</string>
+    <string name="label_shift_key" tools:keep="@string/label_shift_key">Shift</string>
+    <string name="use_apps_dict">Uygulama adlarını ara</string>
+    <string name="use_apps_dict_summary">Öneriler ve düzeltmeler için yüklü uygulama adlarını kullan</string>
+    <string name="toolbar_mode">Araç çubuğu modu</string>
     <string name="number_row_hints">Sayı satırında ipuçlarını göster</string>
-    <string name="split" ns0:keep="@string/split">Bölünmüş klavye</string>
-    <string name="prefs_emoji_skin_tone">Varsayılan emoji cilt tonu</string>
-    <string name="prefs_emoji_skin_tone_neutral">Doğal</string>
-    <string name="label_space_key_for_number_layout" ns0:keep="@string/label_space_key_for_number_layout">Boşluk (sayı düzeni)</string>
-    <string name="auto_correct_shortcuts_summary">Etkin kısayolları otomatik düzeltme ile genişlet</string>
-    <string name="shift_removes_autospace">Shift basarken otomatik boşluk ekleme</string>
-    <string name="toolbar_mode_toolbar_keys">Yalnızca araç çubuğu tuşları</string>
-    <string name="toolbar_mode_suggestion_strip">Yalnızca öneriler</string>
-    <string name="toolbar_mode_hidden">Gizli</string>
+    <string name="split" tools:keep="@string/split">Split keyboard</string>
+    <string name="prefs_emoji_skin_tone">Varsayılan emoji ten rengi</string>
+    <string name="prefs_emoji_skin_tone_neutral">Nötr</string>
+    <string name="label_space_key_for_number_layout" tools:keep="@string/label_space_key_for_number_layout">Space (number layout)</string>
+    <string name="auto_correct_shortcuts_summary">Etkinleştirildiğinde kısayollar otomatik düzeltme ile genişletilebilir</string>
+    <string name="shift_removes_autospace">Shift\'e basıldığında otomatik boşluk yok</string>
+    <string name="toolbar_mode_toolbar_keys" tools:keep="@string/toolbar_mode_toolbar_keys">Toolbar keys only</string>
+    <string name="toolbar_mode_suggestion_strip" tools:keep="@string/toolbar_mode_suggestion_strip">Suggestions only</string>
+    <string name="toolbar_mode_hidden" tools:keep="@string/toolbar_mode_hidden">Hidden</string>
     <string name="toolbar_hiding_global">Pano ve emoji araç çubuklarını da gizle</string>
-    <string name="prefs_font_scale">Klavye yazı tipi boyutu</string>
-    <string name="custom_font">Dosyadan özel yazı tipi seç</string>
+    <string name="prefs_font_scale">Klavye yazı tipi ölçeği</string>
+    <string name="custom_font">Dosyadan özel yazı tipi ayarla</string>
     <string name="prefs_key_emoji_max_sdk">Emoji sürümünü geçersiz kıl</string>
-    <string name="timestamp_format_title">Zaman damgası anahtarı için biçim</string>
-    <string name="autospace_after_gesture_typing">Hareketle sözcük yazdıktan sonra otomatik boşluk ekle</string>
+    <string name="timestamp_format_title">timestamp key için biçim</string>
+    <string name="autospace_after_gesture_typing">Kaydırarak yazdıktan sonra otomatik boşluk</string>
     <string name="show_emoji_descriptions">Uzun basmada emoji açıklamasını göster</string>
-    <string name="autospace_after_suggestion">Bir öneri seçildikten sonra otomatik boşluk ekle</string>
+    <string name="autospace_after_suggestion">Bir öneri seçildikten sonra otomatik boşluk</string>
     <string name="subtype_with_layout_generic">%1$s (%2$s)</string>
-    <string name="suggest_emojis">Emoji öner</string>
-    <string name="suggest_emojis_summary">Normal önerilerde emoji sözlüğünü kullanın</string>
+    <string name="suggest_emojis">Emoji önerileri</string>
+    <string name="suggest_emojis_summary">Normal önerilerde emoji sözlüğünü kullan</string>
     <string name="landscape">Yatay</string>
-    <string name="prefs_always_show_suggestions_except_web_text">Web düzenleme alanları için her zaman öneriler gösterme</string>
-    <string name="prefs_always_show_suggestions_except_web_text_summary">Web düzenleme alanları (çoğunlukla tarayıcılarda bulunur), her zaman önerileri göster ayarıyla ilgili sorunların çok yaygın bir nedenidir</string>
-    <string name="auto_correct_shortcuts">Kısayolları otomatik düzelt</string>
-    <string name="backspace_reverts_autocorrect">Sil tuşu otomatik düzeltmeyi geri alır</string>
+    <string name="prefs_always_show_suggestions_except_web_text">Web düzenleme alanları için her zaman önerileri gösterme</string>
+    <string name="prefs_always_show_suggestions_except_web_text_summary">\'Her zaman önerileri göster\' ayarıyla ilgili sorunların çok yaygın bir nedeni olan web düzenleme alanları (çoğunlukla tarayıcılarda bulunur)</string>
+    <string name="auto_correct_shortcuts">Kısayolları otomatik düzeltme</string>
+    <string name="backspace_reverts_autocorrect">Geri tuşu otomatik düzeltmeyi geri alır</string>
     <string name="suggest_punctuation">Noktalama önerileri</string>
-    <string name="suggest_punctuation_summary">Başka öneri bulunamadığında noktalama işaretlerini göster</string>
-    <string name="backup_restored">Yedekleme geri yüklendi</string>
-    <string name="locales_with_dict">Sözlükleri olan diller</string>
-    <string name="shift_removes_autospace_summary">Büyük harf tuşu, bekleyen otomatik boşluğu kaldırır</string>
-    <string name="popup_order_and_hint_source">Açılır pencere tuş sırası ve ipuçları kaynağı</string>
-    <string name="show_tld_popup_keys_summary">URL\'leri ve e-posta adreslerini yazarken nokta tuşunun açılır pencerelerini üst düzey alan adlarıyla değiştirin</string>
-    <string name="toolbar_mode_expandable">Araç çubuğu tuşları ve öneriler</string>
+    <string name="suggest_punctuation_summary">Başka öneri yoksa noktalama işaretlerini göster</string>
+    <string name="backup_restored">Yedek geri yüklendi</string>
+    <string name="locales_with_dict">Sözlüğü bulunan diller</string>
+    <string name="shift_removes_autospace_summary">Shift bekleyen otomatik boşluğu kaldırır</string>
+    <string name="popup_order_and_hint_source">Açılır tuş sıralaması ve ipucu kaynağı</string>
+    <string name="show_tld_popup_keys_summary">URL ve e-posta adresleri yazarken nokta tuşunun açılırlarını üst düzey alan adlarıyla değiştir</string>
+    <string name="toolbar_mode_expandable" tools:keep="@string/toolbar_mode_expandable">Toolbar keys and suggestions</string>
     <string name="prefs_side_padding_scale">Yan dolgu ölçeği</string>
     <string name="subtype_dag">Dagbani</string>
-    <string name="subtype_st">Sotho dili</string>
-    <string name="layout_in_use">Uyarı: düzen şu anda kullanımda</string>
-    <string name="layout_functional_keys_tablet" ns0:keep="@string/layout_functional_keys_tablet">İşlev tuşları (büyük ekran)</string>
-    <string name="customize_background_image_landscape">Arka plan resmi ayarla (yatay)</string>
-    <string name="summary_customize_background_image_landscape">Ayar yapılmazsa, dikey resim kullanılacaktır</string>
-    <string name="after_numpad_and_space">Sayısal tuş takımındaki diğer tuşlardan sonra Enter veya boşluk tuşuna basmak</string>
-    <string name="get_colors_message">%s içinde renkleri bulabilir ve paylaşabilirsiniz.</string>
-    <string name="get_layouts_message">%s içinde düzenleri bulabilir ve paylaşabilirsiniz.</string>
-    <string name="discussion_section_link">tartışma bölümü</string>
+    <string name="subtype_st">Sesotho</string>
+    <string name="layout_in_use">Uyarı: düzen şu anda kullanılıyor</string>
+    <string name="layout_functional_keys_tablet" tools:keep="@string/layout_functional_keys_tablet">Functional keys (large screen)</string>
+    <string name="customize_background_image_landscape">Arka plan görüntüsünü ayarla (yatay)</string>
+    <string name="summary_customize_background_image_landscape">Belirlenmemişse, portre görüntüsü kullanılacaktır.</string>
+    <string name="after_numpad_and_space">Sayısal tuş takımında diğer tuşlardan sonra enter veya boşluğa basılması</string>
+    <string name="get_colors_message">"Renkleri %s bölümünde bulabilir ve paylaşabilirsiniz."</string>
+    <string name="get_layouts_message">"Düzenleri %s bölümünde bulabilir ve paylaşabilirsiniz."</string>
+    <string name="discussion_section_link">"tartışma bölümü"</string>
     <string name="about_wiki_link">Wiki\'ye git</string>
     <string name="about_wiki_link_description">Wiki, herhangi bir GitHub kullanıcısı tarafından geliştirilebilir!</string>
-    <string name="label_stop_onehanded_mode_key" ns0:keep="@string/label_stop_onehanded_mode_key">Tek elle modunu sonlandır</string>
-    <string name="label_resize_onehanded_key" ns0:keep="@string/label_resize_onehanded_key">Tek elle kullanım modunu yeniden boyutlandır</string>
-    <string name="label_shortcut_key_disabled" ns0:keep="@string/label_shortcut_key_disabled">Ses girişi devre dışı</string>
-    <string name="label_bin" ns0:keep="@string/label_bin">Çöp kutusu</string>
+    <string name="label_stop_onehanded_mode_key" tools:keep="@string/label_stop_onehanded_mode_key">Tek elle modunu sonlandır</string>
+    <string name="label_resize_onehanded_key" tools:keep="@string/label_resize_onehanded_key">Tek elle kullanım modunu yeniden boyutlandır</string>
+    <string name="label_shortcut_key_disabled" tools:keep="@string/label_shortcut_key_disabled">Ses girişi devre dışı</string>
+    <string name="label_bin" tools:keep="@string/label_bin">Çöp kutusu</string>
     <string name="space_swipe_hide_keyboard_entry">Klavyeyi gizle</string>
     <string name="prefs_language_swipe_distance">Dil değiştirme kaydırma mesafesi</string>
-    <string name="customize_toolbar_key_codes">Araç çubuğu tuş kodlarını özelleştirin</string>
-    <string name="customize_toolbar_key_code_reset_message">Tüm özelleştirilmiş anahtar kodlarını gerçekten silmek istiyor musunuz?</string>
-    <string name="key_code">Anahtar kodu</string>
+    <string name="customize_toolbar_key_codes">Araç çubuğu tuş kodlarını özelleştir</string>
+    <string name="customize_toolbar_key_code_reset_message">Tüm özelleştirilmiş tuş kodları gerçekten silinsin mi?</string>
+    <string name="key_code">Tuş kodu</string>
     <string name="long_press_code">Uzun basma kodu</string>
-    <string name="customize_icons">Simgeleri özelleştirin</string>
-    <string name="customize_icons_reset_message">Tüm özelleştirilmiş simgeleri gerçekten sıfırlamak mı istiyorsunuz?</string>
-    <string name="delete_confirmation">%s\'yi gerçekten silmek istiyor musunuz?</string>
+    <string name="customize_icons">Simgeleri özelleştir</string>
+    <string name="customize_icons_reset_message">Tüm özelleştirilmiş simgeleri gerçekten sıfırlamak istiyor musunuz?</string>
+    <string name="delete_confirmation">Gerçekten %s silinsin mi?</string>
     <string name="custom_subtype">Özel alt tür</string>
     <string name="enable_split_keyboard_landscape">Bölünmüş klavyeyi etkinleştir (yatay)</string>
-    <string name="show_tld_popup_keys">TLD açılır pencere tuşlarını göster</string>
+    <string name="show_tld_popup_keys">Üst düzey alan adları (TLD) açılır tuşlarını göster</string>
     <string name="subtype_dru">Dargwa (Urakhi)</string>
     <string name="subtype_baishakhi_bn_IN">%s (Baishakhi)</string>
     <string name="subtype_generic_phonetic">%s (Fonetik)</string>
-    <string name="label_switch_onehanded_key" ns0:keep="@string/label_switch_onehanded_key">Tek elle kullanım tarafını değiştir</string>
-    <string name="label_zwj_key" ns0:keep="@string/label_zwj_key">Sıfır genişlikli bağlantı elemanı</string>
+    <string name="label_switch_onehanded_key" tools:keep="@string/label_switch_onehanded_key">Tek elle kullanım tarafını değiştir</string>
+    <string name="label_zwj_key" tools:keep="@string/label_zwj_key">Sıfır genişlikli bağlantı elemanı</string>
     <string name="inline_emoji_search">Satır içi emoji araması</string>
-    <string name="inline_emoji_search_summary">Yalnızca sözcüğün önünde iki nokta üst üste varsa emoji öner</string>
-    <string name="emoji_dictionary_required">Bu özelliğin çalışması için bir emoji sözlüğü gereklidir. %s\'den .dict biçimindeki sözlükler indirilebilir.</string>
-    <string name="clipboard_history_pinned_first">İğnelenmiş öğeleri üstte göster</string>
-    <string name="save_subtype_per_app">Her uygulama için dili hatırla</string>
+    <string name="inline_emoji_search_summary">Bir kelimenin önünde \':\' varsa yalnızca emojileri öner</string>
+    <string name="emoji_dictionary_required">Bu özelliğin çalışması için bir emoji sözlüğü gereklidir. .dict formatındaki sözlükler %s üzerinden indirilebilir.</string>
+    <string name="clipboard_history_pinned_first">Sabitlenmiş öğeleri üstte göster</string>
+    <string name="save_subtype_per_app">Uygulamaya göre dili hatırla</string>
     <string name="subtype_mhr">Mari (Doğu)</string>
-    <string name="label_shift_key_shifted" ns0:keep="@string/label_shift_key_shifted">Shift (kaydırılmış)</string>
+    <string name="label_shift_key_shifted" tools:keep="@string/label_shift_key_shifted">Shift (shifted)</string>
     
-    <string name="libraries_hub_title">Sözlük Kütüphaneleri</string>
-    <string name="libraries_hub_summary">Hareketle yazma kütüphanesini, sözlükleri ve emoji kütüphanelerini yönetin.</string>
-    <string name="libraries_hub_gesture_title">Hareketle Yazma Kütüphanesi</string>
+    <string name="libraries_hub_title">Kütüphaneler</string>
+    <string name="libraries_hub_summary">Kaydırarak yazma kütüphanesini, sözlükleri ve emoji kütüphanelerini yönetin.</string>
+    <string name="libraries_hub_gesture_title">Kaydırarak yazma Kütüphanesi</string>
     <string name="libraries_hub_dictionary_title">Ana Sözlükler</string>
     <string name="libraries_hub_emoji_title">Emoji Kütüphaneleri</string>
-    <string name="libraries_hub_handwriting_title">El Yazısı Giriş Eklentisi</string>
+    <string name="libraries_hub_handwriting_title">El Yazısı Girişi Eklentisi</string>
     <string name="libraries_hub_dict_guide_title">Sözlük Yükleme Kılavuzu</string>
-    <string name="libraries_hub_dict_guide_text">Yeni bir sözlük ekle:\n1. Obtain a .dict file for your language.\n2. Tap \"Manage Dictionaries\".\n3. Use the plus (+) button to import the file.</string>
-    <string name="libraries_status_active">Aktif</string>
-    <string name="libraries_status_not_installed">indirilmedi</string>
+    <string name="libraries_hub_dict_guide_text">Yeni bir sözlük eklemek için:\n1. Diliniz için bir .dict dosyası edinin.\n2. \"Sözlükleri Yönet\" öğesine dokunun.\n3. Artı (+) düğmesini kullanarak dosyayı içe aktarın.</string>
+    <string name="libraries_status_active">Etkin</string>
+    <string name="libraries_status_not_installed">Yüklü değil</string>
 
     <string name="ime_name">LeanType</string>
     <string name="settings_category_configuration">Yapılandırma</string>
-    <string name="settings_category_visuals">Görseller ve Önizleme</string>
+    <string name="settings_category_visuals">Görseller &amp; Önizleme</string>
     <string name="settings_category_behavior">Davranış</string>
     <string name="settings_category_gestures_advanced">Gelişmiş Hareketler</string>
-    <string name="settings_category_touchpad">Dokunmatik Yüzey</string>
+    <string name="settings_category_touchpad">Dokunmatik yüzey</string>
     <string name="edit_blocked_words">Engellenen kelimeler</string>
     <string name="blocked_words_summary">Önerilerden engellenen kelimeleri yönet</string>
-    <string name="add_blocked_word">Kelime engelle</string>
+    <string name="add_blocked_word">Bir kelimeyi engelle</string>
     <string name="blocked_word_already_present">Kelime zaten engellenmiş</string>
     <string name="clear_all_blocked_words_confirmation">Tüm kelimelerin engelini kaldırmak istediğinizden emin misiniz?</string>
-    <string name="auto_correction_trigger">Otomatik düzeltme tetikleyicisi</string>
-    <string name="auto_correction_trigger_both">Boşluk tuşu ve noktalama</string>
-    <string name="auto_correction_trigger_space">Yalnızca boşluk tuşu</string>
-    <string name="auto_correction_trigger_punctuation">Yalnızca noktalama</string>
-    <string name="prioritize_personal_suggestions">Kişisel ve öğrenilen kelimeleri önceliklendir</string>
-    <string name="prioritize_personal_suggestions_summary">Sonraki kelime tahmininde kişisel sözlük ve öğrenilen kelimelere daha yüksek puan önceliği ver</string>
-    <string name="next_word_boost_level">Öğrenilen kelime destek seviyesi</string>
-    <string name="next_word_boost_level_summary">Öğrenilen ve kişisel sözlük girdileri için puan önceliği destek gücünü ayarla</string>
-    <string name="next_word_strict_ngram">Öğrenilen kelimeler için bağlam eşleşmesi gerektir</string>
-    <string name="next_word_strict_ngram_summary">Öğrenilen kelimeleri yalnızca önceki kelime bağlamı eşleştiğinde öner</string>
-    <string name="immediate_auto_space">Anlık otomatik boşluk</string>
-    <string name="immediate_auto_space_summary">Bir sonraki harf yazıldığında gecikmeyi önlemek için bir öneri seçildiğinde boşluğu anında ekle</string>
+    <string name="auto_correction_trigger">Otomatik düzeltme açık</string>
+    <string name="auto_correction_trigger_both">Boşluk çubuğu ve noktalama</string>
+    <string name="auto_correction_trigger_space">Sadece boşluk çubuğu</string>
+    <string name="auto_correction_trigger_punctuation">Sadece noktalama</string>
+    <string name="prioritize_personal_suggestions">Kişisel &amp; öğrenilmiş kelimelere öncelik ver</string>
+    <string name="prioritize_personal_suggestions_summary">Sonraki kelime tahmininde kişisel sözlük ve öğrenilmiş kelimelere daha yüksek puan ver.</string>
+    <string name="next_word_boost_level">Öğrenilen kelime güçlendirme seviyesi</string>
+    <string name="next_word_boost_level_summary">Öğrenilen ve kişisel sözlük girdileri için skor önceliği güçlendirmesini ayarla.</string>
+    <string name="next_word_strict_ngram">Öğrenilen kelimeler için bağlam eşleşmesi gerekli</string>
+    <string name="next_word_strict_ngram_summary">Sadece önceki kelime bağlamı eşleştiğinde öğrenilen kelimeleri öner</string>
+    <string name="immediate_auto_space">Anında otomatik boşluk</string>
+    <string name="immediate_auto_space_summary">Bir öneri seçildiğinde bir sonraki yazılan harfte gecikmeyi önlemek için boşluğu anında ekle.</string>
     <string name="first_word_prediction">İlk kelime önerileri</string>
-    <string name="first_word_prediction_summary">Cümlenin başında henüz bir giriş yokken önerileri göster</string>
+    <string name="first_word_prediction_summary">Cümlenin başında girdi yoksa önerileri göster</string>
     <string name="suggest_screenshots">Son ekran görüntülerini öner</string>
-    <string name="suggest_screenshots_summary">Yakın zamanda çekilen ekran görüntülerini öneri olarak göster</string>
+    <string name="suggest_screenshots_summary">Son alınan ekran görüntülerini öneri olarak göster</string>
     <string name="auto_read_otp">SMS\'ten OTP\'yi otomatik oku</string>
-    <string name="auto_read_otp_summary">Gelen SMS\'teki kodu, eklemek için dokunabileceğin bir öneri olarak göster</string>
+    <string name="auto_read_otp_summary">Gelen SMS\'teki kodu, dokunarak ekleyebileceğiniz bir öneri olarak göster</string>
     <string name="spoken_otp_suggestion">OTP önerisini kapat</string>
-    <string name="compress_screenshots">Ekran görüntüsü önerilerini sıkıştır</string>
-    <string name="compress_screenshots_summary">Yerden tasarruf etmek için ekran görüntüsü önerilerinin kalitesini ve boyutunu düşür</string>
+    <string name="compress_screenshots">Önerilen ekran görüntülerini sıkıştır</string>
+    <string name="compress_screenshots_summary">Alan tasarrufu için önerilen ekran görüntülerinin kalite ve boyutunu azaltır.</string>
     <string name="clipboard_fold_pinned">Sabitlenmiş öğeleri varsayılan olarak daralt</string>
-    <string name="clear_clipboard_icon">Panoyu temizle simgesi</string>
-    <string name="clear_clipboard_icon_summary">Panoyu temizle düğmesi için simge stilini seç</string>
+    <string name="clear_clipboard_icon">Pano temizleme simgesi</string>
+    <string name="clear_clipboard_icon_summary">Pano temizleme düğmesi için simge stilini seçin</string>
     <string name="clear_clipboard_icon_bin">Çöp kutusu</string>
-    <string name="clear_clipboard_icon_sweep">Süpür / Tümünü temizle</string>
-    <string name="clear_clipboard_icon_sweep_slanted">Eğik çizgiler</string>
-    <string name="clear_clipboard_icon_clipboard_slash">Çizgili pano dış hatları</string>
+    <string name="clear_clipboard_icon_sweep">Süpür / Hepsini temizle</string>
+    <string name="clear_clipboard_icon_sweep_slanted">Eğimli çizgiler</string>
+    <string name="clear_clipboard_icon_clipboard_slash">Çapraz çizgili pano taslağı</string>
     <string name="clear_clipboard_icon_legacy">Klasik pano</string>
     <string name="clipboard_pinned">Sabitlendi</string>
-    <string name="clipboard_search_hint">Panoda ara...</string>
+    <string name="clipboard_search_hint">Panodaki öğeleri ara...</string>
     <string name="clipboard_empty_text">Öğe bulunamadı</string>
     <string name="clipboard_item_deleted">Öğe silindi</string>
     <string name="clipboard_no_search_results">Sonuç bulunamadı</string>
     <string name="clipboard_clear_all_confirmation">Tüm geçmişi temizlemek istediğinizden emin misiniz?</string>
-    <string name="clear_all">Tümünü Temizle</string>
-    <string name="clipboard_search">Pano araması</string>
-    <string name="gesture_method">Hareketle yazma yöntemi</string>
-    <string name="gesture_method_summary">Kaydırarak yazma için algoritma seç</string>
+    <string name="clear_all">Tümünü temizle</string>
+    <string name="clipboard_search" tools:keep="@string/clipboard_search">Clipboard search</string>
+    <string name="gesture_method">Kaydırarak yazma yöntemi</string>
+    <string name="gesture_method_summary">Kaydırarak yazma için algoritma seçin</string>
     <string name="gesture_method_native">Yerel kütüphane (swypelib gerektirir)</string>
     <string name="gesture_method_fallback">Yedek motor (saf Java)</string>
     <string name="load_gesture_library_button_download">Kütüphaneyi indir</string>
-    <string name="load_gesture_library_downloading">Hareket kütüphanesi indiriliyor…</string>
+    <string name="load_gesture_library_downloading">Kaydırma jest kütüphanesi indiriliyor…</string>
     <string name="load_gesture_library_download_success">İndirme tamamlandı! Yeniden başlatılıyor…</string>
     <string name="load_gesture_library_download_failed">İndirme başarısız: %s</string>
     <string name="load_handwriting_plugin">El yazısı eklentisini yükle</string>
-    <string name="load_handwriting_plugin_summary">El yazısı girişini etkinleştirmek için bir APK eklentisi sağla</string>
-    <string name="load_handwriting_plugin_message">Bir el yazısı eklentisi APK\'sı sağlayın.
-
-Uyarı: Harici kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendiğiniz bir kaynaktan gelen eklentiyi kullanın.</string>
+    <string name="load_handwriting_plugin_summary">El yazısı girişi etkinleştirmek için bir APK eklentisi sağlayın</string>
+    <string name="load_handwriting_plugin_message">Bir el yazısı eklentisi APK\'sı sağlayın.\n\nUyarı: dış kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendiğiniz bir kaynaktan gelen eklentileri kullanın.</string>
     <string name="load_handwriting_plugin_button_load">Eklenti APK\'sını yükle</string>
     <string name="load_handwriting_plugin_button_delete">Eklentiyi sil</string>
     <string name="load_handwriting_plugin_success">El yazısı eklentisi başarıyla içe aktarıldı</string>
     <string name="load_handwriting_plugin_failed">El yazısı eklentisi APK\'sı yüklenemedi</string>
     <string name="load_translation_plugin">Çeviri eklentisini yükle</string>
-    <string name="load_translation_plugin_summary">Çeviri motorunu etkinleştirmek için bir APK eklentisi sağla</string>
+    <string name="load_translation_plugin_summary">Çeviri motorunu etkinleştirmek için bir APK eklentisi sağlayın</string>
     <string name="load_translation_plugin_button_delete">Eklentiyi sil</string>
     <string name="load_translation_plugin_success">Çeviri eklentisi başarıyla içe aktarıldı</string>
     <string name="load_translation_plugin_failed">Çeviri eklentisi APK\'sı yüklenemedi</string>
@@ -526,120 +561,120 @@ Uyarı: Harici kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendi�
     <string name="delete_handwriting_model">İndirilen modeli sil</string>
     <string name="handwriting_model_deleted">El yazısı modeli silindi</string>
     <string name="handwriting_plugin_required">El yazısı eklentisi gerekli</string>
-    <string name="handwriting_plugin_summary_text">Çizim tanımayı etkinleştirmek için lütfen el yazısı eklenti kütüphanesini yükleyin.</string>
-    <string name="handwriting_plugin_load_button">Eklentiyi Yükle</string>
-    <string name="autospace_after_emoji">Emojiden sonra otomatik boşluk</string>
-    <string name="autospace_after_emoji_summary">Yeni bir kelime yazarken emojiden sonra otomatik olarak boşluk ekle</string>
-    <string name="preserve_space_before_punctuation">Noktalama işaretlerinden önceki boşluğu koru</string>
-    <string name="preserve_space_before_punctuation_summary">Noktalama işaretlerinden önceki boşluğu otomatik olarak silme: ]}):;!?,.</string>
-    <string name="touchpad">Dokunmatik Yüzey</string>
+    <string name="handwriting_plugin_summary_text">Çizim tanımayı etkinleştirmek için lütfen el yazısı eklentisi kitaplığını yükleyin.</string>
+    <string name="handwriting_plugin_load_button">Eklentiyi yükle</string>
+    <string name="autospace_after_emoji">Emoji sonrası otomatik boşluk</string>
+    <string name="autospace_after_emoji_summary">Yeni bir kelime yazarken emoji sonrası otomatik boşluk ekler.</string>
+    <string name="preserve_space_before_punctuation">Noktalama öncesi boşluğu koru</string>
+    <string name="preserve_space_before_punctuation_summary">Noktalama işaretlerinden önceki boşluğu otomatik silme: ]}):;!?,.</string>
+    <string name="touchpad">Dokunmatik yüzey</string>
     <string name="text_edit">Metin düzenleme</string>
-    <string name="select_mode">Seçim modu</string>
+    <string name="select_mode">Modu seç</string>
     <string name="touchpad_fullscreen">Tam ekran dokunmatik yüzey</string>
-    <string name="touchpad_fullscreen_summary">Dokunmatik yüzey modu etkinken öneri şeridini ve araç çubuğunu gizle</string>
+    <string name="touchpad_fullscreen_summary">Dokunmatik yüzey modu etkin olduğunda öneri şeridini ve araç çubuğunu gizle</string>
     <string name="languages_title">Diller</string>
-    <string name="number_row_in_symbols">Semboller görünümünde sayı satırını göster</string>
-    <string name="compact_number_row_in_symbols">Kompakt semboller sayı satırı</string>
-    <string name="compact_number_row_in_symbols_summary">Ayrı bir satır eklemek yerine sembollerin ilk satırını değiştir</string>
+    <string name="number_row_in_symbols">Simgeler görünümünde sayı satırını göster</string>
+    <string name="compact_number_row_in_symbols">Kompakt simgeler için sayı satırı</string>
+    <string name="compact_number_row_in_symbols_summary">Ayrı bir satır eklemek yerine simgelerin ilk satırını değiştir</string>
     <string name="add_custom_layout">Özel düzen ekle</string>
     <string name="layout_custom1">Özel düzen 1</string>
     <string name="layout_custom2">Özel düzen 2</string>
     <string name="layout_custom3">Özel düzen 3</string>
     <string name="layout_custom4">Özel düzen 4</string>
     <string name="layout_custom5">Özel düzen 5</string>
-    <string name="layout_functional_keys_khipro">İşlev tuşları (Khipro)</string>
-    <string name="layout_emoji_bottom_row_with_action">Eylem tuşlu emoji alt satırı</string>
-    <string name="layout_clip_bottom_row_with_action">Eylem tuşlu pano alt satırı</string>
+    <string name="layout_functional_keys_khipro" tools:keep="@string/layout_functional_keys">Functional keys (Khipro)</string>
+    <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Emoji bottom row with action key</string>
+    <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Clipboard bottom row with action key</string>
     <string name="subtype_khipro_bn">%s (Khipro)</string>
-    <string name="popup_keys_language">@string/subtype_locale</string>
-    <string name="paste">@android:string/paste</string>
-    <string name="copy">@android:string/copy</string>
-    <string name="cut">@android:string/cut</string>
+    <string name="popup_keys_language" translatable="false" tools:keep="@string/popup_keys_language">@string/subtype_locale</string>
+    <string name="paste" tools:keep="@string/paste" translatable="false">@android:string/paste</string>
+    <string name="copy" tools:keep="@string/copy" translatable="false">@android:string/copy</string>
+    <string name="cut" tools:keep="@string/cut" translatable="false">@android:string/cut</string>
     <string name="download">İndir</string>
     <string name="downloading">İndiriliyor…</string>
-    <string name="download_failed">İndirme başarısız</string>
+    <string name="download_failed">İndirme başarısız oldu</string>
     <string name="installed">Yüklendi</string>
-    <string name="numpad">@string/layout_numpad</string>
-    <string name="select_all">@android:string/selectAll</string>
-    <string name="floating">Yüzen</string>
-    <string name="proofread">Yazım denetimi</string>
-    <string name="proofread_loading">Yazım denetimi yapılıyor…</string>
-    <string name="proofread_success">Metin denetlendi</string>
-    <string name="proofread_error">Yazım denetimi başarısız: %s</string>
-    <string name="proofread_no_text">Yazım denetimi yapılacak metin yok</string>
-    <string name="proofread_no_api_key">Gemini API anahtarı ayarlanmadı. Ayarlar → AI entegrasyonu\'na gidin.</string>
+    <string name="numpad" tools:keep="@string/numpad" translatable="false">@string/layout_numpad</string>
+    <string name="select_all" tools:keep="@string/select_all" translatable="false">@android:string/selectAll</string>
+    <string name="floating" tools:keep="@string/floating">Float</string>
+    <string name="proofread" tools:keep="@string/proofread">Proofread</string>
+    <string name="proofread_loading">Metin düzeltme…</string>
+    <string name="proofread_success">Metin düzeltildi</string>
+    <string name="proofread_error">Metin düzeltme başarısız: %s</string>
+    <string name="proofread_no_text">Düzeltilecek metin yok</string>
+    <string name="proofread_no_api_key">Gemini API anahtarı ayarlanmadı. Ayarlar → AI entegrasyonuna gidin.</string>
     <string name="gemini_api_key_title">Gemini API Anahtarı</string>
-    <string name="gemini_api_key_summary">Yazım denetimi için Google Gemini API anahtarınızı girin</string>
+    <string name="gemini_api_key_summary">Metin düzeltme için Google Gemini API anahtarınızı girin</string>
     <string name="gemini_api_key_hint">API anahtarını girin</string>
     <string name="get_api_key">API Anahtarı Al</string>
     <string name="gemini_model_title">Gemini Modeli</string>
-    <string name="gemini_model_summary">Yazım denetimi için AI modelini seçin</string>
+    <string name="gemini_model_summary">Metin düzeltme için AI modelini seçin</string>
     <string name="gemini_test_api_key">API Anahtarını Test Et</string>
     <string name="gemini_api_key_valid">API anahtarı geçerli!</string>
     <string name="gemini_api_key_invalid">API anahtarı testi başarısız: %s</string>
     <string name="gemini_testing_api_key">API anahtarı test ediliyor…</string>
     <string name="disable_network_title">Tüm ağ erişimini devre dışı bırak</string>
-    <string name="disable_network_summary">Dahili kilit: Bu uygulamadan gelen tüm ağ isteklerini engeller. İzni tamamen iptal etmek için sistem Uygulama Bilgisi ayarlarını kullanın.</string>
-    <string name="open_app_info">Sistem Uygulama Bilgisini Aç</string>
-    <string name="open_app_info_summary">Android ayarlarında izinleri ve pil kullanımını yönet</string>
-    <string name="gemini_network_disabled">LeanType ayarlarında ağ erişimi devre dışı</string>
+    <string name="disable_network_summary">Dahili kilit: Bu uygulamadan giden tüm ağ isteklerini engeller. İzni tamamen kaldırmak için sistem Uygulama bilgileri ayarlarını kullanın.</string>
+    <string name="open_app_info">Sistem Uygulama bilgilerini aç</string>
+    <string name="open_app_info_summary">İzinleri ve pil kullanımını Android ayarlarında yönetin</string>
+    <string name="gemini_network_disabled">LeanType ayarlarında ağ erişimi devre dışı bırakıldı</string>
     <string name="ai_provider_title">Yapay Zeka Sağlayıcısı</string>
-    <string name="ai_provider_summary">Yazım denetimi için AI hizmetini seçin</string>
+    <string name="ai_provider_summary">Metin düzeltme için Yapay Zeka servisini seçin</string>
     <string name="ai_provider_gemini">Google Gemini</string>
-    <string name="split_toolbar">Bölünmüş araç çubuğu</string>
+    <string name="split_toolbar">Araç çubuğunu ayır</string>
     <string name="split_toolbar_summary">Önerileri araç çubuğundan ayır</string>
-    <string name="auto_span_toolbar_keys">Araç çubuğu tuşlarını otomatik yay</string>
-    <string name="auto_span_toolbar_keys_summary">Araç çubuğu tuşlarını mevcut boşluğu dolduracak şekilde genişlet</string>
+    <string name="auto_span_toolbar_keys">Araç çubuğu tuşlarını otomatik olarak genişlet</string>
+    <string name="auto_span_toolbar_keys_summary">Araç çubuğu tuşlarını kullanılabilir boşluğu dolduracak şekilde genişlet</string>
     <string name="show_download_button_in_toolbar">Araç çubuğunda indirme düğmesini göster</string>
     <string name="show_download_button_in_toolbar_summary">Ana sözlük eksik olduğunda öneri şeridinde sözlük indirme simgesini göster</string>
     <string name="ai_provider_huggingface">Groq</string>
-    <string name="ai_provider_openai">HF/OpenAI uyumlu</string>
-    <string name="huggingface_token_title">API Token</string>
-    <string name="huggingface_token_summary">HuggingFace veya OpenAI uyumlu API anahtarınızı girin</string>
-    <string name="groq_token_title">API Token</string>
+    <string name="ai_provider_openai">HF/OpenAI-uyumlu</string>
+    <string name="huggingface_token_title">API Jetonu</string>
+    <string name="huggingface_token_summary">HuggingFace veya OpenAI-uyumlu API anahtarınızı girin</string>
+    <string name="groq_token_title">API Jetonu</string>
     <string name="groq_token_summary">Groq API anahtarınızı girin</string>
     <string name="groq_token_hint">API anahtarını girin</string>
     <string name="huggingface_token_hint">API anahtarını girin</string>
-    <string name="get_groq_key">Groq Anahtarı Al</string>
-    <string name="get_huggingface_key">API Token Al</string>
-    <string name="huggingface_no_token">API Token ayarlanmadı. Ayarlar → AI entegrasyonu\'na gidin.</string>
+    <string name="get_groq_key">Groq Anahtarını Al</string>
+    <string name="get_huggingface_key">API Belirteci Al</string>
+    <string name="huggingface_no_token">API belirteci ayarlı değil. Ayarlar → Yapay Zeka entegrasyonu bölümüne gidin.</string>
     <string name="huggingface_model_title">Model</string>
     <string name="huggingface_model_summary">Groq modelini seçin</string>
-    <string name="huggingface_model_hint">model-adı</string>
-    <string name="huggingface_no_model">Model yapılandırılmadı. Ayarlar → AI entegrasyonu\'na gidin.</string>
-    <string name="huggingface_endpoint_title">API Endpoint</string>
-    <string name="huggingface_endpoint_summary">API endpoint URL\'si</string>
+    <string name="huggingface_model_hint">model-name</string>
+    <string name="huggingface_no_model">Hiç model yapılandırılmamış. Ayarlar → Yapay Zeka entegrasyonu bölümüne gidin.</string>
+    <string name="huggingface_endpoint_title">API Uç Noktası</string>
+    <string name="huggingface_endpoint_summary">API uç nokta URL\'si</string>
     <string name="huggingface_endpoint_hint">https://api.groq.com/openai/v1/chat/completions</string>
-    <string name="insecure_connection_blocked">Güvensiz HTTP bağlantısı engellendi. Yapay zeka ayarlarından \'Güvensiz Bağlantılara İzin Ver\' seçeneğini etkinleştirin.</string>
+    <string name="insecure_connection_blocked">Güvensiz HTTP bağlantısı engellendi. AI ayarlarında \'Allow Insecure Connections\' seçeneğini etkinleştirin.</string>
     <string name="ai_allow_insecure_connections_title">Güvensiz bağlantılara izin ver</string>
-    <string name="ai_allow_insecure_connections_summary">HTTP bağlantılarına izin ver ve SSL sertifika hatalarını yoksay. Uyarı: Giriş verilerini yerel ağ dinlemelerine karşı savunmasız bırakır.</string>
+    <string name="ai_allow_insecure_connections_summary">HTTP bağlantılarına izin verin ve SSL sertifika hatalarını yoksayın. Uyarı: girdiler yerel ağ tarafından dinlenebilir.</string>
     <string name="backup_category_layouts">Düzenler</string>
-    <string name="backup_category_theme">Tema ve Özel Arka Planlar</string>
-    <string name="backup_category_dictionary">Sözlükler ve Yazım Geçmişi</string>
+    <string name="backup_category_theme">Tema &amp; Özel Arka Planlar</string>
+    <string name="backup_category_dictionary">Sözlükler &amp; Yazma Geçmişi</string>
     <string name="backup_category_clipboard">Pano Geçmişi</string>
     <string name="backup_category_general">Genel Ayarlar</string>
     <string name="backup_select_items">Dahil edilecek öğeleri seçin:</string>
-    <string name="config_gemini_models_endpoint">https://generativelanguage.googleapis.com/v1beta/models?key=%1$s</string>
-    <string name="config_groq_models_endpoint">https://api.groq.com/openai/v1/models</string>
-    <string name="config_default_hf_endpoint">https://api.openai.com/v1/chat/completions</string>
-    <string name="config_groq_chat_endpoint">https://api.groq.com/openai/v1/chat/completions</string>
-    <string name="offline_keep_model_loaded_title">Modeli yüklü tut</string>
-    <string name="offline_keep_model_loaded_summary">Yeniden yükleme gecikmesini önlemek için çevrimdışı AI modelini bellekte tut (daha fazla RAM kullanır)</string>
+    <string name="config_gemini_models_endpoint" translatable="false">https://generativelanguage.googleapis.com/v1beta/models?key=%1$s</string>
+    <string name="config_groq_models_endpoint" translatable="false">https://api.groq.com/openai/v1/models</string>
+    <string name="config_default_hf_endpoint" translatable="false">https://api.openai.com/v1/chat/completions</string>
+    <string name="config_groq_chat_endpoint" translatable="false">https://api.groq.com/openai/v1/chat/completions</string>
+    <string name="offline_keep_model_loaded_title">Modeli hafızada tut</string>
+    <string name="offline_keep_model_loaded_summary">Yeniden yükleme gecikmesini önlemek için çevrimdışı yapay zeka modelini hafızada tut (daha fazla RAM kullanır)</string>
     <string name="offline_model_title">Çevrimdışı Model</string>
     <string name="offline_model_summary">Yerel LLM\'yi yönet</string>
-    <string name="offline_max_tokens_title">Çevrimdışı AI Maksimum Token</string>
+    <string name="offline_max_tokens_title">Çevrimdışı Yapay Zeka Maksimum Token Sayısı</string>
     <string name="offline_max_tokens_summary">Oluşturulan düzeltmenin maksimum uzunluğu</string>
     <string name="offline_max_tokens_custom_option">Özel…</string>
-    <string name="offline_max_tokens_custom_desc">Özel (%1$d Token)</string>
+    <string name="offline_max_tokens_custom_desc">Özel (%1$d token)</string>
     <string name="offline_temp_title">Sıcaklık</string>
     <string name="offline_temp_summary">Rastgeleliği kontrol eder: daha düşük değerler daha odaklı ve öngörülebilir sonuçlar üretir</string>
-    <string name="offline_top_p_title">Top-P (Nucleus Sampling)</string>
+    <string name="offline_top_p_title">Top-P (Çekirdek Örnekleme)</string>
     <string name="offline_top_p_summary">Kelime çeşitliliğini kontrol eder: daha düşük değerler daha az olası seçenekleri eler</string>
     <string name="offline_top_k_title">Top-K</string>
     <string name="offline_top_k_summary">Seçimleri en olası K token ile sınırlar</string>
     <string name="offline_min_p_title">Min-P</string>
     <string name="offline_min_p_summary">En olası token\'a göreli minimum olasılık eşiği</string>
-    <string name="offline_show_thinking_title">Düşünme Sürecini Göster</string>
+    <string name="offline_show_thinking_title">Düşünme sürecini göster</string>
     <string name="offline_show_thinking_summary">Model üretirse akıl yürütme sürecini ve içsel düşünme token\'larını göster</string>
     <string-array name="offline_max_tokens_entries">
         <item>Ultra Hızlı (12 token)</item>
@@ -655,46 +690,126 @@ Uyarı: Harici kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendi�
         <item>64</item>
         <item>128</item>
     </string-array>
-    <string name="translate">Çevir</string>
-    <string name="translate_loading">Çevriliyor…</string>
+    <string name="translate" tools:keep="@string/translate">Translate</string>
+    <string name="translate_loading">Çeviriliyor…</string>
     <string name="translate_success">Metin çevrildi</string>
     <string name="translate_error">Çeviri başarısız: %s</string>
     <string name="translate_no_text">Çevrilecek metin yok</string>
     <string name="translate_target_language_title">Çeviri hedef dili</string>
-    <string name="translate_target_language_summary">Çevrilecek dili seçin</string>
+    <string name="translate_target_language_summary">Çevirmek istediğiniz dili seçin</string>
     <string name="translate_model_title">Çeviri Modeli</string>
-    <string name="translate_model_summary">Çeviri için AI modelini seçin. Yazım denetimi modelini kullanmak için boş bırakın.</string>
+    <string name="translate_model_summary">Çeviri için yapay zeka modelini seçin. Metin düzeltme modelini kullanmak için boş bırakın.</string>
     <string name="translation_engine_title">Çeviri Motoru</string>
-    <string name="translation_engine_summary">Çeviri için arka uç seçin (Eklenti veya Yapay Zeka)</string>
+    <string name="translation_engine_summary">Çeviri için motor seçin (Eklenti veya AI)</string>
     <string-array name="translate_language_names">
-        <item>İngilizce</item><item>İspanyolca</item><item>Fransızca</item><item>Almanca</item><item>İtalyanca</item>
-        <item>Portekizce</item><item>Çince (Basitleştirilmiş)</item><item>Çince (Geleneksel)</item><item>Japonca</item><item>Korece</item>
-        <item>Arapça</item><item>Rusça</item><item>Hintçe</item><item>Bengalce</item><item>Endonezce</item>
-        <item>Felemenkçe</item><item>Türkçe</item><item>Lehçe</item><item>Ukraynaca</item><item>İsveççe</item>
-        <item>Danca</item><item>Norveççe</item><item>Fince</item><item>Yunanca</item><item>İbranice</item>
-        <item>Tayca</item><item>Vietnamca</item><item>Tamilce</item><item>Teluguca</item><item>Marathice</item>
-        <item>Guceratça</item><item>Kannadaca</item><item>Malayalamca</item><item>Urduca</item><item>Farsça</item>
-        <item>Svahilice</item><item>Romence</item><item>Çekçe</item><item>Macarca</item><item>Filipince (Tagalog)</item>
-        <item>Malayca</item><item>Sırpça</item><item>Hırvatça</item><item>Bulgarca</item><item>Slovakça</item>
-        <item>Slovence</item><item>Litvanca</item><item>Letonca</item><item>Estonca</item><item>Katalanca</item>
-        <item>Baskça</item>
+        <item>English</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Chinese (Simplified)</item>
+        <item>Chinese (Traditional)</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Arabic</item>
+        <item>Russian</item>
+        <item>Hindi</item>
+        <item>Bengali</item>
+        <item>Indonesian</item>
+        <item>Dutch</item>
+        <item>Turkish</item>
+        <item>Polish</item>
+        <item>Ukrainian</item>
+        <item>Swedish</item>
+        <item>Danish</item>
+        <item>Norwegian</item>
+        <item>Finnish</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+        <item>Tamil</item>
+        <item>Telugu</item>
+        <item>Marathi</item>
+        <item>Gujarati</item>
+        <item>Kannada</item>
+        <item>Malayalam</item>
+        <item>Urdu</item>
+        <item>Persian (Farsi)</item>
+        <item>Swahili</item>
+        <item>Romanian</item>
+        <item>Czech</item>
+        <item>Hungarian</item>
+        <item>Filipino (Tagalog)</item>
+        <item>Malay</item>
+        <item>Serbian</item>
+        <item>Croatian</item>
+        <item>Bulgarian</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Lithuanian</item>
+        <item>Latvian</item>
+        <item>Estonian</item>
+        <item>Catalan</item>
+        <item>Basque</item>
     </string-array>
     <string-array name="translate_language_codes">
-        <item>İngilizce</item><item>İspanyolca</item><item>Fransızca</item><item>Almanca</item><item>İtalyanca</item>
-        <item>Portekizce</item><item>Çince (Basitleştirilmiş)</item><item>Çince (Geleneksel)</item><item>Japonca</item><item>Korece</item>
-        <item>Arapça</item><item>Rusça</item><item>Hintçe</item><item>Bengalce</item><item>Endonezce</item>
-        <item>Felemenkçe</item><item>Türkçe</item><item>Lehçe</item><item>Ukraynaca</item><item>İsveççe</item>
-        <item>Danca</item><item>Norveççe</item><item>Fince</item><item>Yunanca</item><item>İbranice</item>
-        <item>Tayca</item><item>Vietnamca</item><item>Tamilce</item><item>Teluguca</item><item>Marathice</item>
-        <item>Guceratça</item><item>Kannadaca</item><item>Malayalamca</item><item>Urduca</item><item>Farsça</item>
-        <item>Svahilice</item><item>Romence</item><item>Çekçe</item><item>Macarca</item><item>Filipince (Tagalog)</item>
-        <item>Malayca</item><item>Sırpça</item><item>Hırvatça</item><item>Bulgarca</item><item>Slovakça</item>
-        <item>Slovence</item><item>Litvanca</item><item>Letonca</item><item>Estonca</item><item>Katalanca</item>
-        <item>Baskça</item>
+        <item>English</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Italian</item>
+        <item>Portuguese</item>
+        <item>Chinese (Simplified)</item>
+        <item>Chinese (Traditional)</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Arabic</item>
+        <item>Russian</item>
+        <item>Hindi</item>
+        <item>Bengali</item>
+        <item>Indonesian</item>
+        <item>Dutch</item>
+        <item>Turkish</item>
+        <item>Polish</item>
+        <item>Ukrainian</item>
+        <item>Swedish</item>
+        <item>Danish</item>
+        <item>Norwegian</item>
+        <item>Finnish</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+        <item>Tamil</item>
+        <item>Telugu</item>
+        <item>Marathi</item>
+        <item>Gujarati</item>
+        <item>Kannada</item>
+        <item>Malayalam</item>
+        <item>Urdu</item>
+        <item>Persian (Farsi)</item>
+        <item>Swahili</item>
+        <item>Romanian</item>
+        <item>Czech</item>
+        <item>Hungarian</item>
+        <item>Filipino (Tagalog)</item>
+        <item>Malay</item>
+        <item>Serbian</item>
+        <item>Croatian</item>
+        <item>Bulgarian</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Lithuanian</item>
+        <item>Latvian</item>
+        <item>Estonian</item>
+        <item>Catalan</item>
+        <item>Basque</item>
     </string-array>
     <string name="toolbar_long_press_hint">Uzun basma ipucu noktalarını göster</string>
-    <string name="toolbar_long_press_hint_summary">Uzun basma eylemi olan araç çubuğu tuşlarında noktalar göster</string>
-    <string name="prefs_narrow_key_gaps_level">Darlık seviyesi</string>
+    <string name="toolbar_long_press_hint_summary">Uzun basma eylemi olan araç çubuğu tuşlarında noktaları gösterin</string>
+    <string name="prefs_narrow_key_gaps_level">Daraltma seviyesi</string>
     <string name="narrowness_level_low">En küçük</string>
     <string name="narrowness_level_medium_low">Küçük</string>
     <string name="narrowness_level_medium">Orta</string>
@@ -702,47 +817,47 @@ Uyarı: Harici kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendi�
     <string name="narrowness_level_high">En büyük</string>
     <string name="custom_emoji_font">Dosyadan özel emoji yazı tipi ayarla</string>
     <string name="prefs_use_system_emoji">Sistem emoji yazı tipini kullan</string>
-    <string name="prefs_use_system_emoji_summary">Ayarlarda ve aramada sistem emoji yazı tipini kullan (uygulamayı yeniden başlatır)</string>
-    <string name="prefs_keypress_vibration_amplitude_settings">Tuşa basma titreşim gücü</string>
+    <string name="prefs_use_system_emoji_summary">Ayarlar ve aramada sistem emoji yazı tipini kullan (uygulamayı yeniden başlatır)</string>
+    <string name="prefs_keypress_vibration_amplitude_settings">Tuş basma titreşim gücü</string>
     <string name="user_dict_clear_all_confirmation">Bu sözlükteki tüm kelimeleri silmek istediğinizden emin misiniz?</string>
-    <string name="theme_name_mint_and_pink">Nane ve Pembe</string>
-    <string name="theme_name_leanbitlab_light">LeanBitLab Açık</string>
-    <string name="theme_name_leanbitlab_dark">LeanBitLab Koyu</string>
-    <string name="about_sponsor_link">Projeye sponsor ol</string>
-    <string name="about_sponsor_link_description">LeanType\'ın geliştirilmesini destekleyin</string>
-    <string name="sponsor_dialog_title">Bu projeye sponsor olun</string>
-    <string name="sponsor_dialog_message">Bu proje tamamen topluluk tarafından yürütülmektedir ve geliştirmeyi sürdürebilmek için bağışlara dayanmaktadır. Bu klavyeyi yararlı buluyorsanız lütfen sponsor olmayı düşünün!</string>
+    <string name="theme_name_mint_and_pink" tools:keep="@string/theme_name_mint_and_pink">Mint and Pink</string>
+    <string name="theme_name_leanbitlab_light" tools:keep="@string/theme_name_leanbitlab_light">LeanBitLab Light</string>
+    <string name="theme_name_leanbitlab_dark" tools:keep="@string/theme_name_leanbitlab_dark">LeanBitLab Dark</string>
+    <string name="about_sponsor_link">Projeyi destekle</string>
+    <string name="about_sponsor_link_description">LeanType geliştirilmesini destekleyin</string>
+    <string name="sponsor_dialog_title">Bu projeyi destekleyin</string>
+    <string name="sponsor_dialog_message">Bu proje tamamen topluluk tarafından yürütülüyor ve geliştirmeyi sürdürebilmek için bağışlara dayanıyor. Bu klavyeyi yararlı buluyorsanız lütfen desteklemeyi düşünün!</string>
     <string name="sponsor_dialog_never_show_again">Bir daha gösterme</string>
-    <string name="sponsor_dialog_sponsor">Sponsor Ol</string>
+    <string name="sponsor_dialog_sponsor">Destekle</string>
     <string name="sponsor_dialog_not_now">Şimdi değil</string>
     <string name="about_features_link">FEATURES.md\'ye git</string>
     <string name="about_features_link_description">Ana özelliklerin listesi ve klavye kılavuzu</string>
-    <string name="log_options_title">Günlük seçenekleri</string>
+    <string name="log_options_title">Log seçenekleri</string>
     <string name="save_log_to_file">Dosyaya kaydet</string>
-    <string name="clear_log">Günlüğü temizle</string>
-    <string name="share_log">Günlüğü paylaş</string>
-    <string name="log_cleared">Günlük temizlendi</string>
-    <string name="direct_ime_switch_title">Doğrudan Geçiş Hedefi IME</string>
-    <string name="direct_ime_switch_summary">Özel tuş kodu seçeneği kullanıldığında doğrudan geçilecek Giriş Yöntemi</string>
+    <string name="clear_log">Logu temizle</string>
+    <string name="share_log">Logu paylaş</string>
+    <string name="log_cleared">Log temizlendi</string>
+    <string name="direct_ime_switch_title">Doğrudan geçiş hedefi (IME)</string>
+    <string name="direct_ime_switch_summary">Özel tuş kodu seçeneği kullanıldığında doğrudan geçilecek giriş yöntemi</string>
     <string name="direct_ime_switch_none">Yok</string>
-    <string name="app_language_title">Uygulama Dili</string>
-    <string name="app_language_summary">Ayarlar ekranının ve klavye arayüzünün dilini değiştirin</string>
+    <string name="app_language_title">Uygulama dili</string>
+    <string name="app_language_summary">Ayarlar ekranı ve klavye arayüzünün dilini değiştirin</string>
     <string name="app_language_system">Sistem varsayılanı</string>
-    <string name="settings_screen_ai_integration">AI Entegrasyonu</string>
-    <string name="custom_ai_keys_title">Özel AI Tuşları</string>
+    <string name="settings_screen_ai_integration">Yapay Zeka entegrasyonu</string>
+    <string name="custom_ai_keys_title">Özel Yapay Zeka tuşları</string>
     <string name="custom_ai_keys_summary">Numaralandırılmış araç çubuğu tuşlarını kendi istemlerinizle özelleştirin</string>
-    <string name="label_language_switch_key">@string/show_language_switch_key</string>
-    <string name="label_zwnj_key">Sıfır genişlikli birleştirmeyen</string>
+    <string name="label_language_switch_key" tools:keep="@string/label_language_switch_key" translatable="false">@string/show_language_switch_key</string>
+    <string name="label_zwnj_key" tools:keep="@string/label_zwnj_key">Sıfır genişlikli birleştirmeyen</string>
     <string name="space_swipe_touchpad_mode_entry">Dokunmatik yüzey modu</string>
     <string name="touchpad_sensitivity">Dokunmatik yüzey hassasiyeti</string>
-    <string name="force_auto_caps_title">Otomatik büyük harfi zorla</string>
+    <string name="force_auto_caps_title">Otomatik büyük harf kullanımını zorla</string>
     <string name="force_auto_caps_summary">Parolalar hariç tüm metin alanlarında cümle başı büyük harfi zorla</string>
-    <string name="toolbar_only_with_hw_keyboard">Yalnızca fiziksel klavye bağlıyken araç çubuğunu göster</string>
+    <string name="toolbar_only_with_hw_keyboard">Sadece fiziksel klavye bağlıyken araç çubuğunu göster</string>
     <string name="toolbar_only_with_hw_keyboard_summary">Sistem ayarlarında sanal klavyeyi göstermeyi ayrıca etkinleştirmeniz gerekir</string>
     <string name="auto_show_toolbar_open">Açıldığında araç çubuğunu otomatik göster</string>
-    <string name="auto_show_toolbar_select">Seçildiğinde araç çubuğunu otomatik göster</string>
+    <string name="auto_show_toolbar_select">Metin seçildiğinde araç çubuğunu otomatik göster</string>
     <string name="auto_show_toolbar_select_summary">Metin seçildiğinde araç çubuğunu göster</string>
-    <string name="toolbar_swipe_down_dismiss">Kapatmak için aşağı kaydır</string>
+    <string name="toolbar_swipe_down_dismiss">Aşağı kaydırarak kapat</string>
     <string name="toolbar_swipe_down_dismiss_summary">Klavyeyi gizlemek için araç çubuğunu aşağı kaydırın</string>
     <string name="auto_hide_pinned_keys">Sabitlenmiş tuşları otomatik gizle</string>
     <string name="auto_hide_pinned_keys_summary">Araç çubuğu genişletildiğinde sabitlenmiş tuşları gizle</string>
@@ -752,7 +867,7 @@ Uyarı: Harici kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendi�
     <string name="image_pasting_not_supported">Bu uygulama resim yapıştırmayı desteklemiyor</string>
     <string name="clear_emoji_history_title">Emoji geçmişini temizle</string>
     <string name="clear_emoji_history_message">Son kullandığınız emojileri silmek istediğinizden emin misiniz?</string>
-    <string name="floating_keyboard_drag_handle">Klavyeyi taşımak için sürükleyin</string>
+    <string name="floating_keyboard_drag_handle">Klavye taşımak için sürükleyin</string>
     <string name="floating_keyboard_resize_handle">Klavye boyutunu değiştirmek için sürükleyin</string>
     <string name="persist_floating_keyboard_title">Yüzen klavyeyi açık tut</string>
     <string name="persist_floating_keyboard_summary">Girdi tamamlandığında yüzen klavyeyi gizleme</string>
@@ -763,7 +878,7 @@ Uyarı: Harici kod yüklemek güvenlik riski oluşturabilir. Yalnızca güvendi�
     <string name="upgrade">Yükselt</string>
     <string name="dictionary_update_available">Güncelleme var</string>
     <string name="dictionary_source_title">Sözlük Deposu</string>
-    <string name="dictionary_source_summary">Sözlüklere doğrudan tarayıcınızdan göz atın veya indirin</string>
+    <string name="dictionary_source_summary">Sözlükleri tarayıcınızda doğrudan göz atın veya indirin</string>
     <string name="physical_keyboard_shortcut_disabled">Devre dışı</string>
     <string name="physical_keyboard_shortcut_alt">Alt + Sayı (Alt+1, Alt+2, Alt+3)</string>
     <string name="physical_keyboard_shortcut_ctrl">Ctrl + Sayı (Ctrl+1, Ctrl+2, Ctrl+3)</string>
