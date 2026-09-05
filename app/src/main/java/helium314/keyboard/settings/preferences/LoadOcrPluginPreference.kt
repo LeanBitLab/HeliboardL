@@ -68,6 +68,13 @@ fun LoadOcrPluginPreference(
 
     val hasPlugin = OcrPluginLoader.hasPlugin(ctx)
     val localVersion = remember(hasPlugin) { OcrPluginLoader.getPluginVersion(ctx) }
+    val updateAvailable = remember(localVersion, remoteVersion) {
+        if (localVersion != null && remoteVersion != null) {
+            isUpdateAvailable(localVersion, remoteVersion!!)
+        } else {
+            false
+        }
+    }
 
     LaunchedEffect(hasPlugin) {
         if (!hasInternet) return@LaunchedEffect
@@ -186,17 +193,18 @@ fun LoadOcrPluginPreference(
                             .padding(top = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Button(
-                            onClick = { startDownload() },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            val buttonText = when {
-                                remoteVersion != null && localVersion != null && remoteVersion != localVersion ->
-                                    "Update to $remoteVersion"
-                                remoteVersion != null -> "Download plugin ($remoteVersion)"
-                                else -> "Download plugin"
+                        if (!hasPlugin || updateAvailable) {
+                            Button(
+                                onClick = { startDownload() },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                val buttonText = when {
+                                    updateAvailable -> "Update to $remoteVersion"
+                                    remoteVersion != null -> "Download plugin ($remoteVersion)"
+                                    else -> "Download plugin"
+                                }
+                                Text(buttonText)
                             }
-                            Text(buttonText)
                         }
 
                         OutlinedButton(
@@ -236,6 +244,7 @@ fun LoadOcrPluginPreference(
             }
         ) {
             val message = when {
+                hasPlugin && updateAvailable -> "An update is available for the OCR plugin!\nLocal version: $localVersion\nLatest version: $remoteVersion\n\nDo you want to download and update?"
                 hasPlugin -> "OCR plugin is active (version $localVersion).\n\nWarning: loading external code can be a security risk. Only use a plugin from a source you trust."
                 remoteVersion != null -> "Download the latest OCR plugin (version $remoteVersion) from GitHub, or load an APK from local storage.\n\nWarning: loading external code can be a security risk. Only use a plugin from a source you trust."
                 else -> "Download the OCR plugin from GitHub, or load an APK from local storage.\n\nWarning: loading external code can be a security risk. Only use a plugin from a source you trust."
@@ -243,4 +252,22 @@ fun LoadOcrPluginPreference(
             Text(message, style = MaterialTheme.typography.bodyMedium)
         }
     }
+}
+
+private fun isUpdateAvailable(local: String, remote: String): Boolean {
+    val cleanLocal = local.removePrefix("v").trim()
+    val cleanRemote = remote.removePrefix("v").trim()
+    if (cleanLocal == cleanRemote) return false
+
+    val localParts = cleanLocal.split(".").mapNotNull { it.toIntOrNull() }
+    val remoteParts = cleanRemote.split(".").mapNotNull { it.toIntOrNull() }
+
+    val maxLength = maxOf(localParts.size, remoteParts.size)
+    for (i in 0 until maxLength) {
+        val localPart = localParts.getOrElse(i) { 0 }
+        val remotePart = remoteParts.getOrElse(i) { 0 }
+        if (remotePart > localPart) return true
+        if (localPart > remotePart) return false
+    }
+    return false
 }
