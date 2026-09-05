@@ -23,6 +23,7 @@ import androidx.lifecycle.LifecycleRegistry
 import helium314.keyboard.latin.utils.Log
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 class OcrCameraManager(private val context: Context) {
     private var cameraProvider: ProcessCameraProvider? = null
@@ -121,6 +122,20 @@ class OcrCameraManager(private val context: Context) {
     }
 
     fun isTorchEnabled(): Boolean = isTorchOn
+
+    fun focus(previewView: PreviewView, x: Float, y: Float) {
+        val cam = camera ?: return
+        try {
+            val factory = previewView.meteringPointFactory
+            val point = factory.createPoint(x, y)
+            val action = FocusMeteringAction.Builder(point, FocusMeteringAction.FLAG_AF or FocusMeteringAction.FLAG_AE)
+                .setAutoCancelDuration(3, TimeUnit.SECONDS)
+                .build()
+            cam.cameraControl.startFocusAndMetering(action)
+        } catch (e: Exception) {
+            Log.e(TAG, "Focus failed", e)
+        }
+    }
 
     fun capturePhoto(onCaptured: (Bitmap) -> Unit, onError: (Exception) -> Unit) {
         val capture = imageCapture ?: run {

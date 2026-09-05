@@ -6,6 +6,8 @@
     android:id="@+id/ocr_camera_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     android:visibility="gone"
     android:background="#000000">
 
@@ -13,6 +15,8 @@
         android:id="@+id/ocr_preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
         app:scaleType="fillCenter" />
 
     <!-- Status indicator (e.g. No text detected) -->
@@ -38,6 +42,8 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
         android:paddingBottom="24dp"
@@ -59,13 +65,28 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/btn_ocr_shutter"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/ic_shutter"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/ocr_shutter_button_desc" />
+        <FrameLayout
+            android:layout_width="72dp"
+            android:layout_height="72dp">
+
+            <ImageButton
+                android:id="@+id/btn_ocr_shutter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_shutter"
+                android:scaleType="fitCenter"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/ocr_shutter_button_desc" />
+
+            <ProgressBar
+                android:id="@+id/ocr_shutter_progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp"
+                android:indeterminate="true"
+                android:indeterminateTint="#FFFFFFFF"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <View
             android:layout_width="0dp"

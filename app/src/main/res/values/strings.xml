@@ -391,6 +391,7 @@
     <string name="ocr_no_screenshot_found">No recent screenshot found</string>
     <string name="ocr_screenshot_load_failed">Failed to load screenshot image</string>
     <string name="ocr_no_text_detected">No text detected</string>
+    <string name="ocr_processing_text">Recognizing text…</string>
     <string name="ocr_keep_line_breaks">Preserve line breaks</string>
     <string name="ocr_keep_line_breaks_summary">Keep line breaks in recognized text blocks</string>
     <string name="ocr_suggest_screenshot_text">Suggest text extraction from screenshots</string>
