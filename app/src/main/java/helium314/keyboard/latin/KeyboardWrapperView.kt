@@ -135,10 +135,16 @@ class KeyboardWrapperView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val settingsValues = Settings.getValues()
-        val keyboardHeight = ResourceUtils.getKeyboardHeight(context.resources, settingsValues)
+        val ocrCameraView = findViewById<View?>(R.id.ocr_camera_view)
+        val isOcrCameraVisible = ocrCameraView != null && (ocrCameraView.isShown || ocrCameraView.visibility == VISIBLE)
+        val baseHeight = if (isOcrCameraVisible) {
+            ResourceUtils.getOcrCameraHeight(context.resources, settingsValues)
+        } else {
+            ResourceUtils.getKeyboardHeight(context.resources, settingsValues)
+        }
         val keyboardView = findViewById<View>(R.id.keyboard_view)
         val padding = if (keyboardView != null) keyboardView.paddingTop + keyboardView.paddingBottom else 0
-        val maxExpectedHeight = keyboardHeight + padding
+        val maxExpectedHeight = baseHeight + padding
 
         if (maxExpectedHeight > 0) {
             val width = MeasureSpec.getSize(widthMeasureSpec)

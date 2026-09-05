@@ -98,6 +98,7 @@ import helium314.keyboard.latin.utils.KtxKt;
 import helium314.keyboard.latin.utils.LeakGuardHandlerWrapper;
 import helium314.keyboard.latin.utils.Log;
 import helium314.keyboard.latin.utils.RecapitalizeMode;
+import helium314.keyboard.latin.utils.ResourceUtils;
 import helium314.keyboard.latin.utils.ScreenProfileProvider;
 import helium314.keyboard.latin.utils.StatsUtils;
 import helium314.keyboard.latin.utils.StatsUtilsManager;
@@ -1546,12 +1547,15 @@ public class LatinIME extends InputMethodService implements
         if (mInputView == null) {
             return;
         }
-        if (mKeyboardSwitcher != null && mKeyboardSwitcher.isOcrShowing()) {
+        if (mKeyboardSwitcher != null && mKeyboardSwitcher.isOcrCameraShowing()) {
             final int inputWidth = mInputView.getWidth();
             final int inputHeight = mInputView.getHeight();
             if (inputWidth > 0 && inputHeight > 0) {
                 final View wrapperView = mKeyboardSwitcher.getWrapperView();
-                final int ocrHeight = (wrapperView != null && wrapperView.isShown()) ? wrapperView.getHeight() : inputHeight;
+                int ocrHeight = (wrapperView != null && (wrapperView.isShown() || wrapperView.getVisibility() == View.VISIBLE)) ? wrapperView.getHeight() : 0;
+                if (ocrHeight <= 0) {
+                    ocrHeight = ResourceUtils.getOcrCameraHeight(mDisplayContext.getResources(), Settings.getValues());
+                }
                 final int visibleTopY = Math.max(0, inputHeight - ocrHeight);
                 outInsets.touchableInsets = InputMethodService.Insets.TOUCHABLE_INSETS_REGION;
                 outInsets.touchableRegion.set(0, visibleTopY, inputWidth, inputHeight + EXTENDED_TOUCHABLE_REGION_HEIGHT);

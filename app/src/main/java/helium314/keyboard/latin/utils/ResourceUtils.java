@@ -19,6 +19,8 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 
+import androidx.annotation.Nullable;
+
 import helium314.keyboard.latin.R;
 import helium314.keyboard.latin.settings.SettingsValues;
 
@@ -108,6 +110,17 @@ public final class ResourceUtils {
         }
         // mKeyboardHeightScale Ranges from [.5,1.5], from xml/prefs_screen_appearance.xml
         return (int)(defaultKeyboardHeight * scale);
+    }
+
+    public static int getOcrCameraHeight(final Resources res, @Nullable final SettingsValues settingsValues) {
+        final int baseHeight = settingsValues != null
+                ? getKeyboardHeight(res, settingsValues)
+                : getDefaultKeyboardHeight(res, false);
+        final DisplayMetrics dm = res.getDisplayMetrics();
+        final boolean isLandscape = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        final float multiplier = isLandscape ? 1.25f : 1.40f;
+        final int maxAllowed = (int)(dm.heightPixels * (isLandscape ? 0.70f : 0.50f));
+        return Math.min((int)(baseHeight * multiplier), maxAllowed);
     }
 
     public static int getDefaultKeyboardHeight(final Resources res, final boolean showsNumberRow) {
