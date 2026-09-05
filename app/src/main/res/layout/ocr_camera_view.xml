@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
+    android:soundEffectsEnabled="false"
     android:visibility="gone"
     android:background="#000000">
 
@@ -15,17 +16,24 @@
         android:id="@+id/ocr_preview_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
         app:scaleType="fillCenter" />
 
-    <!-- Status indicator (e.g. No text detected) -->
+    <!-- Transparent touch barrier above preview to consume all preview touches and handle focus -->
+    <View
+        android:id="@+id/ocr_touch_shield"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:soundEffectsEnabled="false" />
+
+    <!-- Status indicator (e.g. No text detected) - no pill background -->
     <TextView
         android:id="@+id/ocr_status_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/clipboard_suggestion_background"
+        android:background="@null"
         android:textColor="#FFFFFF"
         android:text="@string/ocr_no_text_detected"
         android:textSize="14sp"
@@ -85,6 +93,8 @@
                 android:padding="4dp"
                 android:indeterminate="true"
                 android:indeterminateTint="#FFFFFFFF"
+                android:clickable="false"
+                android:focusable="false"
                 android:visibility="gone" />
         </FrameLayout>
 

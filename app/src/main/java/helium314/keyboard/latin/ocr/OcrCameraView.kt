@@ -40,6 +40,7 @@ class OcrCameraView @JvmOverloads constructor(
     }
 
     private var previewView: PreviewView? = null
+    private var touchShield: View? = null
     private var pluginPanel: LinearLayout? = null
     private var controlsBar: LinearLayout? = null
     private var shutterBtn: ImageButton? = null
@@ -65,14 +66,31 @@ class OcrCameraView @JvmOverloads constructor(
         private const val TAG = "OcrCameraView"
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        // Consume all touches so they don't bleed through to the keyboard or underlying app
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (visibility != VISIBLE) {
+            return super.dispatchTouchEvent(ev)
+        }
+        // Let buttons and children handle their own clicks
+        super.dispatchTouchEvent(ev)
+        // Always return true so KeyboardWrapperView never falls through to MainKeyboardView
         return true
     }
 
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (event.actionMasked == MotionEvent.ACTION_UP) {
+            performClick()
+            previewView?.let { pv ->
+                cameraManager?.focus(pv, event.x, event.y)
+            }
+        }
+        return true
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onFinishInflate() {
         super.onFinishInflate()
         previewView = findViewById(R.id.ocr_preview_view)
+        touchShield = findViewById(R.id.ocr_touch_shield)
         pluginPanel = findViewById(R.id.ocr_plugin_required_panel)
         controlsBar = findViewById(R.id.ocr_controls_bar)
         shutterBtn = findViewById(R.id.btn_ocr_shutter)
@@ -82,6 +100,11 @@ class OcrCameraView @JvmOverloads constructor(
         statusIndicator = findViewById(R.id.ocr_status_indicator)
 
         previewView?.scaleType = PreviewView.ScaleType.FILL_CENTER
+        previewView?.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+
+        isClickable = true
+        isFocusable = true
+        isSoundEffectsEnabled = false
 
         findViewById<Button>(R.id.ocr_btn_load_plugin)?.setOnClickListener {
             openOcrSettings()
@@ -96,15 +119,23 @@ class OcrCameraView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupButtons() {
-        previewView?.setOnTouchListener { view, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                view.performClick()
-                previewView?.let { pv ->
-                    cameraManager?.focus(pv, event.x, event.y)
+        touchShield?.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    parent?.requestDisallowInterceptTouchEvent(true)
+                    true
                 }
+                MotionEvent.ACTION_UP -> {
+                    view.performClick()
+                    previewView?.let { pv ->
+                        cameraManager?.focus(pv, event.x, event.y)
+                    }
+                    true
+                }
+                else -> true
             }
-            true
         }
+        touchShield?.setOnClickListener { }
 
         shutterBtn?.setOnClickListener {
             captureFromCamera()
@@ -229,13 +260,9 @@ class OcrCameraView @JvmOverloads constructor(
                 progress.visibility = View.VISIBLE
             }
 
-            // Status text indicator: "Recognizing text…"
-            statusIndicator?.apply {
-                animate().cancel()
-                text = context.getString(R.string.ocr_processing_text)
-                visibility = View.VISIBLE
-                alpha = 1f
-            }
+            // Ensure no pill is shown during processing
+            statusIndicator?.visibility = View.GONE
+            statusIndicator?.text = ""
 
             controlsBar?.foreground = loadingBorderDrawable
             loadingAnimator = ValueAnimator.ofFloat(0.25f, 1f).apply {
@@ -315,8 +342,7 @@ class OcrCameraView @JvmOverloads constructor(
 
     fun applyColors(colors: Colors) {
         statusIndicator?.let {
-            colors.setBackground(it, ColorType.CLIPBOARD_SUGGESTION_BACKGROUND)
-            it.setTextColor(colors.get(ColorType.KEY_TEXT))
+            it.setTextColor(Color.WHITE)
         }
     }
 }

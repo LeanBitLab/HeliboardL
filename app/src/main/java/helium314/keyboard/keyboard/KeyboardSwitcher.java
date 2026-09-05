@@ -384,6 +384,22 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
     private void setMainKeyboardFrame(
             @NonNull final SettingsValues settingsValues,
             @NonNull final KeyboardSwitchState toggleState) {
+        if (isOcrShowing()) {
+            if (mKeyboardView != null) {
+                mKeyboardView.setVisibility(View.INVISIBLE);
+                mKeyboardView.setClickable(false);
+                mKeyboardView.setFocusable(false);
+            }
+            if (mOcrCameraView != null && mOcrCameraView.isShown()) {
+                mOcrCameraView.bringToFront();
+            } else if (mOcrResultView != null && mOcrResultView.isShown()) {
+                mOcrResultView.bringToFront();
+            }
+            if (mCurrentInputView != null) {
+                mCurrentInputView.post(mCurrentInputView::requestApplyInsets);
+            }
+            return;
+        }
         final int visibility = isImeSuppressedByHardwareKeyboard(settingsValues, toggleState) ? View.GONE
                 : View.VISIBLE;
         final int stripVisibility = settingsValues.mToolbarMode == ToolbarMode.HIDDEN ? View.GONE : View.VISIBLE;
@@ -556,7 +572,9 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         }
         KeyboardActionListenerImpl.sPersistentTextEditModeActive = false;
         mMainKeyboardFrame.setVisibility(View.VISIBLE);
-        mKeyboardView.setVisibility(View.GONE);
+        mKeyboardView.setVisibility(View.INVISIBLE);
+        mKeyboardView.setClickable(false);
+        mKeyboardView.setFocusable(false);
         mEmojiTabStripView.setVisibility(View.GONE);
         mSuggestionStripView.setVisibility(View.GONE);
         mStripContainer.setVisibility(View.GONE);
@@ -580,7 +598,11 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
                 mOcrCameraView.setLayoutParams(lp);
             }
             mOcrCameraView.setVisibility(View.VISIBLE);
+            mOcrCameraView.bringToFront();
             mOcrCameraView.startCamera();
+        }
+        if (mCurrentInputView != null) {
+            mCurrentInputView.post(mCurrentInputView::requestApplyInsets);
         }
     }
 
@@ -594,7 +616,9 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         }
         KeyboardActionListenerImpl.sPersistentTextEditModeActive = false;
         mMainKeyboardFrame.setVisibility(View.VISIBLE);
-        mKeyboardView.setVisibility(View.GONE);
+        mKeyboardView.setVisibility(View.INVISIBLE);
+        mKeyboardView.setClickable(false);
+        mKeyboardView.setFocusable(false);
         mEmojiTabStripView.setVisibility(View.GONE);
         mSuggestionStripView.setVisibility(View.GONE);
         mClipboardStripScrollView.setVisibility(View.GONE);
@@ -625,6 +649,10 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
             mOcrResultView.setResultText(lines);
             mOcrResultView.applyColors(Settings.getValues().mColors);
             mOcrResultView.setVisibility(View.VISIBLE);
+            mOcrResultView.bringToFront();
+        }
+        if (mCurrentInputView != null) {
+            mCurrentInputView.post(mCurrentInputView::requestApplyInsets);
         }
     }
 
@@ -642,6 +670,14 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
         }
         if (mOcrResultView != null) {
             mOcrResultView.setVisibility(View.GONE);
+        }
+        if (mKeyboardView != null) {
+            mKeyboardView.setVisibility(View.VISIBLE);
+            mKeyboardView.setClickable(true);
+            mKeyboardView.setFocusable(true);
+        }
+        if (mCurrentInputView != null) {
+            mCurrentInputView.post(mCurrentInputView::requestApplyInsets);
         }
         setAlphabetKeyboard();
     }
@@ -1003,7 +1039,11 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
     }
 
     public View getVisibleKeyboardView() {
-        if (isShowingEmojiPalettes()) {
+        if (mOcrCameraView != null && mOcrCameraView.isShown()) {
+            return mOcrCameraView;
+        } else if (mOcrResultView != null && mOcrResultView.isShown()) {
+            return mOcrResultView;
+        } else if (isShowingEmojiPalettes()) {
             return mEmojiPalettesView;
         } else if (isShowingClipboardHistory()) {
             return mClipboardHistoryView;

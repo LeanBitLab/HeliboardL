@@ -1546,6 +1546,21 @@ public class LatinIME extends InputMethodService implements
         if (mInputView == null) {
             return;
         }
+        if (mKeyboardSwitcher != null && mKeyboardSwitcher.isOcrShowing()) {
+            final int inputWidth = mInputView.getWidth();
+            final int inputHeight = mInputView.getHeight();
+            if (inputWidth > 0 && inputHeight > 0) {
+                final View wrapperView = mKeyboardSwitcher.getWrapperView();
+                final int ocrHeight = (wrapperView != null && wrapperView.isShown()) ? wrapperView.getHeight() : inputHeight;
+                final int visibleTopY = Math.max(0, inputHeight - ocrHeight);
+                outInsets.touchableInsets = InputMethodService.Insets.TOUCHABLE_INSETS_REGION;
+                outInsets.touchableRegion.set(0, visibleTopY, inputWidth, inputHeight + EXTENDED_TOUCHABLE_REGION_HEIGHT);
+                outInsets.contentTopInsets = visibleTopY;
+                outInsets.visibleTopInsets = visibleTopY;
+                mInsetsUpdater.setInsets(outInsets);
+                return;
+            }
+        }
         final View visibleKeyboardView = mKeyboardSwitcher.getWrapperView();
         if (visibleKeyboardView == null) {
             return;
