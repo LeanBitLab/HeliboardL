@@ -40,6 +40,7 @@ import helium314.keyboard.settings.FeedbackManager
 import helium314.keyboard.settings.dialogs.ConfirmationDialog
 import helium314.keyboard.settings.filePicker
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -53,6 +54,7 @@ fun LoadHandwritingPluginPreference(
     title: String,
     summary: String? = null,
     @DrawableRes icon: Int? = null,
+    restartOnSuccess: Boolean = true,
     onSuccess: (() -> Unit)? = null,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -107,8 +109,14 @@ fun LoadHandwritingPluginPreference(
         val success = HandwritingLoader.importPlugin(ctx, uri)
         showDialog = false
         if (success) {
-            FeedbackManager.message(ctx, R.string.load_handwriting_plugin_success)
+            FeedbackManager.message(ctx, "Handwriting plugin loaded. Restarting...")
             onSuccess?.invoke()
+            if (restartOnSuccess) {
+                scope.launch {
+                    delay(2000)
+                    Runtime.getRuntime().exit(0)
+                }
+            }
         } else {
             FeedbackManager.message(ctx, R.string.load_handwriting_plugin_failed)
         }
@@ -146,9 +154,15 @@ fun LoadHandwritingPluginPreference(
                 withContext(Dispatchers.Main) {
                     isDownloading = false
                     if (success) {
-                        FeedbackManager.message(ctx, R.string.load_handwriting_plugin_success)
+                        FeedbackManager.message(ctx, "Handwriting plugin loaded. Restarting...")
                         onSuccess?.invoke()
                         showDialog = false
+                        if (restartOnSuccess) {
+                            scope.launch {
+                                delay(2000)
+                                Runtime.getRuntime().exit(0)
+                            }
+                        }
                     } else {
                         FeedbackManager.message(ctx, R.string.load_handwriting_plugin_failed)
                     }
@@ -225,9 +239,15 @@ fun LoadHandwritingPluginPreference(
                             Button(
                                 onClick = {
                                     HandwritingLoader.removePlugin(ctx)
-                                    FeedbackManager.message(ctx, "Handwriting plugin removed")
+                                    FeedbackManager.message(ctx, "Handwriting plugin removed. Restarting...")
                                     onSuccess?.invoke()
                                     showDialog = false
+                                    if (restartOnSuccess) {
+                                        scope.launch {
+                                            delay(2000)
+                                            Runtime.getRuntime().exit(0)
+                                        }
+                                    }
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.error,

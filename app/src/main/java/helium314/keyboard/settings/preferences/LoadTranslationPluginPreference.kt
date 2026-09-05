@@ -39,6 +39,7 @@ import helium314.keyboard.settings.FeedbackManager
 import helium314.keyboard.settings.dialogs.PreferenceDialog
 import helium314.keyboard.settings.filePicker
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.compose.material3.Icon
@@ -57,6 +58,7 @@ fun LoadTranslationPluginPreference(
     title: String,
     summary: String? = null,
     @DrawableRes icon: Int? = null,
+    restartOnSuccess: Boolean = true,
     onSuccess: (() -> Unit)? = null,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -111,8 +113,14 @@ fun LoadTranslationPluginPreference(
         val success = TranslationLoader.importPlugin(ctx, uri)
         showDialog = false
         if (success) {
-            FeedbackManager.message(ctx, R.string.load_translation_plugin_success)
+            FeedbackManager.message(ctx, "Translation plugin loaded. Restarting...")
             onSuccess?.invoke()
+            if (restartOnSuccess) {
+                scope.launch {
+                    delay(2000)
+                    Runtime.getRuntime().exit(0)
+                }
+            }
         } else {
             FeedbackManager.message(ctx, R.string.load_translation_plugin_failed)
         }
@@ -150,9 +158,15 @@ fun LoadTranslationPluginPreference(
                 withContext(Dispatchers.Main) {
                     isDownloading = false
                     if (success) {
-                        FeedbackManager.message(ctx, R.string.load_translation_plugin_success)
+                        FeedbackManager.message(ctx, "Translation plugin loaded. Restarting...")
                         onSuccess?.invoke()
                         showDialog = false
+                        if (restartOnSuccess) {
+                            scope.launch {
+                                delay(2000)
+                                Runtime.getRuntime().exit(0)
+                            }
+                        }
                     } else {
                         FeedbackManager.message(ctx, R.string.load_translation_plugin_failed)
                     }
@@ -229,9 +243,15 @@ fun LoadTranslationPluginPreference(
                             Button(
                                 onClick = {
                                     TranslationLoader.removePlugin(ctx)
-                                    FeedbackManager.message(ctx, "Translation plugin removed")
+                                    FeedbackManager.message(ctx, "Translation plugin removed. Restarting...")
                                     onSuccess?.invoke()
                                     showDialog = false
+                                    if (restartOnSuccess) {
+                                        scope.launch {
+                                            delay(2000)
+                                            Runtime.getRuntime().exit(0)
+                                        }
+                                    }
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.error,

@@ -39,6 +39,7 @@ import helium314.keyboard.settings.FeedbackManager
 import helium314.keyboard.settings.dialogs.PreferenceDialog
 import helium314.keyboard.settings.filePicker
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -50,6 +51,7 @@ fun LoadOfflineAiPluginPreference(
     title: String,
     summary: String? = null,
     @DrawableRes icon: Int? = null,
+    restartOnSuccess: Boolean = true,
     onSuccess: (() -> Unit)? = null,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -104,9 +106,15 @@ fun LoadOfflineAiPluginPreference(
         if (uri == null) return@filePicker
         val success = OfflineAiLoader.loadPlugin(ctx, uri)
         if (success) {
-            FeedbackManager.message(ctx, R.string.load_offline_ai_plugin_success)
+            FeedbackManager.message(ctx, "Offline AI plugin loaded. Restarting...")
             onSuccess?.invoke()
             showDialog = false
+            if (restartOnSuccess) {
+                scope.launch {
+                    delay(2000)
+                    Runtime.getRuntime().exit(0)
+                }
+            }
         } else {
             FeedbackManager.message(ctx, R.string.load_offline_ai_plugin_failed)
         }
@@ -145,9 +153,15 @@ fun LoadOfflineAiPluginPreference(
                 withContext<Unit>(Dispatchers.Main) {
                     isDownloading = false
                     if (success) {
-                        FeedbackManager.message(ctx, R.string.load_offline_ai_plugin_success)
+                        FeedbackManager.message(ctx, "Offline AI plugin loaded. Restarting...")
                         onSuccess?.invoke()
                         showDialog = false
+                        if (restartOnSuccess) {
+                            scope.launch {
+                                delay(2000)
+                                Runtime.getRuntime().exit(0)
+                            }
+                        }
                     } else {
                         FeedbackManager.message(ctx, R.string.load_offline_ai_plugin_failed)
                     }
@@ -224,9 +238,15 @@ fun LoadOfflineAiPluginPreference(
                             Button(
                                 onClick = {
                                     OfflineAiLoader.removePlugin(ctx)
-                                    FeedbackManager.message(ctx, "Offline AI plugin removed")
+                                    FeedbackManager.message(ctx, "Offline AI plugin removed. Restarting...")
                                     onSuccess?.invoke()
                                     showDialog = false
+                                    if (restartOnSuccess) {
+                                        scope.launch {
+                                            delay(2000)
+                                            Runtime.getRuntime().exit(0)
+                                        }
+                                    }
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.error,
