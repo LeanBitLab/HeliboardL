@@ -13,6 +13,7 @@ object OcrPluginLoader {
     private const val PLUGIN_FILENAME = "ocr_plugin.apk"
     private const val PLUGIN_CLASS_NAME = "helium314.keyboard.ocr.plugin.TextRecognizerImpl"
     private const val PREF_HAS_PLUGIN = "pref_ocr_has_plugin"
+    const val PREF_OCR_SCRIPT = "pref_ocr_script"
     const val PREF_OCR_KEEP_LINE_BREAKS = "pref_ocr_keep_line_breaks"
     const val PREF_OCR_TRIM_WHITESPACE = "pref_ocr_trim_whitespace"
     const val PREF_OCR_CASING = "pref_ocr_casing"

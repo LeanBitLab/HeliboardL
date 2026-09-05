@@ -423,6 +423,13 @@
     <string name="ocr_auto_insert_summary">Automatically insert extracted text directly into the active text field</string>
     <string name="ocr_persist_flash">Remember flash state</string>
     <string name="ocr_persist_flash_summary">Keep flashlight torch on or off across viewfinder sessions</string>
+    <string name="ocr_script_title">Recognition script</string>
+    <string name="ocr_script_all">Universal (All scripts: Devanagari, Asian &amp; Latin)</string>
+    <string name="ocr_script_devanagari">Devanagari (Hindi, Marathi, Sanskrit, Nepali)</string>
+    <string name="ocr_script_latin">Latin (English, Spanish, French, etc.)</string>
+    <string name="ocr_script_chinese">Chinese</string>
+    <string name="ocr_script_japanese">Japanese</string>
+    <string name="ocr_script_korean">Korean</string>
     <string name="ocr_plugin_category">Plugin management</string>
     <string name="ocr_permissions_category">Permissions</string>
     <string name="ocr_camera_permission">Camera permission</string>

@@ -58,6 +58,17 @@ fun OcrSettingsScreen(
         isCameraPermissionGranted = granted
     }
 
+    val scriptOptions = remember {
+        listOf(
+            context.getString(R.string.ocr_script_all) to "all",
+            context.getString(R.string.ocr_script_devanagari) to "devanagari",
+            context.getString(R.string.ocr_script_latin) to "latin",
+            context.getString(R.string.ocr_script_chinese) to "chinese",
+            context.getString(R.string.ocr_script_japanese) to "japanese",
+            context.getString(R.string.ocr_script_korean) to "korean"
+        )
+    }
+
     val casingOptions = remember {
         listOf(
             context.getString(R.string.ocr_casing_as_is) to "as_is",
@@ -80,6 +91,7 @@ fun OcrSettingsScreen(
 
     val settings = remember {
         listOf(
+            OcrPluginLoader.PREF_OCR_SCRIPT,
             OcrPluginLoader.PREF_OCR_CASING,
             OcrPluginLoader.PREF_OCR_LINE_JOIN_FORMAT,
             OcrPluginLoader.PREF_OCR_KEEP_LINE_BREAKS,
@@ -166,6 +178,12 @@ fun OcrSettingsScreen(
                 ) {
                     Column {
                         PreferenceCategory(stringResource(R.string.ocr_text_options_category))
+
+                        ListPreference(
+                            setting = Setting(context, OcrPluginLoader.PREF_OCR_SCRIPT, R.string.ocr_script_title) {},
+                            items = scriptOptions,
+                            default = "all"
+                        )
 
                         ListPreference(
                             setting = Setting(context, OcrPluginLoader.PREF_OCR_CASING, R.string.ocr_casing_title) {},
@@ -284,6 +302,14 @@ fun OcrSettingsScreen(
 }
 
 fun createOcrSettings(context: Context): List<Setting> {
+    val scriptOptions = listOf(
+        context.getString(R.string.ocr_script_all) to "all",
+        context.getString(R.string.ocr_script_devanagari) to "devanagari",
+        context.getString(R.string.ocr_script_latin) to "latin",
+        context.getString(R.string.ocr_script_chinese) to "chinese",
+        context.getString(R.string.ocr_script_japanese) to "japanese",
+        context.getString(R.string.ocr_script_korean) to "korean"
+    )
     val casingOptions = listOf(
         context.getString(R.string.ocr_casing_as_is) to "as_is",
         context.getString(R.string.ocr_casing_sentence) to "sentence",
@@ -300,6 +326,9 @@ fun createOcrSettings(context: Context): List<Setting> {
     )
 
     return listOf(
+        Setting(context, OcrPluginLoader.PREF_OCR_SCRIPT, R.string.ocr_script_title) {
+            ListPreference(it, scriptOptions, "all")
+        },
         Setting(context, OcrPluginLoader.PREF_OCR_CASING, R.string.ocr_casing_title) {
             ListPreference(it, casingOptions, "as_is")
         },
