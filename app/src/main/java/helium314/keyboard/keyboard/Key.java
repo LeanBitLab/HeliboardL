@@ -955,13 +955,14 @@ public class Key implements Comparable<Key> {
      * @param x the x-coordinate of the point
      * @param y the y-coordinate of the point
      * @return the square of the distance of the point from the nearest edge of the
-     *         key
+     *         key (using the hitbox, which may be larger than the visual bounds
+     *         for edge keys)
      */
     public int squaredDistanceToEdge(final int x, final int y) {
-        final int left = getX();
-        final int right = left + mWidth;
-        final int top = getY();
-        final int bottom = top + mHeight;
+        final int left = mHitBox.left;
+        final int right = mHitBox.right - 1;
+        final int top = mHitBox.top;
+        final int bottom = mHitBox.bottom - 1;
         final int edgeX = x < left ? left : Math.min(x, right);
         final int edgeY = y < top ? top : Math.min(y, bottom);
         final int dx = x - edgeX;
